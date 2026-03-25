@@ -1,8 +1,9 @@
 # 🦅 热眼擒枭——边境活物走私智能防控系统
 
 > **主办单位**：环境资源和食品药品侦查总队  
+> **系统定位**：生态警务实战平台 · 边境活物走私智能防控  
 > **技术栈**：Vue3 + uni-app + Node.js (Express) + MySQL + ECharts  
-> **覆盖区域**：广西中越边境全线（东兴·凭祥·龙州·那坡·靖西）
+> **覆盖区域**：广西中越边境全线（东兴 · 凭祥 · 龙州 · 那坡 · 靖西）
 
 ---
 
@@ -64,12 +65,24 @@ flowchart TD
     MYSQL --> GIS & DASH & TASK & DEV & ALERT_UI
     CACHE --> GIS
 
-    style SENSOR fill:#0a1628,stroke:#00d4ff,color:#00d4ff
-    style EDGE fill:#0a1628,stroke:#FFA940,color:#FFA940
-    style FUSION fill:#0a1628,stroke:#73D13D,color:#73D13D
-    style STORE fill:#0a1628,stroke:#8b5cf6,color:#8b5cf6
-    style APP fill:#0a1628,stroke:#FF4D4F,color:#FF4D4F
+    style SENSOR fill:#e8f4fd,stroke:#1890ff,color:#003a8c
+    style EDGE fill:#fff7e6,stroke:#fa8c16,color:#873800
+    style FUSION fill:#f6ffed,stroke:#52c41a,color:#135200
+    style STORE fill:#f9f0ff,stroke:#722ed1,color:#391085
+    style APP fill:#fff1f0,stroke:#f5222d,color:#820014
 ```
+
+---
+
+## 🎯 系统定位
+
+本系统以**生态警务**为统领，立足**环境资源和食品药品侦查总队**职能，将**边境活物走私防控**作为核心实战场景，构建「感知 → 预警 → 处置 → 取证 → 研判」闭环能力。
+
+| 职责线 | 本系统对应功能 |
+|--------|---------------|
+| **环境资源线** | 野生动物保护、CITES物种识别、界碑布控、生态预警 |
+| **食品药品线** | 活体检疫缺失风险、非法食药链条追溯 |
+| **公安侦查线** | 走私链条打击、证据固定、案件闭环处置 |
 
 ---
 
@@ -100,25 +113,25 @@ flowchart TD
 
 ```
 热眼擒枭/
-├── front-end/          # Vue3 + uni-app 前端
+├── front-end/            # Vue3 + uni-app 前端
 │   ├── pages/
-│   │   ├── GIS/        # 态势一张图（五图层GIS）
-│   │   ├── Dashboard/  # 指挥大屏（ECharts）
+│   │   ├── GIS/          # 态势一张图（五图层GIS）
+│   │   ├── Dashboard/    # 指挥大屏（ECharts）
 │   │   ├── Alert Center/ # 预警工作台
-│   │   ├── Task/       # 任务执行（检查清单+取证）
-│   │   ├── Device/     # 传感器网络管理
-│   │   ├── FoodDrug/   # 食品药品监管
-│   │   └── login/      # 登录（多模式认证）
+│   │   ├── Task/         # 任务执行（检查清单+取证）
+│   │   ├── Device/       # 传感器网络管理
+│   │   ├── FoodDrug/     # 食品药品监管
+│   │   └── login/        # 登录（多模式认证）
 │   └── static/
-│       ├── icons/      # 业务图标（边境/设备/状态）
-│       ├── icons-2/    # 预警图标
-│       ├── icons-3/    # 取证图标
-│       └── tabbar/     # 底部导航图标
-├── back-end/           # Node.js + Express API
+│       ├── icons/        # 业务图标（边境/设备/状态）
+│       ├── icons-2/      # 预警图标
+│       ├── icons-3/      # 取证图标
+│       └── tabbar/       # 底部导航图标
+├── back-end/             # Node.js + Express API
 │   └── src/
-│       ├── routes/     # RESTful API 路由
-│       └── server.js   # 入口文件
-└── SQL/                # MySQL 数据库脚本
+│       ├── routes/       # RESTful API 路由
+│       └── server.js     # 入口文件
+└── SQL/                  # MySQL 数据库脚本
     ├── 01_create_database.sql
     ├── 25_guangxi_border_seed.sql  # 广西边境种子数据
     └── DATABASE_DESIGN.md
@@ -129,6 +142,7 @@ flowchart TD
 ## 🚀 快速启动
 
 ### 后端
+
 ```bash
 cd back-end
 npm install
@@ -137,6 +151,7 @@ npm run dev
 ```
 
 ### 前端
+
 ```bash
 cd front-end
 npm install
@@ -145,6 +160,7 @@ npm run dev
 ```
 
 ### 数据库
+
 ```bash
 # 在 MySQL 中按序执行 SQL/ 目录下的脚本
 mysql -u root -p < SQL/01_create_database.sql
@@ -153,16 +169,17 @@ mysql -u root -p reyanjingxiao < SQL/25_guangxi_border_seed.sql
 
 ---
 
-## 📜 法律依据
+## 📜 执法法律依据
 
-本系统执法依据包括：
-- 《野生动物保护法》第二十三条
-- 《刑法》第三百四十一条（走私珍贵动物罪）
-- 《濒危野生动植物种国际贸易公约》（CITES）附录 I/II
-- 《广西壮族自治区野生动物保护条例》第三十五条
-- 《海关法》第八十二条
+| 法律法规 | 适用条款 | 场景 |
+|---------|---------|------|
+| 《野生动物保护法》 | 第二十三条 | 非法出售/运输重点保护野生动物 |
+| 《刑法》 | 第三百四十一条 | 走私珍贵濒危野生动物罪 |
+| 《濒危野生动植物种国际贸易公约》 | CITES 附录 I/II | 跨境贸易许可核验 |
+| 《广西壮族自治区野生动物保护条例》 | 第三十五条 | 地方执法处罚依据 |
+| 《海关法》 | 第八十二条 | 口岸走私货物扣押 |
 
 ---
 
-> © 环境资源和食品药品侦查总队 · 热眼擒枭项目组  
+> **版权声明**：© 环境资源和食品药品侦查总队 · 热眼擒枭项目组  
 > 本系统仅限授权执法人员使用，未授权访问将被记录追责。
