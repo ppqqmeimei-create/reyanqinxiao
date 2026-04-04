@@ -1,0 +1,462 @@
+/* ==========================================
+   个人中心 - 全局样式文件
+   定义暗夜风格卡片、动态流光边框、高亮文字
+   ========================================== */
+
+/* ==========================================
+   页面顶部 Header
+   ========================================== */
+.profile-bg-glow {
+	position: fixed; top: -200rpx; right: -100rpx; width: 600rpx; height: 600rpx;
+	background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%);
+	pointer-events: none; z-index: 0;
+}
+.profile-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex; align-items: center; justify-content: space-between;
+	padding: calc(env(safe-area-inset-top) + 24rpx) calc(40rpx + env(safe-area-inset-left)) 24rpx calc(40rpx + env(safe-area-inset-right));
+	background: linear-gradient(180deg, rgba(10,14,26,0.98) 0%, transparent 100%);
+}
+.profile-header-title {
+	font-size: 40rpx; font-weight: 800; color: #fff; letter-spacing: 2rpx;
+}
+.profile-header-badge {
+	display: flex; align-items: center; gap: 10rpx;
+	padding: 10rpx 20rpx; border-radius: 100rpx;
+	background: rgba(12, 27, 42, 0.94); border: 1px solid rgba(0, 212, 255, 0.2);
+}
+.badge-dot {
+	width: 14rpx; height: 14rpx; border-radius: 50%; background: #595959;
+	transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+/* 修复：原写法 .profile-page .badge-dot-active 是独立class，永远不匹配动态:class绑定 */
+/* 改为 modifier 写法，与模板 :class="{ 'badge-dot--active': onDuty }" 对应 */
+.badge-dot--active {
+	background: #73D13D !important;
+	box-shadow: 0 0 8rpx #73D13D;
+	animation: dot-pulse 1.5s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+	0%, 100% { box-shadow: 0 0 4rpx #73D13D; }
+	50%       { box-shadow: 0 0 16rpx #73D13D; }
+}
+.badge-txt { font-size: 22rpx; color: rgba(255,255,255,0.7); font-weight: 600; }
+.profile-bottom-pad { height: calc(40rpx + env(safe-area-inset-bottom)); }
+
+/* ==========================================
+   色彩规范 - 军用终端风格
+   ========================================== */
+$color-primary-blue: var(--brand-primary);
+$color-success-green: #73D13D;
+$color-warning-orange: #FFA940;
+$color-danger-red: #FF4D4F;
+$color-bg-dark: var(--bg-root);
+$color-bg-card: var(--bg-card);
+$color-text-primary: #EAF6FF;
+$color-text-secondary: #8CA3B8;
+$color-border-glow: rgba(0, 212, 255, 0.3);
+
+/* ==========================================
+   页面主容器
+   ========================================== */
+.profile-page {
+	width: 100vw;
+	height: 100vh;
+	background: $color-bg-dark;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   内容滚动区
+   ========================================== */
+.content-scroll {
+	flex: 1;
+	overflow: hidden;
+}
+
+/* ==========================================
+   磨砂玻璃卡片
+   ========================================== */
+.frosted-card {
+	background: rgba(12, 27, 42, 0.88);
+	backdrop-filter: blur(40rpx) saturate(180%);
+	border-radius: 24rpx;
+	border: 1px solid var(--line-soft);
+	box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================
+   全息蓝色边框
+   ========================================== */
+.holographic-border {
+	position: relative;
+	border: 2px solid $color-primary-blue;
+	box-shadow: 
+		0 0 20rpx rgba(0, 212, 255, 0.4),
+		inset 0 0 20rpx rgba(0, 212, 255, 0.1);
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: -2px;
+		left: -2px;
+		right: -2px;
+		bottom: -2px;
+		background: linear-gradient(45deg, 
+			transparent 0%, 
+			rgba(0, 212, 255, 0.3) 50%, 
+			transparent 100%);
+		border-radius: inherit;
+		animation: borderFlow 3s linear infinite;
+		pointer-events: none;
+	}
+}
+
+@keyframes borderFlow {
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 200% 200%;
+	}
+}
+
+/* ==========================================
+   动态扫描光圈
+   ========================================== */
+.scan-ring {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 2px solid $color-primary-blue;
+	animation: scanPulse 2s ease-out infinite;
+}
+
+@keyframes scanPulse {
+	0% {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(1.5);
+		opacity: 0;
+	}
+}
+
+/* ==========================================
+   等宽字体（战术显示器风格）
+   ========================================== */
+.monospace-text {
+	font-family: 'Courier New', 'Consolas', monospace;
+	letter-spacing: 2rpx;
+}
+
+/* ==========================================
+   高亮发光文字
+   ========================================== */
+.glow-text {
+	text-shadow: 0 0 20rpx currentColor;
+	
+	&.primary {
+		color: $color-primary-blue;
+		text-shadow: 0 0 20rpx $color-primary-blue;
+	}
+	
+	&.success {
+		color: $color-success-green;
+		text-shadow: 0 0 20rpx $color-success-green;
+	}
+	
+	&.warning {
+		color: $color-warning-orange;
+		text-shadow: 0 0 20rpx $color-warning-orange;
+	}
+	
+	&.danger {
+		color: $color-danger-red;
+		text-shadow: 0 0 20rpx $color-danger-red;
+	}
+}
+
+/* ==========================================
+   深色凹槽分割线
+   ========================================== */
+.inset-divider {
+	height: 1px;
+	background: transparent;
+	box-shadow: 
+		inset 0 1px 2px rgba(0, 0, 0, 0.5),
+		0 1px 0 rgba(255, 255, 255, 0.05);
+	margin: 32rpx 0;
+}
+
+/* ==========================================
+   物理风格滑块开关
+   ========================================== */
+.physical-switch {
+	position: relative;
+	width: 120rpx;
+	height: 64rpx;
+	background: rgba(89, 89, 89, 0.5);
+	border-radius: 32rpx;
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 4rpx 8rpx rgba(0, 0, 0, 0.5);
+	transition: all 0.3s ease;
+	
+	&.active {
+		background: linear-gradient(135deg, #73D13D 0%, #52c41a 100%);
+		border-color: #73D13D;
+		box-shadow: 
+			inset 0 4rpx 8rpx rgba(0, 0, 0, 0.3),
+			0 0 20rpx rgba(115, 209, 61, 0.6);
+	}
+}
+
+.switch-slider {
+	position: absolute;
+	top: 4rpx;
+	left: 4rpx;
+	width: 52rpx;
+	height: 52rpx;
+	background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+	border-radius: 50%;
+	box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
+	transition: all 0.3s ease;
+	
+	.active & {
+		left: 60rpx;
+	}
+}
+
+/* ==========================================
+   勋章图标
+   ========================================== */
+.medal-icon {
+	position: relative;
+	width: 80rpx;
+	height: 80rpx;
+	
+	&.earned {
+		animation: medalShine 2s ease-in-out infinite;
+	}
+	
+	&.locked {
+		opacity: 0.3;
+		filter: grayscale(1);
+	}
+}
+
+@keyframes medalShine {
+	0%, 100% {
+		transform: scale(1);
+		filter: brightness(1);
+	}
+	50% {
+		transform: scale(1.05);
+		filter: brightness(1.2);
+	}
+}
+
+/* ==========================================
+   进度条
+   ========================================== */
+.progress-bar {
+	width: 100%;
+	height: 12rpx;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 6rpx;
+	overflow: hidden;
+	box-shadow: inset 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.progress-fill {
+	height: 100%;
+	background: linear-gradient(90deg, 
+		$color-primary-blue 0%, 
+		#00f2fe 100%);
+	border-radius: 6rpx;
+	box-shadow: 0 0 10rpx $color-primary-blue;
+	transition: width 0.3s ease;
+	position: relative;
+	
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(90deg, 
+			transparent 0%, 
+			rgba(255, 255, 255, 0.3) 50%, 
+			transparent 100%);
+		animation: progressShine 2s linear infinite;
+	}
+}
+
+@keyframes progressShine {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* ==========================================
+   危险按钮
+   ========================================== */
+.danger-button {
+	width: 100%;
+	height: 96rpx;
+	background: rgba(255, 77, 79, 0.1);
+	border: 2px solid $color-danger-red;
+	border-radius: 20rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 32rpx;
+	font-weight: 700;
+	color: $color-danger-red;
+	box-shadow: 
+		0 0 20rpx rgba(255, 77, 79, 0.3),
+		inset 0 0 20rpx rgba(255, 77, 79, 0.1);
+	transition: all 0.3s ease;
+	
+	&:active {
+		transform: scale(0.98);
+		background: rgba(255, 77, 79, 0.2);
+		box-shadow: 
+			0 0 30rpx rgba(255, 77, 79, 0.6),
+			inset 0 0 30rpx rgba(255, 77, 79, 0.2);
+	}
+}
+
+/* ==========================================
+   数据卡片
+   ========================================== */
+.data-card {
+	@extend .frosted-card;
+	padding: 32rpx;
+	margin: 24rpx 32rpx;
+}
+
+.card-title {
+	font-size: 32rpx;
+	font-weight: 700;
+	color: $color-text-primary;
+	margin-bottom: 24rpx;
+	display: flex;
+	align-items: center;
+	gap: 12rpx;
+	
+	&::before {
+		content: '';
+		width: 6rpx;
+		height: 32rpx;
+		background: linear-gradient(180deg, 
+			$color-primary-blue 0%, 
+			#00f2fe 100%);
+		border-radius: 3rpx;
+		box-shadow: 0 0 10rpx $color-primary-blue;
+	}
+}
+
+/* ==========================================
+   工具类
+   ========================================== */
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   响应式字体
+   ========================================== */
+.text-xs { font-size: 20rpx; }
+.text-sm { font-size: 24rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 48rpx; }
+.text-2xl { font-size: 64rpx; }
+
+/* ==========================================
+   间距工具类
+   ========================================== */
+.mt-xs { margin-top: 8rpx; }
+.mt-sm { margin-top: 16rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 32rpx; }
+
+.mb-xs { margin-bottom: 8rpx; }
+.mb-sm { margin-bottom: 16rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.mb-lg { margin-bottom: 32rpx; }
+
+.p-xs { padding: 8rpx; }
+.p-sm { padding: 16rpx; }
+.p-md { padding: 24rpx; }
+.p-lg { padding: 32rpx; }
+
+/* ==========================================
+   第三批：响应式与UX专项优化
+   ========================================== */
+@media (orientation: landscape) {
+	.profile-header {
+		padding-top: calc(env(safe-area-inset-top) + 12rpx);
+		padding-bottom: 12rpx;
+	}
+
+	.profile-header-title {
+		font-size: 32rpx;
+	}
+
+	.profile-header-badge {
+		padding: 8rpx 14rpx;
+	}
+}
+
+@media (min-width: 768px) {
+	.profile-page {
+		max-width: 1200rpx;
+		margin: 0 auto;
+	}
+
+	.profile-header-title {
+		font-size: 44rpx;
+	}
+
+	.content-scroll {
+		padding: 0 12rpx;
+	}
+}
+
+@media (max-width: 375px) {
+	.profile-header {
+		padding-left: calc(20rpx + env(safe-area-inset-left));
+		padding-right: calc(20rpx + env(safe-area-inset-right));
+	}
+
+	.profile-header-title {
+		font-size: 34rpx;
+	}
+}

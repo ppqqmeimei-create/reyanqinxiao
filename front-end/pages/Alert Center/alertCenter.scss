@@ -1,0 +1,449 @@
+/* ==========================================
+   预警工作台 - 全局样式文件
+   高对比度通知设计，红/橙/灰分级
+   ========================================== */
+
+/* ==========================================
+   顶部 Header 统计区
+   ========================================== */
+.ac-header {
+	position: sticky;
+	top: 0;
+	z-index: 30;
+	padding: calc(env(safe-area-inset-top) + 12rpx) calc(24rpx + env(safe-area-inset-left)) 0 calc(24rpx + env(safe-area-inset-right));
+	background: linear-gradient(180deg, rgba(10,14,26,0.99) 0%, rgba(10,14,26,0.95) 100%);
+	border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ==========================================
+   分类选项卡
+   ========================================== */
+.ac-category-tabs {
+	display: flex;
+	gap: 10rpx;
+	padding: 12rpx 0;
+	margin: 0 -24rpx;
+	padding-left: 24rpx;
+	padding-right: 24rpx;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ac-category-tab {
+	display: flex;
+	align-items: center;
+	gap: 6rpx;
+	padding: 10rpx 16rpx;
+	background: rgba(12, 27, 42, 0.88);
+	border: 1px solid var(--line-soft);
+	border-radius: 20rpx;
+	white-space: nowrap;
+	transition: all 0.3s ease;
+	
+	&.active {
+		background: rgba(0,212,255,0.2);
+		border-color: rgba(0,212,255,0.5);
+		box-shadow: 0 0 12rpx rgba(0,212,255,0.3);
+	}
+	
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+.tab-icon {
+	font-size: 24rpx;
+}
+
+.tab-text {
+	font-size: 24rpx;
+	color: #fff;
+	font-weight: 500;
+}
+
+.tab-count {
+	font-size: 20rpx;
+	color: #8c8c8c;
+	background: rgba(255,255,255,0.1);
+	padding: 2rpx 8rpx;
+	border-radius: 10rpx;
+	font-weight: 600;
+}
+
+.ac-category-tab.active .tab-count {
+	color: #00d4ff;
+	background: rgba(0,212,255,0.2);
+}
+
+.ac-header-top {
+	display: flex; align-items: center; justify-content: space-between; margin-bottom: 12rpx;
+}
+.ac-title-group { display: flex; align-items: center; gap: 12rpx; position: relative; min-height: 64rpx; }
+.ac-header-hint {
+	font-size: 26rpx;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.72);
+	letter-spacing: 1rpx;
+}
+.ac-badge {
+	min-width: 38rpx;
+	height: 38rpx;
+	padding: 0 10rpx;
+	border-radius: 999rpx;
+	background: #FF4D4F;
+	color: #fff;
+	font-size: 20rpx;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 0 14rpx rgba(255, 77, 79, 0.55);
+}
+.ac-title { font-size: 34rpx; font-weight: 800; color: #fff; letter-spacing: 1rpx; }
+.ac-live-dot {
+	width: 16rpx; height: 16rpx; border-radius: 50%; background: #FF4D4F;
+	box-shadow: 0 0 10rpx #FF4D4F; animation: liveBlink 1.5s ease-in-out infinite;
+}
+@keyframes liveBlink { 0%,100%{opacity:1}50%{opacity:0.3} }
+.ac-refresh-btn {
+	width: 64rpx; height: 64rpx; border-radius: 50%;
+	background: rgba(255,255,255,0.06); border: 1px solid var(--line-soft);
+	display: flex; align-items: center; justify-content: center;
+	transition: transform 0.4s ease, background 0.3s ease;
+	&:active { transform: rotate(180deg); background: rgba(255,255,255,0.1); }
+}
+.ac-refresh-icon { width: 36rpx; height: 36rpx; }
+.ac-stats-row {
+	display: flex; align-items: center; padding: 16rpx 4rpx 12rpx;
+	gap: 0;
+}
+.ac-stat-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4rpx; }
+.ac-stat-num { font-size: 36rpx; font-weight: 800; color: #fff; font-family: Courier New, monospace; line-height: 1; }
+.critical-num { color: #FF4D4F; text-shadow: 0 0 20rpx rgba(255,77,79,0.5); }
+.warning-num { color: #FFA940; text-shadow: 0 0 20rpx rgba(255,169,64,0.5); }
+.handled-num { color: #595959; }
+.time-num { color: #00D4FF; }
+.ac-stat-label { font-size: 18rpx; color: #6b7280; font-weight: 500; text-align: center; line-height: 1.2; }
+.ac-stat-divider { width: 1px; height: 40rpx; background: rgba(255,255,255,0.07); }
+.alert-list-wrap { padding: 8rpx 16rpx 16rpx; display: flex; flex-direction: column; gap: 12rpx; }
+.empty-emoji { font-size: 120rpx; margin-bottom: 24rpx; display: block; text-align: center; }
+.list-bottom-pad { height: 60rpx; }
+
+/* ==========================================
+   色彩规范 - 预警分级
+   ========================================== */
+$color-critical: #FF4D4F;      // 高危红
+$color-warning: #FFA940;       // 预警橙
+$color-handled: #595959;       // 已处理灰
+$color-success: #73D13D;       // 安全绿
+$color-primary: var(--brand-primary);       // 全息蓝
+$color-bg-dark: var(--bg-root);       // 深色背景
+$color-bg-card: var(--bg-card);       // 卡片背景
+$color-text-primary: #EAF6FF;  // 主要文字
+$color-text-secondary: #8CA3B8; // 次要文字
+
+/* ==========================================
+   页面主容器
+   ========================================== */
+.alert-center-page {
+	width: 100vw;
+	height: 100vh;
+	background: $color-bg-dark;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   滚动区域
+   ========================================== */
+.alert-scroll {
+	flex: 1;
+	overflow: hidden;
+}
+
+/* ==========================================
+   平板适配 - 双列布局
+   ========================================== */
+@media (min-width: 768px) {
+	.alert-list-wrap {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24rpx;
+	}
+	
+	.ac-header {
+		padding: calc(env(safe-area-inset-top) + 32rpx) 48rpx 0;
+	}
+	
+	.filter-bar {
+		padding: 20rpx 48rpx 0;
+	}
+}
+
+/* ==========================================
+   空状态
+   ========================================== */
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 200rpx 64rpx;
+}
+
+.empty-icon {
+	width: 200rpx;
+	height: 200rpx;
+	opacity: 0.3;
+	margin-bottom: 32rpx;
+}
+
+.empty-text {
+	font-size: 32rpx;
+	font-weight: 600;
+	color: $color-text-secondary;
+	margin-bottom: 16rpx;
+}
+
+.empty-hint {
+	font-size: 24rpx;
+	color: #595959;
+}
+
+/* ==========================================
+   加载更多
+   ========================================== */
+.loading-more {
+	padding: 40rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading-text {
+	font-size: 24rpx;
+	color: $color-text-secondary;
+}
+
+/* ==========================================
+   快速操作按钮
+   ========================================== */
+.quick-actions {
+	position: fixed;
+	right: 32rpx;
+	bottom: 120rpx;
+	display: flex;
+	flex-direction: column;
+	gap: 24rpx;
+	z-index: 100;
+}
+
+.action-btn {
+	width: 112rpx;
+	height: 112rpx;
+	background: rgba(12, 27, 42, 0.90);
+	backdrop-filter: blur(30rpx) saturate(180%);
+	border-radius: 56rpx;
+	border: 1px solid var(--line-soft);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.4);
+	transition: all 0.3s ease;
+	
+	&:active {
+		transform: scale(0.92);
+		box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+	}
+}
+
+.action-icon {
+	font-size: 48rpx;
+}
+
+/* ==========================================
+   预警级别颜色类
+   ========================================== */
+.level-critical {
+	color: $color-critical;
+	border-color: $color-critical;
+	background: rgba(255, 77, 79, 0.1);
+}
+
+.level-warning {
+	color: $color-warning;
+	border-color: $color-warning;
+	background: rgba(255, 169, 64, 0.1);
+}
+
+.level-handled {
+	color: $color-handled;
+	border-color: $color-handled;
+	background: rgba(89, 89, 89, 0.1);
+}
+
+/* ==========================================
+   发光效果
+   ========================================== */
+.glow-critical {
+	text-shadow: 0 0 20rpx $color-critical;
+	box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.6);
+}
+
+.glow-warning {
+	text-shadow: 0 0 20rpx $color-warning;
+	box-shadow: 0 0 20rpx rgba(255, 169, 64, 0.6);
+}
+
+/* ==========================================
+   脉冲动画
+   ========================================== */
+@keyframes pulse-critical {
+	0%, 100% {
+		box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.6);
+	}
+	50% {
+		box-shadow: 0 0 40rpx rgba(255, 77, 79, 1);
+	}
+}
+
+@keyframes pulse-warning {
+	0%, 100% {
+		box-shadow: 0 0 20rpx rgba(255, 169, 64, 0.6);
+	}
+	50% {
+		box-shadow: 0 0 40rpx rgba(255, 169, 64, 1);
+	}
+}
+
+.pulse-critical {
+	animation: pulse-critical 2s ease-in-out infinite;
+}
+
+.pulse-warning {
+	animation: pulse-warning 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   工具类
+   ========================================== */
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   文字大小
+   ========================================== */
+.text-xs { font-size: 20rpx; }
+.text-sm { font-size: 24rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 48rpx; }
+
+/* ==========================================
+   间距
+   ========================================== */
+.mt-xs { margin-top: 8rpx; }
+.mt-sm { margin-top: 16rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 32rpx; }
+
+.mb-xs { margin-bottom: 8rpx; }
+.mb-sm { margin-bottom: 16rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.mb-lg { margin-bottom: 32rpx; }
+
+.p-xs { padding: 8rpx; }
+.p-sm { padding: 16rpx; }
+.p-md { padding: 24rpx; }
+.p-lg { padding: 32rpx; }
+
+/* ==========================================
+   响应式适配 - 平板和横屏
+   ========================================== */
+
+/* 平板适配 */
+@media (min-width: 768px) {
+	.alert-list-wrap {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24rpx;
+		padding: 24rpx 48rpx;
+	}
+	
+	.ac-header {
+		padding: calc(env(safe-area-inset-top) + 32rpx) 48rpx 0;
+	}
+	
+	.filter-bar {
+		padding: 16rpx 48rpx 0;
+	}
+}
+
+/* 大屏适配 */
+@media (min-width: 1024px) {
+	.alert-list-wrap {
+		grid-template-columns: repeat(3, 1fr);
+		max-width: 1400rpx;
+		margin: 0 auto;
+	}
+}
+
+/* 横屏与小屏优化 */
+@media (orientation: landscape) {
+	.ac-header {
+		padding-top: calc(env(safe-area-inset-top) + 12rpx);
+	}
+
+	.ac-title {
+		font-size: 32rpx;
+	}
+
+	.ac-stats-row {
+		padding: 14rpx 8rpx;
+	}
+
+	.alert-list-wrap {
+		padding: 12rpx 20rpx;
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 375px) {
+	.ac-header {
+		padding-left: calc(20rpx + env(safe-area-inset-left));
+		padding-right: calc(20rpx + env(safe-area-inset-right));
+	}
+
+	.ac-title {
+		font-size: 32rpx;
+	}
+
+	.ac-refresh-btn {
+		width: 64rpx;
+		height: 64rpx;
+	}
+
+	.ac-category-tab {
+		padding: 10rpx 14rpx;
+	}
+
+	.alert-list-wrap {
+		padding: 10rpx 14rpx;
+		gap: 12rpx;
+	}
+}

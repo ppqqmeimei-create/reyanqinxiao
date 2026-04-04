@@ -1,0 +1,21 @@
+{
+  "name": "热眼擒枭-前端",
+  "version": "1.0.0",
+  "description": "热眼擒枭——边境活物走私智能防控系统前端",
+  "main": "main.js",
+  "scripts": {
+    "dev": "uni",
+    "build": "uni build",
+    "build:h5": "uni build -p h5",
+    "build:mp-weixin": "uni build -p mp-weixin"
+  },
+  "dependencies": {
+    "vue": "^3.0.0",
+    "uni-app": "^2.0.0",
+    "pinia": "^2.1.7"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-app": "^3.0.0",
+    "@dcloudio/uni-cli": "^3.0.0"
+  }
+}

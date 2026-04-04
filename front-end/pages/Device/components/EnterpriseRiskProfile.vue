@@ -1,0 +1,285 @@
+<template>
+	<view class="risk-container">
+		<view class="header">
+			<view class="info">
+				<text class="name">{{ ent.name }}</text>
+				<text class="type">{{ ent.type }}</text>
+			</view>
+			<view class="badge" :class="'r-' + getLevel()">
+				<text class="val">{{ ent.score }}</text>
+				<text class="lbl">风险评分</text>
+			</view>
+		</view>
+
+		<view class="level-card" :class="'l-' + getLevel()">
+			<text class="icon">{{ getIcon() }}</text>
+			<view class="detail">
+				<text class="name">{{ getLevelName() }}</text>
+				<text class="desc">{{ getDesc() }}</text>
+			</view>
+		</view>
+
+		<view class="freq-card">
+			<text class="label">📋 推荐检查频�?/text>
+			<text class="value">{{ getFreq() }}</text>
+		</view>
+
+		<view class="breakdown">
+			<text class="title">📊 风险评分构成</text>
+			<view class="item">
+				<view class="h">
+					<text class="l">历史违规</text>
+					<text class="s">{{ ent.vScore }}/40</text>
+				</view>
+				<view class="bar"><view class="fill" :style="{width:(ent.vScore/40*100)+'%',background:'#ef4444'}"></view></view>
+			</view>
+			<view class="item">
+				<view class="h">
+					<text class="l">检查合规率</text>
+					<text class="s">{{ ent.comp }}%</text>
+				</view>
+				<view class="bar"><view class="fill" :style="{width:ent.comp+'%',background:'#10b981'}"></view></view>
+			</view>
+			<view class="item">
+				<view class="h">
+					<text class="l">投诉举报</text>
+					<text class="s">{{ ent.comp2 }}/10</text>
+				</view>
+				<view class="bar"><view class="fill" :style="{width:(ent.comp2/10*100)+'%',background:'#f59e0b'}"></view></view>
+			</view>
+			<view class="item">
+				<view class="h">
+					<text class="l">行业风险系数</text>
+					<text class="s">{{ ent.ind }}/10</text>
+				</view>
+				<view class="bar"><view class="fill" :style="{width:(ent.ind/10*100)+'%',background:'#8b5cf6'}"></view></view>
+			</view>
+		</view>
+
+		<view class="data-grid">
+			<text class="title">📈 企业历史数据</text>
+			<view class="grid">
+				<view class="item"><text class="l">检查次�?/text><text class="v">{{ ent.insp }}</text></view>
+				<view class="item"><text class="l">违规次数</text><text class="v">{{ ent.viol }}</text></view>
+				<view class="item"><text class="l">投诉次数</text><text class="v">{{ ent.comp2 }}</text></view>
+				<view class="item"><text class="l">整改次数</text><text class="v">{{ ent.rect }}</text></view>
+			</view>
+		</view>
+
+		<view class="issues">
+			<text class="title">⚠️ 主要问题</text>
+			<view v-for="(issue, i) in ent.issues" :key="i" class="issue">
+				<view class="h">
+					<text class="d">{{ issue.date }}</text>
+					<text class="t" :class="'st-' + issue.sev">{{ issue.sev === 'c' ? '严重' : '重要' }}</text>
+				</view>
+				<text class="desc">{{ issue.desc }}</text>
+			</view>
+		</view>
+
+		<view class="trend">
+			<text class="title">📉 趋势分析</text>
+			<view class="card">
+				<text class="text">{{ getTrend() }}</text>
+				<view class="ind" :class="'t-' + getTrendDir()">
+					<text class="icon">{{ getTrendIcon() }}</text>
+					<text class="val">{{ getTrendVal() }}</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="recs">
+			<text class="title">💡 建议措施</text>
+			<view v-for="(rec, i) in getRecs()" :key="i" class="rec">
+				<text class="icon">{{ rec.icon }}</text>
+				<text class="text">{{ rec.text }}</text>
+			</view>
+		</view>
+
+		<view class="btns">
+			<button class="btn-1" @tap="createTask">📋 创建检查任�?/button>
+			<button class="btn-2" @tap="viewReport">📊 查看详细报告</button>
+		</view>
+	</view>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const ent = ref({
+	name: '某食品有限公�?,
+	type: '食品生产企业',
+	score: 75,
+	vScore: 25,
+	comp: 75,
+	comp2: 5,
+	ind: 6,
+	insp: 12,
+	viol: 3,
+	rect: 2,
+	issues: [
+		{ date: '2024-01-15', sev: 'c', desc: '食品储存温度不达标，发现过期产品' },
+		{ date: '2024-03-20', sev: 'h', desc: '从业人员无健康证，环境卫生不合格' },
+		{ date: '2024-06-10', sev: 'h', desc: '进货查验记录不完整，防鼠防虫设施不足' }
+	]
+})
+
+function getLevel() {
+	const s = ent.value.score
+	if (s >= 80) return 'c'
+	if (s >= 60) return 'h'
+	if (s >= 40) return 'm'
+	return 'l'
+}
+
+function getIcon() {
+	const l = getLevel()
+	if (l === 'c') return '🔴'
+	if (l === 'h') return '🟠'
+	if (l === 'm') return '🟡'
+	return '🟢'
+}
+
+function getLevelName() {
+	const l = getLevel()
+	if (l === 'c') return '高风险企�?
+	if (l === 'h') return '中高风险企业'
+	if (l === 'm') return '中等风险企业'
+	return '低风险企�?
+}
+
+function getDesc() {
+	const l = getLevel()
+	if (l === 'c') return '需要立即加强监管，建议每月检�?
+	if (l === 'h') return '需要加强监管，建议每季度检�?
+	if (l === 'm') return '需要定期监管，建议每半年检�?
+	return '风险较低，建议每年检�?
+}
+
+function getFreq() {
+	const l = getLevel()
+	if (l === 'c') return '每月检�?
+	if (l === 'h') return '每季度检�?
+	if (l === 'm') return '每半年检�?
+	return '每年检�?
+}
+
+function getTrend() {
+	if (ent.value.viol > 2) return '企业合规性呈下降趋势，需要加强监�?
+	if (ent.value.viol > 0) return '企业存在一定问题，建议继续关注'
+	return '企业合规性良好，保持监管力度'
+}
+
+function getTrendDir() {
+	if (ent.value.viol > 2) return 'd'
+	if (ent.value.viol > 0) return 's'
+	return 'u'
+}
+
+function getTrendIcon() {
+	const d = getTrendDir()
+	if (d === 'd') return '📉'
+	if (d === 's') return '➡️'
+	return '📈'
+}
+
+function getTrendVal() {
+	const d = getTrendDir()
+	if (d === 'd') return '下降'
+	if (d === 's') return '稳定'
+	return '上升'
+}
+
+function getRecs() {
+	const l = getLevel()
+	const recs = []
+	if (l === 'c') {
+		recs.push({ icon: '🔍', text: '立即进行现场检查，重点检查食品储存和卫生条件' })
+		recs.push({ icon: '📋', text: '要求企业提交整改方案，限期整�? })
+		recs.push({ icon: '⚠️', text: '考虑行政处罚或停业整�? })
+	} else if (l === 'h') {
+		recs.push({ icon: '🔍', text: '加强定期检查，重点关注历史问题' })
+		recs.push({ icon: '📋', text: '要求企业建立自检制度' })
+		recs.push({ icon: '💬', text: '与企业沟通，了解整改进展' })
+	} else if (l === 'm') {
+		recs.push({ icon: '🔍', text: '定期进行例行检�? })
+		recs.push({ icon: '📊', text: '建立风险档案，持续监�? })
+		recs.push({ icon: '�?, text: '鼓励企业主动改进' })
+	} else {
+		recs.push({ icon: '�?, text: '企业合规性良好，继续保持' })
+		recs.push({ icon: '📊', text: '定期监测，防止风险升�? })
+		recs.push({ icon: '🎯', text: '作为示范企业进行宣传' })
+	}
+	return recs
+}
+
+function createTask() {
+	uni.showToast({ title: '正在创建检查任�?..', icon: 'loading' })
+	setTimeout(() => uni.showToast({ title: '�?检查任务已创建', icon: 'success' }), 1500)
+}
+
+function viewReport() {
+	uni.showToast({ title: '正在生成详细报告...', icon: 'loading' })
+	setTimeout(() => uni.showToast({ title: '�?报告已生�?, icon: 'success' }), 1500)
+}
+</script>
+
+<style lang="scss" scoped>
+.risk-container { padding: 20rpx; background: #0f172a; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #00A8D6 0%, #007EA8 100%); border-radius: 16rpx; padding: 24rpx; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
+.info { flex: 1; }
+.name { font-size: 32rpx; font-weight: bold; color: #fff; display: block; margin-bottom: 8rpx; }
+.type { font-size: 24rpx; color: rgba(255,255,255,0.8); }
+.badge { width: 120rpx; height: 120rpx; border-radius: 60rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border: 3rpx solid rgba(255,255,255,0.5); }
+.r-c { background: rgba(239,68,68,0.3); border-color: #ef4444; }
+.r-h { background: rgba(255,169,64,0.3); border-color: #ffa940; }
+.r-m { background: rgba(250,173,20,0.3); border-color: #fac858; }
+.r-l { background: rgba(16,185,129,0.3); border-color: #10b981; }
+.val { font-size: 40rpx; font-weight: bold; color: #fff; }
+.lbl { font-size: 20rpx; color: rgba(255,255,255,0.8); }
+.level-card { background: rgba(255,255,255,0.05); border-radius: 16rpx; padding: 24rpx; display: flex; align-items: center; gap: 20rpx; margin-bottom: 16rpx; border-left: 6rpx solid #00A8D6; }
+.l-c { border-left-color: #ef4444; background: rgba(239,68,68,0.1); }
+.l-h { border-left-color: #ffa940; background: rgba(255,169,64,0.1); }
+.l-m { border-left-color: #fac858; background: rgba(250,173,20,0.1); }
+.l-l { border-left-color: #10b981; background: rgba(16,185,129,0.1); }
+.icon { font-size: 48rpx; }
+.detail { flex: 1; }
+.detail .name { font-size: 28rpx; font-weight: bold; color: #fff; display: block; margin-bottom: 8rpx; }
+.detail .desc { font-size: 22rpx; color: rgba(255,255,255,0.7); }
+.freq-card { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 16rpx; margin-bottom: 20rpx; }
+.label { font-size: 24rpx; color: rgba(255,255,255,0.6); display: block; margin-bottom: 8rpx; }
+.value { font-size: 28rpx; font-weight: bold; color: #10b981; }
+.breakdown, .data-grid, .issues, .recs { margin-bottom: 20rpx; }
+.title { font-size: 28rpx; font-weight: bold; color: #fff; display: block; margin-bottom: 16rpx; }
+.item { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 16rpx; margin-bottom: 12rpx; }
+.h { display: flex; justify-content: space-between; margin-bottom: 12rpx; }
+.l { font-size: 24rpx; color: rgba(255,255,255,0.8); }
+.s { font-size: 24rpx; color: #fff; font-weight: bold; }
+.bar { height: 8rpx; background: rgba(255,255,255,0.1); border-radius: 4rpx; overflow: hidden; }
+.fill { height: 100%; transition: width 0.3s; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16rpx; }
+.grid .item { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 20rpx; text-align: center; }
+.grid .l { font-size: 22rpx; color: rgba(255,255,255,0.6); display: block; margin-bottom: 8rpx; }
+.grid .v { font-size: 36rpx; font-weight: bold; color: #10b981; }
+.issue { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 16rpx; border-left: 4rpx solid #00A8D6; margin-bottom: 12rpx; }
+.issue .h { display: flex; justify-content: space-between; margin-bottom: 8rpx; }
+.d { font-size: 22rpx; color: rgba(255,255,255,0.6); }
+.t { font-size: 20rpx; padding: 4rpx 12rpx; border-radius: 8rpx; background: rgba(239,68,68,0.2); color: #ef4444; }
+.st-h { background: rgba(255,169,64,0.2); color: #ffa940; }
+.issue .desc { font-size: 24rpx; color: #fff; }
+.trend { margin-bottom: 20rpx; }
+.card { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 24rpx; }
+.text { font-size: 26rpx; color: #fff; display: block; margin-bottom: 16rpx; }
+.ind { display: flex; align-items: center; gap: 12rpx; }
+.ind .icon { font-size: 40rpx; }
+.ind .val { font-size: 28rpx; font-weight: bold; color: #10b981; }
+.t-d .val { color: #ef4444; }
+.t-s .val { color: #f59e0b; }
+.rec { background: rgba(255,255,255,0.05); border-radius: 12rpx; padding: 16rpx; display: flex; align-items: center; gap: 16rpx; margin-bottom: 12rpx; }
+.rec .icon { font-size: 32rpx; }
+.rec .text { font-size: 24rpx; color: #fff; flex: 1; }
+.btns { display: flex; gap: 16rpx; margin-bottom: 40rpx; }
+.btn-1, .btn-2 { flex: 1; height: 88rpx; border-radius: 12rpx; font-size: 28rpx; font-weight: bold; border: none; }
+.btn-1 { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; }
+.btn-2 { background: rgba(255,255,255,0.1); color: #fff; }
+</style>

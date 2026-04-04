@@ -1,0 +1,415 @@
+/* ==========================================
+   预警工作台 - 全局样式文件
+   定义预警/告警灰高对比度风险样式
+   ========================================== */
+
+/* ==========================================
+   色彩规范 - 风险等级
+   ========================================== */
+$color-critical-red: #FF4D4F;      // 高危拦截
+$color-warning-orange: #FFA940;     // 逻辑异常
+$color-handled-grey: #595959;       // 已处理
+$color-safe-green: #73D13D;         // 安全
+$color-bg-dark: var(--bg-root);            // 背景深色
+$color-bg-card: var(--bg-card);            // 卡片背景
+$color-text-primary: #ffffff;       // 主文字
+$color-text-secondary: #8c8c8c;     // 次要文字
+$color-border: #2a2f3e;             // 边框
+
+/* ==========================================
+   风险等级徽章样式
+   ========================================== */
+.risk-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8rpx;
+	padding: 8rpx 16rpx;
+	border-radius: 16rpx;
+	font-size: 22rpx;
+	font-weight: 600;
+	
+	&.critical {
+		background: rgba(255, 77, 79, 0.2);
+		border: 1px solid $color-critical-red;
+		color: $color-critical-red;
+		
+		.risk-dot {
+			background: $color-critical-red;
+			box-shadow: 0 0 12rpx $color-critical-red;
+			animation: criticalPulse 1.5s ease-in-out infinite;
+		}
+	}
+	
+	&.warning {
+		background: rgba(255, 169, 64, 0.2);
+		border: 1px solid $color-warning-orange;
+		color: $color-warning-orange;
+		
+		.risk-dot {
+			background: $color-warning-orange;
+			box-shadow: 0 0 12rpx $color-warning-orange;
+			animation: warningPulse 2s ease-in-out infinite;
+		}
+	}
+	
+	&.handled {
+		background: rgba(89, 89, 89, 0.2);
+		border: 1px solid $color-handled-grey;
+		color: $color-text-secondary;
+		
+		.risk-dot {
+			background: $color-handled-grey;
+		}
+	}
+}
+
+.risk-dot {
+	width: 12rpx;
+	height: 12rpx;
+	border-radius: 50%;
+}
+
+/* ==========================================
+   风险等级脉冲动画
+   ========================================== */
+@keyframes criticalPulse {
+	0%, 100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.6;
+		transform: scale(1.3);
+	}
+}
+
+@keyframes warningPulse {
+	0%, 100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.7;
+		transform: scale(1.2);
+	}
+}
+
+/* ==========================================
+   目标类型图标样式
+   ========================================== */
+.target-type-icon {
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 12rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	&.human {
+		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+	}
+	
+	&.vehicle {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	}
+	
+	&.animal {
+		background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+	}
+	
+	image {
+		width: 28rpx;
+		height: 28rpx;
+	}
+}
+
+/* ==========================================
+   时间偏差标签
+   ========================================== */
+.time-deviation-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 8rpx;
+	padding: 8rpx 16rpx;
+	border-radius: 20rpx;
+	font-size: 24rpx;
+	font-weight: 700;
+	
+	&.critical {
+		background: rgba(255, 77, 79, 0.2);
+		color: $color-critical-red;
+		border: 1px solid $color-critical-red;
+	}
+	
+	&.warning {
+		background: rgba(255, 169, 64, 0.2);
+		color: $color-warning-orange;
+		border: 1px solid $color-warning-orange;
+	}
+	
+	&.normal {
+		background: rgba(115, 209, 61, 0.2);
+		color: $color-safe-green;
+		border: 1px solid $color-safe-green;
+	}
+}
+
+/* ==========================================
+   证据指示器
+   ========================================== */
+.evidence-indicator {
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	
+	&.active {
+		background: rgba(115, 209, 61, 0.2);
+		border: 2px solid $color-safe-green;
+		
+		image {
+			filter: brightness(1.2);
+		}
+		
+		&::after {
+			content: '';
+			position: absolute;
+			top: -4rpx;
+			right: -4rpx;
+			width: 16rpx;
+			height: 16rpx;
+			background: $color-safe-green;
+			border-radius: 50%;
+			border: 2px solid $color-bg-dark;
+			box-shadow: 0 0 8rpx $color-safe-green;
+		}
+	}
+	
+	&.inactive {
+		background: rgba(89, 89, 89, 0.2);
+		border: 2px solid $color-handled-grey;
+		
+		image {
+			opacity: 0.4;
+		}
+	}
+	
+	image {
+		width: 24rpx;
+		height: 24rpx;
+	}
+}
+
+/* ==========================================
+   毛玻璃卡片效果
+   ========================================== */
+.glass-card {
+	background: rgba(12, 27, 42, 0.90);
+	backdrop-filter: blur(30rpx) saturate(180%);
+	border-radius: 24rpx;
+	border: 1px solid var(--line-soft);
+	box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================
+   渐变分割线
+   ========================================== */
+.gradient-divider {
+	height: 1px;
+	background: linear-gradient(90deg, 
+		transparent 0%, 
+		rgba(255, 255, 255, 0.1) 50%, 
+		transparent 100%);
+	margin: 24rpx 0;
+}
+
+/* ==========================================
+   数据高亮文字
+   ========================================== */
+.highlight-text {
+	font-weight: 700;
+	text-shadow: 0 0 10rpx currentColor;
+	
+	&.critical {
+		color: $color-critical-red;
+	}
+	
+	&.warning {
+		color: $color-warning-orange;
+	}
+	
+	&.safe {
+		color: $color-safe-green;
+	}
+}
+
+/* ==========================================
+   加载骨架屏
+   ========================================== */
+.skeleton {
+	background: linear-gradient(90deg, 
+		rgba(255, 255, 255, 0.05) 25%, 
+		rgba(255, 255, 255, 0.1) 50%, 
+		rgba(255, 255, 255, 0.05) 75%);
+	background-size: 200% 100%;
+	animation: skeletonLoading 1.5s ease-in-out infinite;
+	border-radius: 8rpx;
+}
+
+@keyframes skeletonLoading {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+/* ==========================================
+   滑动删除背景
+   ========================================== */
+.swipe-action-bg {
+	background: linear-gradient(135deg, #FF4D4F 0%, #cf1322 100%);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 32rpx;
+	
+	.action-text {
+		color: #ffffff;
+		font-size: 28rpx;
+		font-weight: 600;
+	}
+}
+
+/* ==========================================
+   时间戳样式
+   ========================================== */
+.timestamp {
+	font-size: 22rpx;
+	color: $color-text-secondary;
+	font-family: 'Courier New', monospace;
+	
+	&.recent {
+		color: $color-warning-orange;
+		font-weight: 600;
+	}
+}
+
+/* ==========================================
+   位置标签
+   ========================================== */
+.location-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 8rpx;
+	padding: 6rpx 12rpx;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12rpx;
+	font-size: 22rpx;
+	color: $color-text-secondary;
+	
+	image {
+		width: 20rpx;
+		height: 20rpx;
+	}
+}
+
+/* ==========================================
+   选择框样式
+   ========================================== */
+.checkbox {
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 8rpx;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	
+	&.checked {
+		background: linear-gradient(135deg, #00A8D6 0%, #007EA8 100%);
+		border-color: #00A8D6;
+		
+		image {
+			width: 24rpx;
+			height: 24rpx;
+		}
+	}
+}
+
+/* ==========================================
+   数值显示样式
+   ========================================== */
+.value-display {
+	font-size: 32rpx;
+	font-weight: 700;
+	font-family: 'Courier New', monospace;
+	
+	&.critical {
+		color: $color-critical-red;
+		text-shadow: 0 0 10rpx $color-critical-red;
+	}
+	
+	&.warning {
+		color: $color-warning-orange;
+		text-shadow: 0 0 10rpx $color-warning-orange;
+	}
+	
+	&.normal {
+		color: $color-safe-green;
+	}
+}
+
+/* ==========================================
+   响应式工具类
+   ========================================== */
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.flex-start {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   间距工具类
+   ========================================== */
+.gap-xs { gap: 8rpx; }
+.gap-sm { gap: 16rpx; }
+.gap-md { gap: 24rpx; }
+.gap-lg { gap: 32rpx; }
+
+.mt-xs { margin-top: 8rpx; }
+.mt-sm { margin-top: 16rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 32rpx; }
+
+.mb-xs { margin-bottom: 8rpx; }
+.mb-sm { margin-bottom: 16rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.mb-lg { margin-bottom: 32rpx; }
+
+.p-xs { padding: 8rpx; }
+.p-sm { padding: 16rpx; }
+.p-md { padding: 24rpx; }
+.p-lg { padding: 32rpx; }

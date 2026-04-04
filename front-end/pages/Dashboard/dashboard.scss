@@ -1,0 +1,446 @@
+.dashboard-page {
+	padding: 24rpx;
+	background: var(--bg-root);
+	min-height: 100vh;
+	color: #eaf6ff;
+	display: flex;
+	flex-direction: column;
+	gap: 18rpx;
+}
+
+// ── 页头 ──────────────────────────────────────────────
+.db-header {
+	background: rgba(12, 27, 42, 0.9);
+	border: 1px solid var(--line-soft);
+	border-radius: 24rpx;
+	padding: 20rpx 24rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.db-header-left {
+	display: flex;
+	flex-direction: column;
+	gap: 4rpx;
+}
+
+.db-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	color: var(--brand-primary);
+	display: block;
+	letter-spacing: 1rpx;
+}
+
+.db-subtitle {
+	font-size: 22rpx;
+	color: #8ca3b8;
+	display: block;
+}
+
+.db-header-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 6rpx;
+}
+
+.db-time {
+	font-size: 24rpx;
+	color: #d3ebff;
+}
+
+.live-dot {
+	width: 10rpx;
+	height: 10rpx;
+	border-radius: 50%;
+	background: #00FF87;
+	box-shadow: 0 0 8rpx #00FF87;
+	animation: livePulse 1.5s ease-in-out infinite;
+	align-self: flex-end;
+}
+
+// ── 指标卡片网格 ──────────────────────────────────────
+.metrics-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 14rpx;
+}
+
+.metric-card {
+	position: relative;
+	background: rgba(12, 27, 42, 0.9);
+	border-radius: 22rpx;
+	border: 1px solid var(--line-soft);
+	padding: 20rpx;
+	overflow: hidden;
+	cursor: pointer;
+	transition: transform 0.2s;
+
+	&:active {
+		transform: scale(0.97);
+	}
+}
+
+.metric-critical {
+	border-color: #FF4D4F;
+	box-shadow: 0 0 18rpx rgba(255, 77, 79, 0.35);
+
+	.metric-glow {
+		position: absolute;
+		inset: -20rpx;
+		background: radial-gradient(circle at center, rgba(255, 77, 79, 0.18) 0%, transparent 70%);
+		pointer-events: none;
+	}
+}
+
+.metric-warning {
+	border-color: #FFA940;
+	box-shadow: 0 0 14rpx rgba(255, 169, 64, 0.3);
+
+	.metric-glow-warn {
+		position: absolute;
+		inset: -20rpx;
+		background: radial-gradient(circle at center, rgba(255, 169, 64, 0.15) 0%, transparent 70%);
+		pointer-events: none;
+	}
+}
+
+.metric-label {
+	font-size: 22rpx;
+	color: #b6ccdd;
+	display: block;
+	margin-bottom: 8rpx;
+}
+
+.metric-value {
+	font-size: 58rpx;
+	font-weight: 800;
+	line-height: 1.05;
+	display: block;
+}
+
+.warn-val {
+	color: #FFA940;
+}
+
+.metric-foot {
+	font-size: 20rpx;
+	color: #8ca3b8;
+}
+
+.mono {
+	font-family: 'Consolas', 'Courier New', monospace;
+	font-variant-numeric: tabular-nums;
+}
+
+.critical-breath {
+	color: #FF4D4F;
+	animation: alertBreath 1.6s ease-in-out infinite;
+}
+
+@keyframes alertBreath {
+	0%, 100% { text-shadow: 0 0 8rpx rgba(255, 77, 79, 0.5); }
+	50% { text-shadow: 0 0 24rpx rgba(255, 77, 79, 1); }
+}
+
+// ── 图表面板 ──────────────────────────────────────────
+.panel-grid {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	gap: 14rpx;
+}
+
+.panel-card {
+	background: rgba(12, 27, 42, 0.9);
+	border: 1px solid var(--line-soft);
+	border-radius: 24rpx;
+	padding: 18rpx;
+}
+
+.broadcast-card {
+	background: rgba(12, 27, 42, 0.9);
+	border: 1px solid var(--line-soft);
+	border-radius: 24rpx;
+	padding: 18rpx;
+}
+
+.panel-title {
+	font-size: 24rpx;
+	font-weight: 700;
+	color: #d9f3ff;
+	display: block;
+	margin-bottom: 14rpx;
+}
+
+// 图表区两栏
+.chart-block {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 14rpx;
+}
+
+.chart-section {
+	display: flex;
+	flex-direction: column;
+	gap: 8rpx;
+}
+
+.chart-section-title {
+	font-size: 20rpx;
+	color: #8ca3b8;
+	margin-bottom: 4rpx;
+}
+
+// 时段柱状图
+.bar-chart {
+	display: flex;
+	align-items: flex-end;
+	gap: 8rpx;
+	height: 160rpx;
+	padding-top: 8rpx;
+}
+
+.bar-item {
+	flex: 1;
+	text-align: center;
+}
+
+.bar-track {
+	height: 110rpx;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.bar-fill {
+	width: 22rpx;
+	border-radius: 8rpx 8rpx 0 0;
+	background: #3f556b;
+	transition: height 0.4s ease;
+}
+
+.bar-fill.critical {
+	background: #FF4D4F;
+	box-shadow: 0 0 14rpx rgba(255, 77, 79, 0.5);
+	animation: barGlow 2s ease-in-out infinite;
+}
+
+.bar-fill.warning { background: #FFA940; }
+.bar-fill.normal { background: var(--brand-primary); }
+
+.bar-slot, .bar-num { display: block; font-size: 18rpx; color: #9db3c6; }
+.bar-num { margin-top: 2rpx; }
+
+@keyframes barGlow {
+	0%, 100% { box-shadow: 0 0 8rpx rgba(255, 77, 79, 0.4); }
+	50% { box-shadow: 0 0 18rpx rgba(255, 77, 79, 0.8); }
+}
+
+// 物种进度条
+.species-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10rpx;
+	padding-top: 8rpx;
+}
+
+.species-row {
+	display: grid;
+	grid-template-columns: 90rpx 1fr 40rpx;
+	align-items: center;
+	gap: 10rpx;
+}
+
+.species-name {
+	font-size: 20rpx;
+	color: #cbe4f7;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.species-track {
+	height: 10rpx;
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 99rpx;
+	overflow: hidden;
+}
+
+.species-fill {
+	height: 100%;
+	background: linear-gradient(90deg, var(--brand-primary), #00A8D6);
+	border-radius: 99rpx;
+	transition: width 0.4s ease;
+}
+
+.species-val {
+	font-size: 20rpx;
+	color: #eaf6ff;
+	text-align: right;
+}
+
+// 图例
+.legend-row {
+	margin-top: 12rpx;
+	display: flex;
+	gap: 16rpx;
+	flex-wrap: wrap;
+}
+
+.lg {
+	font-size: 20rpx;
+}
+
+.critical-dot { color: #FF4D4F; }
+.warning-dot { color: #FFA940; }
+.normal-dot { color: var(--brand-primary); }
+
+// 生态7日趋势
+.trend-list {
+	display: flex;
+	flex-direction: column;
+	gap: 14rpx;
+}
+
+.trend-row {
+	display: grid;
+	grid-template-columns: 70rpx 1fr 50rpx;
+	align-items: center;
+	gap: 10rpx;
+}
+
+.trend-day {
+	font-size: 22rpx;
+	color: #aac2d4;
+}
+
+.trend-track {
+	height: 12rpx;
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 99rpx;
+	overflow: hidden;
+}
+
+.trend-fill {
+	height: 100%;
+	border-radius: 99rpx;
+	transition: width 0.4s ease;
+}
+
+.trend-fill.critical {
+	background: #FF4D4F;
+	box-shadow: 0 0 10rpx rgba(255, 77, 79, 0.4);
+}
+
+.trend-fill.warning { background: #FFA940; }
+.trend-fill.normal { background: var(--brand-primary); }
+
+.trend-val {
+	font-size: 20rpx;
+	color: #eaf6ff;
+	text-align: right;
+}
+
+// ── 实时播报 ──────────────────────────────────────────
+.broadcast-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10rpx;
+}
+
+.broadcast-title {
+	font-size: 24rpx;
+	font-weight: 700;
+	color: #d9f3ff;
+}
+
+.broadcast-tag {
+	font-size: 18rpx;
+	color: #FF4D4F;
+	font-weight: 700;
+	animation: alertBreath 1.2s ease-in-out infinite;
+}
+
+.broadcast-swiper {
+	height: 140rpx;
+}
+
+.broadcast-item {
+	height: 128rpx;
+	border-radius: 16rpx;
+	padding: 14rpx;
+	display: grid;
+	grid-template-columns: 120rpx 130rpx 1fr;
+	align-items: center;
+	gap: 10rpx;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.broadcast-item.critical {
+	border-color: #FF4D4F;
+	box-shadow: 0 0 14rpx rgba(255, 77, 79, 0.3);
+	background: rgba(255, 77, 79, 0.06);
+}
+
+.broadcast-item.warning {
+	border-color: #FFA940;
+	box-shadow: 0 0 10rpx rgba(255, 169, 64, 0.2);
+}
+
+.b-time {
+	font-size: 20rpx;
+	color: #9eb8cc;
+}
+
+.b-type {
+	font-size: 20rpx;
+	color: var(--brand-primary);
+}
+
+.b-msg {
+	font-size: 22rpx;
+	color: #eaf6ff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// ── 加载提示 ──────────────────────────────────────────
+.loading-tip {
+	text-align: center;
+	padding: 8rpx 0;
+}
+
+.loading-text {
+	font-size: 22rpx;
+	color: #8ca3b8;
+}
+
+// ── live dot 动画 ──────────────────────────────────────
+@keyframes livePulse {
+	0%, 100% { opacity: 1; box-shadow: 0 0 6rpx #00FF87; }
+	50% { opacity: 0.5; box-shadow: 0 0 14rpx #00FF87; }
+}
+
+// ── 响应式（小屏）─────────────────────────────────────
+@media (max-width: 900rpx) {
+	.metrics-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.panel-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.chart-block {
+		grid-template-columns: 1fr;
+	}
+
+	.broadcast-item {
+		grid-template-columns: 100rpx 110rpx 1fr;
+	}
+}

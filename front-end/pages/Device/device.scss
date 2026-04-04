@@ -1,0 +1,480 @@
+/* ==========================================
+   传感器网络 - 全局样式文件
+   专门处理"健康脉动"呼吸灯动画及拓扑线条样式
+   ========================================== */
+
+/* ==========================================
+   色彩规范
+   ========================================== */
+$color-online-green: #73D13D;
+$color-warning-orange: #FFA940;
+$color-offline-grey: #595959;
+$color-critical-red: #FF4D4F;
+$color-bg-dark: var(--bg-root);
+$color-bg-card: var(--bg-card);
+$color-text-primary: #ffffff;
+$color-text-secondary: #8c8c8c;
+
+/* ==========================================
+   设备页顶部增强样式
+   ========================================== */
+.device-page-header-title {
+	padding: calc(env(safe-area-inset-top) + 16rpx) 32rpx 0;
+	display: flex; align-items: center; justify-content: space-between;
+}
+.device-title-text { font-size: 40rpx; font-weight: 800; color: #fff; }
+.device-title-sub { font-size: 22rpx; color: #4b5563; margin-top: 4rpx; }
+
+/* 健康仪表盘增强 */
+.global-status-header {
+	background: linear-gradient(180deg,
+		rgba(16,22,38,0.99) 0%,
+		rgba(10,14,26,0.97) 100%) !important;
+	padding-top: calc(env(safe-area-inset-top) + 32rpx) !important;
+	border-bottom: 1px solid rgba(0,212,255,0.08) !important;
+	box-shadow: 0 8rpx 40rpx rgba(0,0,0,0.6), 0 1px 0 rgba(0,212,255,0.06) !important;
+}
+.health-value {
+	background: linear-gradient(135deg, #00d4ff 0%, #73D13D 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	filter: drop-shadow(0 0 8rpx rgba(0,212,255,0.5));
+}
+.stat-item {
+	background: rgba(255,255,255,0.04) !important;
+	border: 1px solid rgba(255,255,255,0.06) !important;
+	border-left: 4px solid !important;
+	transition: transform 0.2s ease;
+	&:active { transform: scale(0.97); }
+}
+.stat-item.online { border-left-color: #73D13D !important; box-shadow: inset 4rpx 0 20rpx rgba(115,209,61,0.1); }
+.stat-item.warning { border-left-color: #FFA940 !important; box-shadow: inset 4rpx 0 20rpx rgba(255,169,64,0.1); }
+.stat-item.offline { border-left-color: #595959 !important; }
+.stat-value {
+	text-shadow: 0 0 16rpx currentColor;
+}
+.stat-item.online .stat-value { color: #73D13D !important; }
+.stat-item.warning .stat-value { color: #FFA940 !important; }
+.stat-item.offline .stat-value { color: #595959 !important; }
+
+/* 区块标题增强 */
+.section-title {
+	position: relative;
+	padding-left: 20rpx;
+	&::before {
+		content: '';
+		position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+		width: 6rpx; height: 32rpx;
+		background: linear-gradient(180deg, #00d4ff 0%, #0080b3 100%);
+		border-radius: 3rpx; box-shadow: 0 0 10rpx #00d4ff;
+	}
+}
+
+/* 拓扑区域增强 */
+.topology-section {
+	margin: 24rpx;
+	background: rgba(16,22,38,0.8);
+	border: 1px solid rgba(0,212,255,0.1);
+	border-radius: 24rpx;
+	padding: 24rpx;
+	box-shadow: inset 0 0 40rpx rgba(0,212,255,0.03);
+}
+
+/* ==========================================
+   页面主容器
+   ========================================== */
+.device-page {
+	width: 100vw;
+	height: 100vh;
+	background: $color-bg-dark;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ==========================================
+   顶部：系统健康指数
+   ========================================== */
+.global-status-header {
+	background: linear-gradient(180deg, 
+		rgba(26, 31, 46, 0.98) 0%, 
+		rgba(10, 14, 26, 0.95) 100%);
+	backdrop-filter: blur(30rpx);
+	padding: calc(env(safe-area-inset-top) + 32rpx) 32rpx 32rpx;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+}
+
+/* 健康仪表盘 */
+.health-dashboard {
+	display: flex;
+	align-items: center;
+	gap: 32rpx;
+	margin-bottom: 24rpx;
+}
+
+.dashboard-circle {
+	width: 160rpx;
+	height: 160rpx;
+	flex-shrink: 0;
+}
+
+.circle-progress {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: 8rpx;
+		left: 8rpx;
+		right: 8rpx;
+		bottom: 8rpx;
+		background: $color-bg-card;
+		border-radius: 50%;
+	}
+}
+
+.health-value {
+	position: relative;
+	z-index: 1;
+	font-size: 48rpx;
+	font-weight: 900;
+	color: $color-text-primary;
+	font-family: 'Courier New', monospace;
+	text-shadow: 0 0 20rpx currentColor;
+}
+
+.health-label {
+	position: relative;
+	z-index: 1;
+	font-size: 20rpx;
+	color: $color-text-secondary;
+	margin-top: 4rpx;
+}
+
+/* 健康统计 */
+.health-stats {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+}
+
+.stat-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16rpx 24rpx;
+	background: rgba(42, 47, 62, 0.6);
+	border-radius: 16rpx;
+	border-left: 4px solid;
+	
+	&.online {
+		border-left-color: $color-online-green;
+	}
+	
+	&.warning {
+		border-left-color: $color-warning-orange;
+	}
+	
+	&.offline {
+		border-left-color: $color-offline-grey;
+	}
+}
+
+.stat-value {
+	font-size: 32rpx;
+	font-weight: 700;
+	color: $color-text-primary;
+	font-family: 'Courier New', monospace;
+}
+
+.stat-label {
+	font-size: 24rpx;
+	color: $color-text-secondary;
+}
+
+/* ==========================================
+   内容滚动区
+   ========================================== */
+.content-scroll {
+	flex: 1;
+	overflow: hidden;
+}
+
+/* ==========================================
+   区块标题
+   ========================================== */
+.section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 32rpx;
+	padding-bottom: 24rpx;
+}
+
+.section-title {
+	font-size: 32rpx;
+	font-weight: 700;
+	color: $color-text-primary;
+}
+
+.device-count {
+	font-size: 24rpx;
+	color: $color-text-secondary;
+}
+
+.refresh-btn {
+	width: 64rpx;
+	height: 64rpx;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	
+	&:active {
+		transform: scale(0.9) rotate(180deg);
+	}
+}
+
+.refresh-icon {
+	width: 32rpx;
+	height: 32rpx;
+}
+
+/* ==========================================
+   拓扑区域
+   ========================================== */
+.topology-section {
+	margin-bottom: 32rpx;
+}
+
+/* ==========================================
+   设备列表
+   ========================================== */
+.device-list-section {
+	margin-bottom: 32rpx;
+}
+
+.device-list {
+	padding: 0 32rpx;
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+}
+
+/* ==========================================
+   离线资源管理
+   ========================================== */
+.offline-management-section {
+	margin-bottom: 32rpx;
+	padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+}
+
+.storage-info {
+	padding: 8rpx 16rpx;
+	background: rgba(255, 169, 64, 0.15);
+	border: 1px solid rgba(255, 169, 64, 0.3);
+	border-radius: 16rpx;
+}
+
+.storage-text {
+	font-size: 22rpx;
+	font-weight: 600;
+	color: $color-warning-orange;
+	font-family: 'Courier New', monospace;
+}
+
+.map-packages {
+	padding: 0 32rpx;
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+	margin-bottom: 24rpx;
+}
+
+/* 清理按钮 */
+.cleanup-section {
+	padding: 0 32rpx;
+}
+
+.cleanup-btn {
+	width: 100%;
+	height: 88rpx;
+	background: rgba(255, 77, 79, 0.15);
+	border: 1px solid rgba(255, 77, 79, 0.3);
+	border-radius: 20rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16rpx;
+	transition: all 0.3s ease;
+	
+	&:active {
+		transform: scale(0.98);
+		background: rgba(255, 77, 79, 0.25);
+	}
+}
+
+.cleanup-icon {
+	width: 40rpx;
+	height: 40rpx;
+}
+
+.cleanup-text {
+	font-size: 28rpx;
+	font-weight: 600;
+	color: $color-critical-red;
+}
+
+/* ==========================================
+   健康脉动动画 - 在线状态
+   ========================================== */
+.node-online {
+	animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+	0%, 100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(115, 209, 61, 0.7);
+	}
+	50% {
+		transform: scale(1.05);
+		box-shadow: 0 0 0 20rpx rgba(115, 209, 61, 0);
+	}
+}
+
+/* ==========================================
+   健康脉动动画 - 预警状态（黄色呼吸灯）
+   ========================================== */
+.node-warning {
+	animation: pulse-yellow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-yellow {
+	0%, 100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 169, 64, 0.7);
+	}
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 15rpx rgba(255, 169, 64, 0);
+	}
+}
+
+/* ==========================================
+   离线状态 - 暗淡
+   ========================================== */
+.node-offline {
+	opacity: 0.4;
+	filter: grayscale(1);
+}
+
+/* ==========================================
+   拓扑连接线动画
+   ========================================== */
+.topology-line {
+	stroke-dasharray: 5, 5;
+	animation: line-flow 1s linear infinite;
+	
+	&.online {
+		stroke: $color-online-green;
+	}
+	
+	&.warning {
+		stroke: $color-warning-orange;
+	}
+	
+	&.offline {
+		stroke: $color-offline-grey;
+		stroke-dasharray: 2, 8;
+	}
+}
+
+@keyframes line-flow {
+	to {
+		stroke-dashoffset: -10;
+	}
+}
+
+/* ==========================================
+   心跳扩散效果
+   ========================================== */
+.heartbeat-ring {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 2px solid $color-online-green;
+	animation: heartbeat-expand 2s ease-out infinite;
+}
+
+@keyframes heartbeat-expand {
+	0% {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(2);
+		opacity: 0;
+	}
+}
+
+/* ==========================================
+   工具类
+   ========================================== */
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.text-glow {
+	text-shadow: 0 0 20rpx currentColor;
+}
+
+/* ==========================================
+   响应式字体
+   ========================================== */
+.text-xs { font-size: 20rpx; }
+.text-sm { font-size: 24rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 48rpx; }
+
+/* ==========================================
+   间距工具类
+   ========================================== */
+.mt-xs { margin-top: 8rpx; }
+.mt-sm { margin-top: 16rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 32rpx; }
+
+.mb-xs { margin-bottom: 8rpx; }
+.mb-sm { margin-bottom: 16rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.mb-lg { margin-bottom: 32rpx; }
+
+.p-xs { padding: 8rpx; }
+.p-sm { padding: 16rpx; }
+.p-md { padding: 24rpx; }
+.p-lg { padding: 32rpx; }
