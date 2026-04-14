@@ -25,104 +25,98 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '20px', 'nodeSpacing': '35', 'rankSpacing': '100'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '35', 'rankSpacing': '70'}}}%%
 flowchart TB
-    subgraph SENSOR["<b>🛰️ 感知层（边境传感器网络）</b>"]
+    %% ============ 感知层（顶部横向） ============
+    subgraph S1["🛰️ 感知层"]
         direction LR
-        IR["📷 红外热成像摄像头\n友谊关 / 东兴 / 龙州 / 那坡"]
-        VIB["〰️ 震动光纤\n那坡界碑 / 靖西岳圩"]
-        RADAR["📡 活体探测雷达\n凭祥 / 龙州水口"]
-        CAM["📹 卡口抓拍摄像头\n万尾金滩 / 友谊关"]
-        WATER["💧 水质监测节点\n那坡界河监测点-03"]
-        MANUAL["📝 人工上报/群众举报"]
+        S1_1["📷 红外热成像"]
+        S1_2["📡 活体探测雷达"]
+        S1_3["〰️ 震动光纤"]
+        S1_4["📹 卡口抓拍"]
+        S1_5["💧 水质监测"]
+        S1_6["📝 人工上报"]
+        S1_7["🚁 无人机"]
     end
 
-    subgraph EDGE["<b>⚡ 边缘计算层（5大边境节点）</b>"]
+    %% ============ 边缘计算层（核心处理） ============
+    subgraph S2["⚡ 边缘计算层"]
         direction TB
-        E1["东兴节点\n防城港"]
-        E2["凭祥节点\n崇左"]
-        E3["龙州节点\n崇左"]
-        E4["那坡节点\n百色"]
-        E5["广西总部\n指挥节点"]
+        E1["<b>① 东兴节点</b><br/>防城港战区"]
+        E2["<b>② 凭祥节点</b><br/>崇左战区"]
+        E3["<b>③ 龙州节点</b><br/>崇左战区"]
+        E4["<b>④ 那坡节点</b><br/>百色战区"]
+        E5["<b>⑤ 广西总部</b><br/>指挥节点"]
     end
 
-    subgraph FUSION["<b>🧠 数据融合层（Node.js / Express）</b>"]
+    %% ============ 数据融合层（核心能力） ============
+    subgraph S3["🧠 数据融合层"]
         direction TB
-        FUSE["时空融合引擎\n坐标对齐 · 时间戳同步 · 冲突消解"]
-        AI["AI物种识别\nCITES等级判定 · 置信度评分"]
-        JUDGE["走私研判引擎\n物种保护级别 · 保护等级权重"]
-        RISK["风险评分引擎\n综合评分 0-100 · 历史案件加权"]
-        SSE["SSE实时推送\n预警实时下发 · 前端热更新"]
+        FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
+        AI["<b>AI物种识别</b><br/>CITES等级 · 置信度评分"]
+        JUDGE["<b>走私研判引擎</b><br/>保护级别 · 风险分析"]
+        RISK["<b>风险评分引擎</b><br/>综合评分 0-100"]
+        SSE["<b>预警生成器</b><br/>SSE推送 · 实时下发"]
     end
 
-    subgraph STORE["<b>🗄️ 存储层</b>"]
-        direction TB
-        MYSQL["<b>MySQL</b>\nalerts / locations\ndevices / tasks"]
-        CACHE["本地离线缓存\n边境无网场景兜底"]
-    end
-
-    subgraph APP["<b>📱 应用层（Vue3 + uni-app）</b>"]
-        direction TB
-        GIS["🗺️ GIS态势一张图\n五图层叠加显示"]
-        DASH["📊 指挥大屏\nECharts走私时段分析"]
-        ENFORCE["⚖️ 执法闭环页\n案件创建 · 证据上传 · 处罚建议"]
-        WILDLIFE["🦅 走私预警页\n物种分析 · 案件统计 · 风险追踪"]
-        TASK["✅ 任务执行页\n检查清单 · 取证水印 · 派警调度"]
-        FOODDRUG["💊 食品药品监管\n冷链追溯 · 风险成分检测"]
-        DEV["🔧 传感器网络页\n设备健康度 · 在线率监控"]
-        ALERT_UI["🚨 预警工作台\n实时走私线索流 · SSE推送监控"]
-    end
-
-    subgraph LOOP["<b>📡 业务闭环</b>"]
+    %% ============ 存储层 ============
+    subgraph S4["🗄️ 存储层"]
         direction LR
-        DISPATCH["📡 派警调度\n智能推荐执法员 · 就近+忙闲+完成率"]
-        EVIDENCE["📋 证据固定\n照片/视频 · 取证水印 · 哈希存证"]
-        RESEARCH["🔬 研判分析\n物种聚类 · 时段规律 · 链条还原"]
+        DB["<b>MySQL</b><br/>alerts/locations<br/>devices/tasks"]
+        CACHE["<b>离线缓存</b><br/>SQLite兜底"]
     end
 
-    IR & CAM --> E1
-    IR --> E2
-    VIB --> E4
-    RADAR --> E2 & E3
-    WATER --> E4
-    MANUAL --> E2
-    DRONE{{"🚁 无人机"}} -.-> E5
+    %% ============ 应用层（核心功能） ============
+    subgraph S5["📱 应用层"]
+        direction LR
+        P1["🗺️ GIS态势"]
+        P2["📊 指挥大屏"]
+        P3["⚖️ 执法闭环"]
+        P4["🔴 预警工作台"]
+        P5["✅ 任务执行"]
+        P6["🔧 设备监控"]
+    end
+
+    %% ============ 业务闭环（右侧） ============
+    subgraph LOOP["📡 执法闭环"]
+        direction TB
+        DISPATCH["📡 派警调度<br/>智能推荐执法员"]
+        EVIDENCE["📋 证据固定<br/>水印 · 哈希存证"]
+        RESEARCH["🔬 研判分析<br/>聚类 · 规律 · 还原"]
+        CLOSE["📁 案件归档<br/>历史案件库"]
+    end
+
+    %% ============ 数据流向 ============
+    S1 --> S2
 
     E1 & E2 & E3 & E4 & E5 --> FUSE
+    FUSE --> AI --> JUDGE --> RISK --> SSE
 
-    FUSE --> AI
-    FUSE --> JUDGE
-    FUSE --> RISK
-    AI --> JUDGE
-    JUDGE --> RISK
-    RISK --> SSE
-    SSE --> ALERT_UI
+    S3 --> DB
+    SSE --> P4
+    DB --> S5
+    CACHE --> P1
 
-    FUSE --> MYSQL
-    ALERT_UI --> MYSQL
-
-    MYSQL --> GIS & DASH & ENFORCE & WILDLIFE & TASK & FOODDRUG & DEV
-    CACHE --> GIS
-
-    ALERT_UI --> DISPATCH
+    P4 --> DISPATCH
     DISPATCH --> EVIDENCE
     EVIDENCE --> RESEARCH
-    RESEARCH -.->|触发新预警| SSE
-    RESEARCH -.->|案件归档| MYSQL
+    RESEARCH --> CLOSE
+    CLOSE -.->|触发新预警| SSE
 
-    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,color:#003a8c
-    classDef EDGE fill:#fff7e6,stroke:#fa8c16,color:#873800
-    classDef FUSION fill:#f6ffed,stroke:#52c41a,color:#135200
-    classDef STORE fill:#f9f0ff,stroke:#722ed1,color:#391085
-    classDef APP fill:#fff1f0,stroke:#f5222d,color:#820014
-    classDef LOOP fill:#fffbe6,stroke:#d48806,color:#7a4100
+    %% ============ 样式定义 ============
+    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px,color:#003a8c
+    classDef EDGE fill:#fff7e6,stroke:#fa8c16,stroke-width:2px,color:#873800
+    classDef FUSION fill:#f6ffed,stroke:#52c41a,stroke-width:2px,color:#135200
+    classDef STORE fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,color:#391085
+    classDef APP fill:#fff1f0,stroke:#f5222d,stroke-width:2px,color:#820014
+    classDef LOOP fill:#fffbe6,stroke:#d48806,stroke-width:2px,color:#7a4100
 
-    class IR,VIB,RADAR,CAM,WATER,MANUAL SENSOR
+    class S1_1,S1_2,S1_3,S1_4,S1_5,S1_6,S1_7 SENSOR
     class E1,E2,E3,E4,E5 EDGE
     class FUSE,AI,JUDGE,RISK,SSE FUSION
-    class MYSQL,CACHE STORE
-    class GIS,DASH,ENFORCE,WILDLIFE,TASK,FOODDRUG,DEV,ALERT_UI APP
-    class DISPATCH,EVIDENCE,RESEARCH LOOP
+    class DB,CACHE STORE
+    class P1,P2,P3,P4,P5,P6 APP
+    class DISPATCH,EVIDENCE,RESEARCH,CLOSE LOOP
 ```
 
 ---
@@ -131,22 +125,35 @@ flowchart TB
 
 ### 层级结构
 
-| 层级 | 说明 |
-|:----:|:-----|
-| **感知层** | 红外热成像 / 活体雷达 / 震动光纤 / 卡口摄像头 / 水质监测 / 人工上报 |
-| **边缘计算层** | 东兴、凭祥、龙州、那坡、广西总部 5大边境节点 |
-| **数据融合层** | 时空融合 + AI物种识别 + 走私研判 + 风险评分 + SSE推送 |
-| **存储层** | MySQL结构化存储 + 离线缓存兜底 |
-| **应用层** | GIS态势 / 指挥大屏 / 执法闭环 / 走私预警 / 任务执行 / 食品药品监管 / 设备监控 / 预警工作台 |
-| **业务闭环** | 派警调度 → 证据固定 → 研判归档 |
+| 层级 | 核心组件 | 功能说明 |
+|:----:|:---------|:---------|
+| **🛰️ 感知层** | 红外/雷达/震动/卡口/水质/人工/无人机 | 7类终端采集边境多维度数据 |
+| **⚡ 边缘层** | 东兴、凭祥、龙州、那坡、广西总部 | 5大节点就近实时处理 |
+| **🧠 融合层** | 时空融合 + AI识别 + 研判引擎 + 风险评分 | 多模态数据智能分析 |
+| **🗄️ 存储层** | MySQL + 本地缓存 | 结构化存储 · 离线兜底 |
+| **📱 应用层** | GIS / 大屏 / 执法 / 预警 / 任务 / 设备 | 8大业务模块支撑 |
+| **📡 业务闭环** | 派警 → 取证 → 研判 | 执法全流程闭环管理 |
+
+### 核心流程
+
+```
+感知层采集 → 边缘计算 → 数据融合 → 风险评分 → SSE推送 → 预警工作台
+     ↓
+派警调度 → 执法终端 → 证据固定 → 研判分析 → (触发新预警) → 案件归档
+```
 
 ### 技术栈
 
-- **前端**：Vue 3 + uni-app
-- **后端**：Node.js + Express
-- **数据库**：MySQL
-- **通信**：WebSocket / SSE 实时推送
-- **感知**：红外热成像 / 振动光纤 / 活体雷达
+| 类别 | 技术选型 |
+|:-----|:---------|
+| **前端框架** | Vue 3 + uni-app（多端统一） |
+| **后端服务** | Node.js + Express + WebSocket |
+| **数据库** | MySQL + Redis + SQLite离线缓存 |
+| **AI能力** | 目标检测（YOLO）+ 物种识别 + 行为分析 |
+| **通信协议** | SSE实时推送 + HTTP/2 + MQTT（传感器） |
+| **GIS平台** | Mapbox GL + 天地图 + 热力图渲染 |
+| **边缘计算** | 5大节点分布式部署 · 就近推理 |
+| **安全合规** | 证据哈希存证 · 水印追踪 · 国产密码 |
 
 ---
 
