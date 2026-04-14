@@ -25,9 +25,9 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '35', 'rankSpacing': '70'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '30', 'rankSpacing': '60'}}}%%
 flowchart TB
-    %% ============ 感知层（纵向排列） ============
+    %% ============ 感知层（7个节点纵向，居中） ============
     subgraph S1["<div style='text-align: center;'>🛰️ 感知层</div>"]
         direction TB
         S1_1["📷 红外热成像"]
@@ -39,7 +39,7 @@ flowchart TB
         S1_7["🚁 无人机"]
     end
 
-    %% ============ 边缘计算层（核心处理） ============
+    %% ============ 边缘计算层（5个节点，与感知层左对齐） ============
     subgraph S2["<div style='text-align: center;'>⚡ 边缘计算层</div>"]
         direction TB
         E1["<b>① 东兴节点</b><br/>防城港战区"]
@@ -49,7 +49,7 @@ flowchart TB
         E5["<b>⑤ 广西总部</b><br/>指挥节点"]
     end
 
-    %% ============ 数据融合层（核心能力） ============
+    %% ============ 数据融合层（5个节点，与感知层左对齐） ============
     subgraph S3["<div style='text-align: center;'>🧠 数据融合层</div>"]
         direction TB
         FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
@@ -59,16 +59,16 @@ flowchart TB
         SSE["<b>预警生成器</b><br/>SSE推送 · 实时下发"]
     end
 
-    %% ============ 存储层 ============
+    %% ============ 存储层（2个节点，与感知层左对齐） ============
     subgraph S4["<div style='text-align: center;'>🗄️ 存储层</div>"]
-        direction LR
-        DB["<b>MySQL</b><br/>alerts/locations<br/>devices/tasks"]
+        direction TB
+        DB["<b>MySQL</b><br/>alerts/locations/devices/tasks"]
         CACHE["<b>离线缓存</b><br/>SQLite兜底"]
     end
 
-    %% ============ 应用层（核心功能） ============
+    %% ============ 应用层（6个节点，与感知层左对齐） ============
     subgraph S5["<div style='text-align: center;'>📱 应用层</div>"]
-        direction LR
+        direction TB
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
         P3["⚖️ 执法闭环"]
@@ -77,7 +77,7 @@ flowchart TB
         P6["🔧 设备监控"]
     end
 
-    %% ============ 业务闭环（右侧） ============
+    %% ============ 业务闭环（4个节点，与感知层左对齐） ============
     subgraph LOOP["<div style='text-align: center;'>📡 执法闭环</div>"]
         direction TB
         DISPATCH["📡 派警调度<br/>智能推荐执法员"]
@@ -88,20 +88,10 @@ flowchart TB
 
     %% ============ 数据流向 ============
     S1 --> S2
-
-    E1 & E2 & E3 & E4 & E5 --> FUSE
-    FUSE --> AI --> JUDGE --> RISK --> SSE
-
-    S3 --> DB
-    SSE --> P4
-    DB --> S5
-    CACHE --> P1
-
-    P4 --> DISPATCH
-    DISPATCH --> EVIDENCE
-    EVIDENCE --> RESEARCH
-    RESEARCH --> CLOSE
-    CLOSE -.->|触发新预警| SSE
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S5 --> LOOP
 
     %% ============ 样式定义 ============
     classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px,color:#003a8c
