@@ -129,64 +129,64 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {
     'fontSize': '11px',
-    'nodeSpacing': '15',
-    'rankSpacing': '60',
+    'nodeSpacing': '25',
+    'rankSpacing': '45',
     'primaryTextColor': '#333'
 }}}%%
 flowchart TD
     %% ============ 主标题 ============
     TITLE["<b>🔥 热眼擒枭 - 系统技术架构图</b>"]
 
-    %% ============ 感知层(5个节点) ============
+    %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
         direction LR
-        DRONE["🚁 无人机巡检"]
-        FIBER["〰️ 边界震动光纤"]
-        RADAR["📡 活体探测雷达"]
-        CAM1["📹 卡口抓拍"]
-        CAM2["📷 红外热成像"]
+        DRONE{{"🚁 无人机巡检<br/>广西总部调度"}}
+        FIBER{{"〰️ 边界震动光纤<br/>那坡/靖西"}}
+        RADAR{{"📡 活体探测雷达<br/>凭祥/龙州"}}
+        CAM1{{"📹 卡口抓拍<br/>万尾/友谊关"}}
+        CAM2{{"📷 红外热成像<br/>友谊关/东兴/那坡"}}
+        S_SPACER{{""}}
     end
 
-    %% ============ 边缘计算节点(5个节点) ============
+    %% ============ 边缘计算节点 ============
     subgraph EDGE["<b>⚡ 边缘计算节点</b>"]
         direction LR
-        HQ["🏢 EDGE-GX-HQ"]
-        NAPO["📍 EDGE-NAPO-01"]
-        LONGZHOU["📍 EDGE-LZ-01"]
-        PINGXIANG["📍 EDGE-PX-01"]
-        DONGXING["📍 EDGE-DX-01"]
+        HQ{{"🏢 EDGE-GX-HQ<br/>广西总部"}}
+        NAPO{{"📍 EDGE-NAPO-01<br/>那坡(百色)"}}
+        LONGZHOU{{"📍 EDGE-LZ-01<br/>龙州(崇左)"}}
+        PINGXIANG{{"📍 EDGE-PX-01<br/>凭祥(崇左)"}}
+        DONGXING{{"📍 EDGE-DX-01<br/>东兴(防城港)"}}
+        E_SPACER{{""}}
     end
 
-    %% ============ 数据融合层(6个节点，含占位实现居中) ============
+    %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
         direction LR
-        FS1[" "]:::fuse_spacer
-        FUSE["🔗 时空融合引擎"]
-        AI["🤖 AI物种识别"]
-        RISK["📊 风险分引擎"]
-        SSE["🚨 SSE实时推送"]
-        FS2[" "]:::fuse_spacer
+        FUSE{{"🔗 时空融合引擎<br/>坐标对齐/时间同步"}}
+        AI{{"🤖 AI物种识别<br/>CITES等级/置信度"}}
+        RISK{{"📊 风险分引擎<br/>0-100分"}}
+        SSE{{"🚨 SSE实时推送<br/>预警消息"}}
+        F_SPACER{{""}}
     end
 
-    %% ============ 存储层(6个节点，含占位实现居中) ============
+    %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
         direction LR
-        ST1[" "]:::store_spacer
-        ST2[" "]:::store_spacer
-        MYSQL["🗃️ MySQL"]
-        CACHE["💾 离线缓存"]
-        ST3[" "]:::store_spacer
-        ST4[" "]:::store_spacer
+        ST_SP1{{""}}
+        MYSQL{{"🗃️ MySQL<br/>alerts/locations"}}
+        CACHE{{"💾 离线缓存<br/>边境地图包"}}
+        ST_SP2{{""}}
     end
 
-    %% ============ 应用层(5个节点) ============
+    %% ============ 应用层 ============
     subgraph APP["<b>📱 应用层</b>"]
         direction LR
-        GIS["🗺️ GIS态势一图"]
-        SCREEN["📊 指挥大屏"]
-        TASK["✅ 任务执行"]
-        SENSOR["🔧 设备监控"]
-        WARN["🔴 预警工作台"]
+        GIS{{"🗺️ GIS态势一图<br/>五图层叠加"}}
+        SCREEN{{"📊 指挥大屏<br/>ECharts分析"}}
+        TASK{{"✅ 任务执行<br/>执法清单/取证"}}
+        SENSOR{{"🔧 设备监控<br/>健康度"}}
+        WARN{{"🔴 预警工作台<br/>实时线索"}}
+        A_SPACER{{""}}
     end
 
     %% ============ 数据流向 ============
@@ -196,10 +196,16 @@ flowchart TD
     RADAR --> LONGZHOU
     CAM1 --> PINGXIANG
     CAM2 --> DONGXING
+    S_SPACER -.- E_SPACER
 
     HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"↓ 边缘预处理"| FUSION
     FUSE --> AI --> RISK --> SSE
+    E_SPACER -.- F_SPACER
+
     SSE -->|"↓ 预警入库"| STORAGE
+    ST_SP1 -.- F_SPACER
+    F_SPACER -.- A_SPACER
+
     STORAGE -->|"↓ 数据查询"| APP
     MYSQL -.->|"双向读写"| APP
 
@@ -207,11 +213,10 @@ flowchart TD
     classDef SENSING fill:#e1f5fe,stroke:#03a9f4,stroke-width:3px,color:#01579b
     classDef EDGE fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#4a148c
     classDef FUSION fill:#c8e6c9,stroke:#43a047,stroke-width:3px,color:#1b5e20
-    classDef fuse_spacer fill:#c8e6c9,stroke:#43a047,stroke-width:0px,color:#c8e6c9
     classDef STORAGE fill:#fff3e0,stroke:#fb8c00,stroke-width:3px,color:#e65100
-    classDef store_spacer fill:#fff3e0,stroke:#fb8c00,stroke-width:0px,color:#fff3e0
     classDef APP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px,color:#1b5e20
     classDef TITLE fill:#0a0e17,stroke:#3b82f6,stroke-width:2px,color:#f9fafb,font-size:16px
+    classDef SPACER fill:none,stroke:none,color:none,width:0,height:0
 
     class SENSING SENSING
     class EDGE EDGE
@@ -219,6 +224,7 @@ flowchart TD
     class STORAGE STORAGE
     class APP APP
     class TITLE TITLE
+    class S_SPACER & E_SPACER & F_SPACER & ST_SP1 & ST_SP2 & A_SPACER SPACER
 ```
 
 ---
