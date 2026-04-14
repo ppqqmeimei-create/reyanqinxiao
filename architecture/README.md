@@ -124,6 +124,96 @@ flowchart TD
 
 ---
 
+### 系统技术架构图
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+    'fontSize': '12px',
+    'nodeSpacing': '15',
+    'rankSpacing': '40'
+}}}%%
+flowchart TD
+    %% ============ 主标题 ============
+    TITLE["<b>🔥 热眼擒枭 - 系统技术架构图</b>"]
+
+    %% ============ 感知层 ============
+    subgraph SENSING["<b>🛰️ 感知层</b>"]
+        direction LR
+        DRONE["🚁 无人机巡检系统<br/><sub>广西总部调度模块</sub>"]
+        FIBER["〰️ 边界震动光纤<br/><sub>那坡界碑/靖西岳坑</sub>"]
+        RADAR["📡 活体探测雷达<br/><sub>凭祥/龙州水口</sub>"]
+        CAM1["📹 卡口抓拍摄像头<br/><sub>万尾金滩/友谊关</sub>"]
+        CAM2["📷 红外热成像摄像头<br/><sub>友谊关/东兴/龙州/那坡</sub>"]
+    end
+
+    %% ============ 边缘计算节点 ============
+    subgraph EDGE["<b>⚡ 边缘计算节点</b>"]
+        direction LR
+        HQ["🏢 EDGE-GX-HQ<br/><sub>广西总部指挥节点</sub>"]
+        NAPO["📍 EDGE-NAPO-01<br/><sub>那坡节点(百色)</sub>"]
+        LONGZHOU["📍 EDGE-LONGZHOU-01<br/><sub>龙州节点(崇左)</sub>"]
+        PINGXIANG["📍 EDGE-PINGXIANG-01<br/><sub>凭祥节点(崇左)</sub>"]
+        DONGXING["📍 EDGE-DONGXING-01<br/><sub>东兴节点(防城港)</sub>"]
+    end
+
+    %% ============ 数据融合层 ============
+    subgraph FUSION["<b>🧠 数据融合层</b>"]
+        direction LR
+        FUSE["🔗 多传感器时空融合引擎<br/><sub>坐标对齐/时间戳同步/冲突消除</sub>"]
+        AI["🤖 AI物种识别模块<br/><sub>CITES等级判定&置信度评分</sub>"]
+        RISK["📊 风险分引擎<br/><sub>0-100分·历史案件加权</sub>"]
+        SSE["🚨 SSE实时推送<br/><sub>预警消息</sub>"]
+    end
+
+    %% ============ 存储层 ============
+    subgraph STORAGE["<b>🗄️ 存储层</b>"]
+        direction LR
+        MYSQL["🗃️ MySQL<br/><sub>alerts/locations/devices/tasks</sub>"]
+        CACHE["💾 本地离线缓存<br/><sub>广西边境离线地图包</sub>"]
+    end
+
+    %% ============ 应用层 ============
+    subgraph APP["<b>📱 应用层 (Vue.js + uni-app)</b>"]
+        direction LR
+        GIS["🗺️ GIS态势一图<br/><sub>五图层叠加显示</sub>"]
+        SCREEN["📊 指挥大屏<br/><sub>ECharts时段分析</sub>"]
+        TASK["✅ 任务执行页<br/><sub>执法检查清单+取证水印</sub>"]
+        SENSOR["🔧 传感器网络页<br/><sub>设备健康度监控</sub>"]
+        WARN["🔴 预警工作台<br/><sub>实时线索流</sub>"]
+    end
+
+    %% ============ 数据流向 ============
+    SENSING -->|"↓ 实时采集"| EDGE
+    DRONE -->|"→"| HQ
+    FIBER -->|"→"| NAPO
+    RADAR -->|"→"| LONGZHOU
+    CAM1 -->|"→"| PINGXIANG
+    CAM2 -->|"→"| DONGXING
+
+    HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"↓ 边缘预处理"| FUSION
+    FUSE -->|"→ 时空融合"| AI -->|"→ 物种识别"| RISK -->|"→ 风险评分"| SSE
+    SSE -->|"↓ 预警入库"| STORAGE
+    STORAGE -->|"↓ 数据查询"| APP
+    MYSQL -.->|"双向读写"| APP
+
+    %% ============ 样式定义 ============
+    classDef SENSING fill:#e1f5fe,stroke:#03a9f4,stroke-width:3px,color:#01579b
+    classDef EDGE fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#4a148c
+    classDef FUSION fill:#c8e6c9,stroke:#43a047,stroke-width:3px,color:#1b5e20
+    classDef STORAGE fill:#fff3e0,stroke:#fb8c00,stroke-width:3px,color:#e65100
+    classDef APP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px,color:#1b5e20
+    classDef TITLE fill:#0a0e17,stroke:#3b82f6,stroke-width:2px,color:#f9fafb,font-size:18px
+
+    class SENSING SENSING
+    class EDGE EDGE
+    class FUSION FUSION
+    class STORAGE STORAGE
+    class APP APP
+    class TITLE TITLE
+```
+
+---
+
 ### 架构特点
 
 - **🛰️ 多源感知**: 7类传感器协同，覆盖红外、雷达、震动、视觉、水质等多种维度
