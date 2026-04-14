@@ -36,14 +36,7 @@ export const taskValidationRules = {
     }
   },
   
-  // 食品药品任务验证规则
-  fooddrug: {
-    title: {
-      required: true,
-      minLength: 5,
-      maxLength: 200,
-      pattern: /^[\u4e00-\u9fa5a-zA-Z0-9\-_]+$/
-    },
+
     type: {
       required: true,
       enum: ['product-inspection', 'recall-management', 'compliance-check', 'enterprise-audit']

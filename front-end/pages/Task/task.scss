@@ -1,122 +1,223 @@
 /* ==========================================
    任务页面 - 全局样式
-   生态警务专业设计
+   借鉴参考项目 + 走私防控业务增强
    ========================================== */
 
 /* ==========================================
-   页面容器
+   页面容器 + 背景增强
+   借鉴参考项目 GIS 暗色网格风格
    ========================================== */
 .task-page {
 	width: 100vw;
 	min-height: 100vh;
-	background: var(--bg-root);
-	padding: calc(env(safe-area-inset-top) + 24rpx) calc(24rpx + env(safe-area-inset-left)) calc(env(safe-area-inset-bottom) + 120rpx) calc(24rpx + env(safe-area-inset-right));
+	background: #060a14;
+	padding: calc(env(safe-area-inset-top) + 24rpx) calc(24rpx + env(safe-area-inset-left)) calc(env(safe-area-inset-bottom) + 200rpx) calc(24rpx + env(safe-area-inset-right));
 	display: flex;
 	flex-direction: column;
-	gap: 24rpx;
+	gap: 20rpx;
+	position: relative;
+}
+
+/* 页面暗色网格背景（借鉴参考项目） */
+.page-bg-grid {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	background:
+		linear-gradient(to right, rgba(0, 212, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(0, 212, 255, 0.025) 1px, transparent 1px);
+	background-size: 80rpx 80rpx;
+	opacity: 0.6;
+}
+
+.page-bg-glow {
+	position: fixed;
+	top: -200rpx;
+	right: -100rpx;
+	width: 600rpx;
+	height: 600rpx;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(0, 80, 120, 0.06) 0%, transparent 70%);
+	pointer-events: none;
+	z-index: 0;
 }
 
 /* ==========================================
    任务头部卡片
    ========================================== */
 .task-header {
-	background: rgba(12, 27, 42, 0.88);
-	backdrop-filter: blur(16rpx);
+	position: relative;
+	background: rgba(12, 27, 42, 0.95);
+	backdrop-filter: blur(20rpx) saturate(180%);
 	border-radius: 24rpx;
-	padding: 32rpx;
-	border: 1px solid var(--line-soft);
-	box-shadow: 0 14rpx 34rpx rgba(0, 0, 0, 0.42);
+	padding: 0 32rpx 28rpx;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	box-shadow: 0 16rpx 40rpx rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	z-index: 1;
+	transition: all 0.3s ease;
+
+	/* 按优先级差异化边框发光 */
+	&.priority-urgent {
+		border-color: rgba(255, 77, 79, 0.4);
+		box-shadow: 0 16rpx 40rpx rgba(255, 77, 79, 0.2), 0 0 0 1px rgba(255, 77, 79, 0.1);
+	}
+	&.priority-high {
+		border-color: rgba(255, 169, 64, 0.35);
+		box-shadow: 0 16rpx 40rpx rgba(255, 169, 64, 0.15);
+	}
+	&.priority-medium {
+		border-color: rgba(0, 212, 255, 0.3);
+		box-shadow: 0 16rpx 40rpx rgba(0, 212, 255, 0.1);
+	}
+}
+
+/* 顶部动态渐变光条（借鉴参考项目） */
+.header-top-bar {
+	height: 5rpx;
+	width: 100%;
+	margin: 0 -32rpx;
+	margin-bottom: 24rpx;
+
+	&.bar-urgent {
+		background: linear-gradient(90deg, #FF4D4F 0%, #ff7875 50%, #FF4D4F 100%);
+		background-size: 200% 100%;
+		animation: headerBarFlow 2s linear infinite;
+	}
+	&.bar-high {
+		background: linear-gradient(90deg, #FFA940 0%, #ffc53d 50%, #FFA940 100%);
+		background-size: 200% 100%;
+		animation: headerBarFlow 3s linear infinite;
+	}
+	&.bar-medium {
+		background: linear-gradient(90deg, #00d4ff 0%, #66e0ff 50%, #00d4ff 100%);
+		background-size: 200% 100%;
+		animation: headerBarFlow 3.5s linear infinite;
+	}
+}
+
+@keyframes headerBarFlow {
+	0%   { background-position: 0% 0%; }
+	100% { background-position: 200% 0%; }
 }
 
 .header-top {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 20rpx;
+	margin-bottom: 16rpx;
 }
 
+/* 案件编号徽章 */
 .case-badge {
-	padding: 12rpx 24rpx;
+	padding: 10rpx 22rpx;
 	border-radius: 100rpx;
 	border: 2rpx solid;
 	display: flex;
 	align-items: center;
 	gap: 8rpx;
-}
+	transition: all 0.3s ease;
 
-.case-badge.priority-urgent {
-	background: rgba(255, 77, 79, 0.2);
-	border-color: #FF4D4F;
-}
-
-.case-badge.priority-high {
-	background: rgba(255, 169, 64, 0.2);
-	border-color: #FFA940;
-}
-
-.case-badge.priority-medium {
-	background: rgba(0, 212, 255, 0.2);
-	border-color: #00d4ff;
+	&.priority-urgent {
+		background: rgba(255, 77, 79, 0.2);
+		border-color: #FF4D4F;
+	}
+	&.priority-high {
+		background: rgba(255, 169, 64, 0.18);
+		border-color: #FFA940;
+	}
+	&.priority-medium {
+		background: rgba(0, 212, 255, 0.15);
+		border-color: rgba(0, 212, 255, 0.6);
+	}
 }
 
 .case-number {
-	font-size: 24rpx;
+	font-size: 22rpx;
 	font-weight: 700;
 	font-family: 'Courier New', monospace;
 	letter-spacing: 1rpx;
 }
 
-.priority-urgent .case-number {
-	color: #FF4D4F;
-}
+.priority-urgent .case-number { color: #FF4D4F; }
+.priority-high  .case-number { color: #FFA940; }
+.priority-medium .case-number { color: #00d4ff; }
 
-.priority-high .case-number {
-	color: #FFA940;
-}
-
-.priority-medium .case-number {
-	color: #00d4ff;
-}
-
+/* 状态徽章 + 脉冲指示灯 */
 .status-badge {
-	padding: 8rpx 20rpx;
+	padding: 8rpx 18rpx;
 	border-radius: 100rpx;
 	display: flex;
 	align-items: center;
-	gap: 8rpx;
-}
+	gap: 10rpx;
+	transition: all 0.3s ease;
 
-.status-badge.status-pending {
-	background: rgba(140, 140, 140, 0.2);
-	border: 1rpx solid #8c8c8c;
-}
-
-.status-badge.status-in-progress {
-	background: rgba(16, 185, 129, 0.2);
-	border: 1rpx solid #10b981;
-}
-
-.status-badge.status-completed {
-	background: rgba(115, 209, 61, 0.2);
-	border: 1rpx solid #73D13D;
+	&.status-pending {
+		background: rgba(140, 140, 140, 0.15);
+		border: 1rpx solid rgba(140, 140, 140, 0.4);
+	}
+	&.status-in-progress {
+		background: rgba(16, 185, 129, 0.15);
+		border: 1rpx solid rgba(16, 185, 129, 0.5);
+	}
+	&.status-completed {
+		background: rgba(115, 209, 61, 0.12);
+		border: 1rpx solid rgba(115, 209, 61, 0.4);
+	}
 }
 
 .status-dot {
-	width: 12rpx;
-	height: 12rpx;
+	width: 14rpx;
+	height: 14rpx;
 	border-radius: 50%;
 	background: currentColor;
-	animation: statusBlink 2s ease-in-out infinite;
+	flex-shrink: 0;
+	transition: all 0.3s ease;
 }
 
+.status-badge.status-pending .status-dot {
+	background: #8c8c8c;
+	box-shadow: 0 0 8rpx rgba(140, 140, 140, 0.5);
+}
+.status-badge.status-in-progress .status-dot {
+	background: #10b981;
+	box-shadow: 0 0 12rpx rgba(16, 185, 129, 0.7);
+	animation: statusBlink 2s ease-in-out infinite;
+}
+.status-badge.status-completed .status-dot {
+	background: #73D13D;
+	box-shadow: 0 0 10rpx rgba(115, 209, 61, 0.6);
+}
+
+/* 按优先级区分脉冲动画 */
+.status-dot.blink-critical {
+	background: #FF4D4F;
+	box-shadow: 0 0 14rpx #FF4D4F;
+	animation: blinkCritical 1s ease-in-out infinite;
+}
+.status-dot.blink-high {
+	background: #FFA940;
+	box-shadow: 0 0 12rpx #FFA940;
+	animation: blinkHigh 1.5s ease-in-out infinite;
+}
+
+@keyframes blinkCritical {
+	0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 14rpx #FF4D4F; }
+	50%       { opacity: 0.3; transform: scale(0.8); box-shadow: 0 0 4rpx #FF4D4F; }
+}
+@keyframes blinkHigh {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50%       { opacity: 0.4; transform: scale(0.85); }
+}
 @keyframes statusBlink {
 	0%, 100% { opacity: 1; }
-	50% { opacity: 0.3; }
+	50%       { opacity: 0.35; }
 }
 
 .status-text {
 	font-size: 22rpx;
-	font-weight: 600;
+	font-weight: 700;
 	color: #ffffff;
 }
 
@@ -150,6 +251,68 @@
 	font-size: 24rpx;
 	color: rgba(255, 255, 255, 0.8);
 	line-height: 1.5;
+}
+
+/* ── 截止时间倒计时变色 ── */
+.deadline-countdown.deadline-overdue { color: #FF4D4F !important; }
+.deadline-countdown.deadline-critical { color: #FF4D4F; animation: deadlineBlink .8s ease-in-out infinite; }
+.deadline-countdown.deadline-warning { color: #FFA940; }
+
+@keyframes deadlineBlink {
+	0%, 100% { opacity: 1; }
+	50%       { opacity: 0.4; }
+}
+
+/* ── 任务增强信息行：物种/风险/设备 ── */
+.task-info-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12rpx;
+	margin-bottom: 20rpx;
+}
+
+.info-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8rpx;
+	padding: 8rpx 16rpx;
+	border-radius: 100rpx;
+	border: 1.5rpx solid;
+	font-size: 22rpx;
+
+	&.species {
+		background: rgba(255,77,79,.12);
+		border-color: rgba(255,77,79,.4);
+	}
+	&.risk {
+		background: rgba(255,169,64,.12);
+		border-color: rgba(255,169,64,.4);
+	}
+	&.device {
+		background: rgba(0,212,255,.1);
+		border-color: rgba(0,212,255,.3);
+	}
+}
+
+.chip-icon { font-size: 22rpx; }
+.chip-txt  { color: #fff; font-weight: 600; }
+.chip-tag {
+	font-size: 18rpx;
+	padding: 2rpx 10rpx;
+	border-radius: 8rpx;
+	font-weight: 700;
+	&.level-国家一级 { background: rgba(255,77,79,.2); color: #FF4D4F; }
+	&.level-国家二级 { background: rgba(255,169,64,.2); color: #FFA940; }
+	&.level-CITES附录II { background: rgba(156,39,176,.2); color: #CE93D8; }
+	&.level-unknown { background: rgba(140,140,140,.15); color: #8c8c8c; }
+}
+.chip-score {
+	font-family: 'Courier New', monospace;
+	font-weight: 800;
+	&.risk-critical { color: #FF4D4F; }
+	&.risk-high     { color: #FFA940; }
+	&.risk-medium   { color: #00D4FF; }
+	&.risk-low      { color: #73D13D; }
 }
 
 /* 进度条 */
@@ -198,6 +361,71 @@
 	font-size: 22rpx;
 	color: rgba(255,255,255,0.82);
 }
+
+/* 联合案件号行+复制按钮 */
+.joint-case-row {
+	display: flex;
+	align-items: center;
+	gap: 16rpx;
+	margin-bottom: 8rpx;
+}
+.joint-copy-btn {
+	padding: 4rpx 16rpx;
+	background: rgba(0,212,255,.12);
+	border: 1rpx solid rgba(0,212,255,.3);
+	border-radius: 10rpx;
+	&:active { opacity: .7; }
+}
+.copy-btn-txt { font-size: 20rpx; color: #00D4FF; font-weight: 600; }
+
+/* 协同阶段进度 */
+.joint-stages {
+	display: flex;
+	gap: 8rpx;
+	margin: 12rpx 0;
+	flex-wrap: wrap;
+}
+.stage-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6rpx;
+	padding: 6rpx 14rpx;
+	border-radius: 100rpx;
+	font-size: 20rpx;
+	background: rgba(255,255,255,.06);
+	border: 1rpx solid rgba(255,255,255,.1);
+	color: rgba(255,255,255,.5);
+	&.done { background: rgba(115,209,61,.15); border-color: rgba(115,209,61,.4); color: #73D13D; }
+	&.active { background: rgba(0,212,255,.15); border-color: rgba(0,212,255,.5); color: #00D4FF; animation: stagePulse 2s ease-in-out infinite; }
+}
+.stage-dot { width: 10rpx; height: 10rpx; border-radius: 50%; background: currentColor; }
+.stage-label { font-size: 20rpx; font-weight: 600; }
+.stage-time { font-size: 18rpx; opacity: .7; }
+@keyframes stagePulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,.4); }
+	50%       { box-shadow: 0 0 0 6rpx rgba(0,212,255,0); }
+}
+
+/* 协同联系人 */
+.joint-dept-contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 10rpx;
+	margin-bottom: 10rpx;
+}
+.contact-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10rpx 16rpx;
+	background: rgba(255,255,255,.05);
+	border-radius: 10rpx;
+	border: 1rpx solid rgba(0,212,255,.2);
+	&:active { background: rgba(0,212,255,.1); }
+}
+.contact-dept { font-size: 22rpx; color: #00D4FF; font-weight: 600; }
+.contact-phone { font-size: 20rpx; color: rgba(255,255,255,.7); }
+
 
 .joint-timeline {
 	margin-top: 8rpx;
@@ -445,6 +673,13 @@
 .tab-icon {
 	font-size: 32rpx;
 	line-height: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.tab-icon-img {
+	width: 40rpx;
+	height: 40rpx;
 }
 
 .tab-label {
@@ -492,19 +727,250 @@
 
 /* ==========================================
    底部操作栏
+   借鉴参考项目 + 增强渐变样式
    ========================================== */
 .footer-actions {
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: 24rpx calc(24rpx + env(safe-area-inset-left)) calc(24rpx + env(safe-area-inset-bottom)) calc(24rpx + env(safe-area-inset-right));
-	background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 26, 0.98) 20%);
-	backdrop-filter: blur(30rpx);
-	border-top: 1px solid rgba(255, 255, 255, 0.05);
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	padding: 20rpx calc(24rpx + env(safe-area-inset-left)) calc(20rpx + env(safe-area-inset-bottom)) calc(24rpx + env(safe-area-inset-right));
+	background: linear-gradient(180deg, transparent 0%, rgba(6, 10, 20, 0.99) 25%);
+	backdrop-filter: blur(30rpx) saturate(180%);
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+	z-index: 100;
+}
+
+/* 快速操作按钮行 */
+.footer-quick-actions {
+	display: flex;
+	flex-direction: row;
 	gap: 12rpx;
+}
+
+.quick-btn {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6rpx;
+	padding: 16rpx 8rpx;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 18rpx;
+	transition: all 0.2s ease;
+
+	&:active {
+		transform: scale(0.95);
+		background: rgba(0, 212, 255, 0.1);
+		border-color: rgba(0, 212, 255, 0.3);
+	}
+}
+
+.quick-icon { font-size: 28rpx; }
+.quick-label {
+	font-size: 18rpx;
+	color: rgba(200, 220, 255, 0.6);
+	font-weight: 600;
+}
+
+/* 滑动完成任务按钮（借鉴参考项目 ActionSlider） */
+.complete-action-wrap {
+	width: 100%;
+	height: 96rpx;
+	border-radius: 48rpx;
+	overflow: hidden;
+	transition: all 0.3s ease;
+
+	&.slide-ready {
+		box-shadow: 0 8rpx 32rpx rgba(16, 185, 129, 0.5);
+	}
+}
+
+.slide-track {
+	position: relative;
+	width: 100%;
+	height: 96rpx;
+	background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+	border-radius: 48rpx;
+	overflow: hidden;
+	box-shadow: 0 10rpx 30rpx rgba(16, 185, 129, 0.35);
+}
+
+/* 滑动填充进度（向左填充） */
+.slide-progress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05));
+	pointer-events: none;
+	transition: width 0.05s linear;
+}
+
+/* 滑块 */
+.slide-knob {
+	position: absolute;
+	top: 8rpx;
+	left: 8rpx;
+	width: 80rpx;
+	height: 80rpx;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.3);
+	z-index: 2;
+	transition: left 0.05s linear;
+}
+
+.slide-arrow {
+	font-size: 40rpx;
+	color: #10b981;
+	font-weight: 300;
+}
+
+/* 文字标签 */
+.slide-label-wrap {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.slide-label-text {
+	font-size: 30rpx;
+	font-weight: 800;
+	color: rgba(255, 255, 255, 0.9);
+	letter-spacing: 8rpx;
+	text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   标签页增强（融合参考项目风格）
+   ========================================== */
+.tabs-container {
+	margin: 0 -24rpx;
+	padding: 0 calc(24rpx + env(safe-area-inset-left)) 0 calc(24rpx + env(safe-area-inset-right));
+}
+
+.tabs-scroll {
+	white-space: nowrap;
+}
+
+.tabs {
+	display: inline-flex;
+	gap: 12rpx;
+	padding-bottom: 4rpx;
+}
+
+.tab {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6rpx;
+	padding: 14rpx 24rpx;
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: 18rpx;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	min-width: 120rpx;
+
+	/* 各标签专属选中态 */
+	&.tab-evidence.active {
+		background: rgba(255, 77, 79, 0.12);
+		border-color: rgba(255, 77, 79, 0.5);
+		box-shadow: 0 4rpx 20rpx rgba(255, 77, 79, 0.2), 0 0 0 1px rgba(255, 77, 79, 0.1);
+	}
+	&.tab-checklist.active {
+		background: rgba(0, 212, 255, 0.1);
+		border-color: rgba(0, 212, 255, 0.5);
+		box-shadow: 0 4rpx 20rpx rgba(0, 212, 255, 0.2), 0 0 0 1px rgba(0, 212, 255, 0.1);
+	}
+	&.tab-sampling.active {
+		background: rgba(16, 185, 129, 0.1);
+		border-color: rgba(16, 185, 129, 0.5);
+		box-shadow: 0 4rpx 20rpx rgba(16, 185, 129, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.1);
+	}
+	&.tab-legal.active {
+		background: rgba(250, 173, 20, 0.1);
+		border-color: rgba(250, 173, 20, 0.5);
+		box-shadow: 0 4rpx 20rpx rgba(250, 173, 20, 0.2), 0 0 0 1px rgba(250, 173, 20, 0.1);
+	}
+	&.tab-record.active {
+		background: rgba(102, 126, 234, 0.1);
+		border-color: rgba(102, 126, 234, 0.5);
+		box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.2), 0 0 0 1px rgba(102, 126, 234, 0.1);
+	}
+
+	&:active {
+		transform: scale(0.96);
+	}
+}
+
+.tab-icon-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tab-icon-img {
+	width: 36rpx;
+	height: 36rpx;
+	opacity: 0.7;
+	transition: opacity 0.2s ease;
+}
+
+.tab.active .tab-icon-img {
+	opacity: 1;
+}
+
+.tab-label {
+	font-size: 22rpx;
+	color: rgba(255, 255, 255, 0.55);
+	font-weight: 600;
+	transition: color 0.2s ease;
+}
+
+.tab.active .tab-label {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+/* 数字角标（借鉴参考项目） */
+.tab-badge {
+	position: absolute;
+	top: -8rpx;
+	right: -10rpx;
+	min-width: 32rpx;
+	height: 32rpx;
+	padding: 0 8rpx;
+	background: #FF4D4F;
+	border-radius: 16rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2rpx 10rpx rgba(255, 77, 79, 0.55);
+	animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+	0%, 100% { box-shadow: 0 2rpx 10rpx rgba(255, 77, 79, 0.55); }
+	50%       { box-shadow: 0 2rpx 16rpx rgba(255, 77, 79, 0.8); }
+}
+
+.badge-num {
+	font-size: 18rpx;
+	color: #ffffff;
+	font-weight: 800;
 }
 
 .action-btn {

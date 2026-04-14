@@ -41,7 +41,11 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "privacyDescription" : {
+                    "NSCameraUsageDescription" : "摄像头权限用于AR物种识别功能，对准野生动物进行实时识别"
+                }
+            },
             /* SDK配置 */
             "sdkConfigs" : {}
         }
@@ -50,9 +54,18 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "touristappid",
+        "appid" : "wxec4aed41011d48ef",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true,
+            "es6" : true,
+            "enhance" : true,
+            "postcss" : true,
+            "preloadBackgroundData" : false,
+            "minifiedWXSS" : true,
+            "minifiedWXML" : true,
+            "svgo" : true,
+            "uglifyFileName" : false
         },
         "usingComponents" : true,
         "permission" : {
@@ -78,6 +91,16 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : ""
+                }
+            }
+        },
+        "title" : "热眼擒枭"
     },
     "vueVersion" : "3"
 }

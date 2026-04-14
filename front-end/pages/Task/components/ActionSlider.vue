@@ -8,7 +8,7 @@
 		<movable-area class="slider-area">
 			<movable-view class="slider-button" direction="horizontal" :x="sliderX" :disabled="disabled" @change="handleSliderChange" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
 				<view class="button-content">
-					<image class="button-icon" src="/static/icons-3/arrow-right-double.png" mode="aspectFit"></image>
+					<image class="button-icon" src="/static/icons/task-slide-arrow.png" mode="aspectFit"></image>
 				</view>
 			</movable-view>
 		</movable-area>

@@ -12,8 +12,13 @@
 					<view class="sm-status" :class="s.status"><text class="sm-status-txt">{{ s.statusText }}</text></view>
 				</view>
 				<view class="sm-item-row"><text class="sm-label">采样点：</text><text class="sm-val">{{ s.location }}</text></view>
-				<view class="sm-item-row"><text class="sm-label">检测值：</text><text class="sm-val danger">{{ s.value }} {{ s.unit }}</text><text class="sm-exceed">超标{{ s.exceed }}倍</text></view>
-				<view class="sm-item-row"><text class="sm-label">采样时间：</text><text class="sm-val">{{ s.time }}</text></view>
+				<view class="sm-item-row"><text class="sm-label">检测值：</text><text class="sm-val danger">{{ s.value }} {{ s.unit }}</text><text class="sm-exceed" v-if="s.exceed > 1">超标{{ s.exceed }}倍</text></view>
+				<view class="sm-item-row"><text class="sm-label">采样方法：</text><text class="sm-val-sm">{{ s.method || '--' }}</text></view>
+				<view class="sm-item-row"><text class="sm-label">采样时间：</text><text class="sm-val-sm">{{ s.time }}</text></view>
+				<view class="sm-chain-row" v-if="s.chainId">
+					<text class="sm-chain-label">存证编号：</text>
+					<text class="sm-chain-val">{{ s.chainId }}</text>
+				</view>
 			</view>
 		</view>
 		<view v-if="samples.length === 0" class="sm-empty">
@@ -26,11 +31,29 @@
 import { ref } from 'vue'
 const props = defineProps({ taskId: { type: Number, required: true } })
 const emit  = defineEmits(['sampleAdded'])
-const TYPES   = ['走私线索样本','活体物种样本','红外触发样本','边境防控样本']
-const UNITS   = { '走私线索样本':'mg/L', '活体物种样本':'mg/kg', '红外触发样本':'μg/m³', '边境防控样本':'mg/kg' }
+const TYPES   = [
+	'走私活体物种采样',
+	'环境DNA采样（eDNA）',
+	'涉案车辆/货物擦拭采样',
+	'水质样本采集',
+	'土壤/沉积物样本',
+	'大气样本采集',
+	'红外触发影像取证',
+	'气味分子采样（拉曼分析）'
+]
+const UNITS   = {
+	'走私活体物种采样': 'mg/kg',
+	'环境DNA采样（eDNA）': 'ng/μL',
+	'涉案车辆/货物擦拭采样': 'μg/cm²',
+	'水质样本采集': 'mg/L',
+	'土壤/沉积物样本': 'mg/kg',
+	'大气样本采集': 'μg/m³',
+	'红外触发影像取证': '张/次',
+	'气味分子采样（拉曼分析）': '拉曼峰/cm⁻¹'
+}
 const samples = ref([
-	{ id:'SMPL-001', type:'走私线索样本', location:'监测点A-01', value:3.52, unit:'mg/L', exceed:3.5, time:'09:15', status:'abnormal', statusText:'超标' },
-	{ id:'SMPL-002', type:'活体物种样本', location:'监测点B-01', value:0.82, unit:'mg/kg', exceed:0.8, time:'09:42', status:'normal', statusText:'正常' },
+	{ id:'SMPL-001', type:'走私活体物种采样', location:'友谊关GX-IR-201设备点', value:3.52, unit:'mg/kg', exceed:3.5, time:'09:15', status:'abnormal', statusText:'超标', method:'组织采样+拍照存档', chainId:'CHAIN-20260407-ABC123' },
+	{ id:'SMPL-002', type:'环境DNA采样（eDNA）', location:'凭祥河段监测点B', value:0.82, unit:'ng/μL', exceed:0.8, time:'09:42', status:'normal', statusText:'正常', method:'水体过滤+乙醇保存', chainId:'CHAIN-20260407-DEF456' },
 ])
 let counter = 3
 function addSample() {
@@ -76,6 +99,10 @@ function addSample() {
 .sm-val   { font-size:24rpx; color:#fff; flex:1;
 	&.danger { color:#FF4D4F; font-weight:700; font-family:'Courier New',monospace; }
 }
+.sm-val-sm { font-size:22rpx; color:#fff; flex:1; }
+.sm-chain-row { display:flex; align-items:center; gap:8rpx; margin-top:8rpx; padding-top:8rpx; border-top:1rpx dashed rgba(255,255,255,.08); }
+.sm-chain-label { font-size:18rpx; color:#8c8c8c; }
+.sm-chain-val { font-size:18rpx; color:#9be8ff; font-family:'Courier New',monospace; }
 .sm-exceed { font-size:20rpx; color:#FFA940; background:rgba(255,169,64,.15); padding:4rpx 12rpx; border-radius:8rpx; }
 .sm-empty { padding:48rpx 0; text-align:center; }
 .sm-empty-txt { font-size:26rpx; color:#595959; }

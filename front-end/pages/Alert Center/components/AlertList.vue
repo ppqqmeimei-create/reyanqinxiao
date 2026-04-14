@@ -8,6 +8,8 @@
 			@click="handleAlertClick(alert)"
 			@ignore="handleIgnore(alert)"
 			@createTask="handleCreateTask(alert)"
+			@investigate="handleInvestigate(alert)"
+			@archive="handleArchive(alert)"
 		/>
 	</view>
 </template>
@@ -19,11 +21,13 @@ const props = defineProps({
 	alerts: { type: Array, default: () => [] },
 	category: { type: String, default: 'enforcement' }
 })
-const emit = defineEmits(['alertClick', 'ignoreAlert', 'createTask'])
+const emit = defineEmits(['alertClick', 'ignoreAlert', 'createTask', 'investigateAlert', 'archiveAlert'])
 
 function handleAlertClick(alert) { emit('alertClick', alert) }
 function handleIgnore(alert) { emit('ignoreAlert', alert) }
 function handleCreateTask(alert) { emit('createTask', alert) }
+function handleInvestigate(alert) { emit('investigateAlert', alert) }
+function handleArchive(alert) { emit('archiveAlert', alert) }
 </script>
 
 <style lang="scss" scoped>

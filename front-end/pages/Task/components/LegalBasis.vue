@@ -26,8 +26,11 @@
 <script setup>
 import { ref } from 'vue'
 const props = defineProps({
-	violationType: { type: String, default: 'water-pollution' },
-	exceedRatio:   { type: Number, default: 1.0 }
+	violationType: { type: String, default: 'wildlife' },
+	exceedRatio:   { type: Number, default: 1.0 },
+	caseNumber:     { type: String, default: '' },
+	legalBasis:     { type: String, default: '' },
+	penaltySuggestion: { type: String, default: '' }
 })
 const laws = ref([
 	{ name:'《野生动物保护法》',             article:'第二十三条',     level:'critical', levelText:'强制', content:'禁止出售、购买、利用国家重点保护野生动物及其制品。违反本条规定的，由县级以上人民政府野生动物保护主管部门没收野生动物及其制品和违法所得，并处野生动物及其制品价值二倍以上十倍以下的罚款。', penalty:'没收违法所得 + 罚款2-10倍价值', expanded: true },

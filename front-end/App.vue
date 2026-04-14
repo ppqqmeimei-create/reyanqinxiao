@@ -2,21 +2,50 @@
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 import { useRealtimeStore } from './stores/realtime'
 import { useUserStore } from './stores/user'
-import { initSyncEngine, startSync, getSyncStatus } from './utils/syncEngine'
+import { useAppStore } from './stores/app'
+import { useEvidenceStore } from './stores/evidence'
+import { useSecurityStore } from './stores/security'
+import { useOfflineStore } from './stores/offline'
+import { useSensorStore } from './stores/sensor'
+import { initSyncEngine, startSync } from './utils/syncEngine'
 import { getPendingCount } from './utils/evidenceStorage'
 import { getOfflineQueueStats } from './utils/offlineQueue'
+import { SYSTEM_CONFIG } from './utils/systemConfig.js'
 
 onLaunch(() => {
 	console.log('[App] 热眼擒枭系统启动 v2.0.0')
+	console.log('[App] 服务对象：', SYSTEM_CONFIG.owner)
+	console.log('[App] 业务领域：', SYSTEM_CONFIG.domain)
 
-	// 初始化取证同步引擎
+	const appStore = useAppStore()
+	const evidenceStore = useEvidenceStore()
+	const securityStore = useSecurityStore()
+	const offlineStore = useOfflineStore()
+	const sensorStore = useSensorStore()
+
+	appStore.init()
+	evidenceStore.init()
+	securityStore.init()
+	offlineStore.init()
+	sensorStore.init()
+	_applyGlobalCSSVariables(appStore)
+
+	uni.$on('app:toggle-night-mode', () => {
+		appStore.toggleNightMode()
+		_applyGlobalCSSVariables(appStore)
+	})
+
+	uni.$on('app:toggle-glove-mode', () => {
+		appStore.toggleGloveMode()
+	})
+
 	initSyncEngine()
 
-	// 监听网络状态变化
 	uni.onNetworkStatusChange(async (res) => {
 		uni.setStorageSync('network_type', res.networkType)
+		offlineStore.setOnlineStatus(res.isConnected)
+		offlineStore.setNetworkType(res.networkType)
 		if (res.isConnected) {
-			// 网络恢复时检查待同步数据
 			const pendingEvidence = getPendingCount()
 			const offlineQueues = getOfflineQueueStats()
 			if (pendingEvidence > 0) {
@@ -30,33 +59,43 @@ onLaunch(() => {
 		}
 	})
 
-	// 初始化网络状态
 	uni.getNetworkType({
 		success: async (res) => {
 			uni.setStorageSync('network_type', res.networkType)
+			offlineStore.setOnlineStatus(res.networkType !== 'none')
+			offlineStore.setNetworkType(res.networkType)
 			if (res.networkType !== 'none' && getPendingCount() > 0) {
 				await startSync()
 			}
-		}
+		},
 	})
 
-	// 监听同步进度事件
 	uni.$on('sync-progress', (data) => {
 		console.log('[App] 同步进度:', data)
-		if (data.status === 'done') {
-			uni.showToast({ title: '证据同步完成', icon: 'success' })
-		} else if (data.status === 'error') {
-			uni.showToast({ title: data.error || '同步失败', icon: 'none' })
-		}
+		if (data.status === 'done') uni.showToast({ title: '证据同步完成', icon: 'success' })
+		else if (data.status === 'error') uni.showToast({ title: data.error || '同步失败', icon: 'none' })
+	})
+
+	uni.$on('offline:sync-complete', (result) => {
+		console.log('[App] 离线数据同步完成:', result)
+		appStore.updateSyncStatus('success', new Date().toISOString())
+	})
+
+	uni.$on('offline:sync-error', (error) => {
+		console.error('[App] 离线同步失败:', error)
+		appStore.updateSyncStatus('error')
 	})
 })
+
+function _applyGlobalCSSVariables(appStore) {
+	const palette = appStore.currentNightPalette
+	uni.setStorageSync('night_palette', palette)
+}
 
 onShow(() => {
 	const userStore = useUserStore()
 	const realtimeStore = useRealtimeStore()
-	if (userStore.token) {
-		realtimeStore.connectWs()
-	}
+	if (userStore.token) realtimeStore.connectWs()
 })
 
 onHide(() => {
@@ -106,7 +145,7 @@ button {
 	box-sizing: border-box;
 }
 
-/* 通用卡片样式 */
+/* ===== 通用卡片样式 ===== */
 .data-card {
 	background: var(--bg-card-soft);
 	backdrop-filter: blur(12px);
@@ -117,7 +156,6 @@ button {
 	box-shadow: var(--shadow-card);
 }
 
-/* 卡片标题 */
 .card-title {
 	font-size: 30rpx;
 	font-weight: 700;
@@ -129,7 +167,7 @@ button {
 	gap: 12rpx;
 }
 
-/* 危险按钮 */
+/* ===== 危险按钮 ===== */
 .danger-button {
 	width: 100%;
 	height: 96rpx;
@@ -145,14 +183,14 @@ button {
 	color: var(--alert-critical);
 }
 
-/* 分割线 */
+/* ===== 分割线 ===== */
 .inset-divider {
 	height: 1px;
 	background: var(--line-soft);
 	margin: 24rpx 0;
 }
 
-/* 物理开关样式 */
+/* ===== 物理开关样式 ===== */
 .physical-switch {
 	width: 100rpx;
 	height: 56rpx;
@@ -162,62 +200,55 @@ button {
 	display: flex;
 	align-items: center;
 }
-
 .physical-switch.active {
 	background: var(--line-soft);
 	border: 1px solid var(--line-strong);
 }
-
 .switch-slider {
 	width: 44rpx;
 	height: 44rpx;
 	border-radius: 22rpx;
 	background: #5A7288;
 }
-
 .physical-switch.active .switch-slider {
 	transform: translateX(44rpx);
 	background: var(--brand-primary);
 }
 
-/* 文本省略 */
+/* ===== 文本省略 ===== */
 .ellipsis {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
 .monospace-text {
 	font-family: 'Consolas', 'Courier New', monospace;
 }
 
-/* 预警标签 */
+/* ===== 预警标签 ===== */
 .alert-tag {
 	padding: 6rpx 16rpx;
 	border-radius: 8rpx;
 	font-size: 22rpx;
 	font-weight: 600;
 }
-
 .alert-tag.critical {
 	background: rgba(255, 77, 79, 0.2);
 	color: var(--alert-critical);
 	border: 1px solid rgba(255, 77, 79, 0.4);
 }
-
 .alert-tag.warning {
 	background: rgba(255, 169, 64, 0.2);
 	color: var(--alert-warning);
 	border: 1px solid rgba(255, 169, 64, 0.4);
 }
-
 .alert-tag.info {
 	background: rgba(114, 46, 209, 0.2);
 	color: var(--alert-info);
 	border: 1px solid rgba(114, 46, 209, 0.4);
 }
 
-/* 设备状态标签 */
+/* ===== 设备状态标签 ===== */
 .device-status {
 	display: inline-flex;
 	align-items: center;
@@ -227,26 +258,23 @@ button {
 	font-size: 20rpx;
 	font-weight: 600;
 }
-
 .device-status.online {
 	background: rgba(115, 209, 61, 0.2);
 	color: var(--device-online);
 	border: 1px solid var(--device-online);
 }
-
 .device-status.warning {
 	background: rgba(255, 169, 64, 0.2);
 	color: var(--device-warning);
 	border: 1px solid var(--device-warning);
 }
-
 .device-status.offline {
 	background: rgba(140, 140, 140, 0.2);
 	color: var(--device-offline);
 	border: 1px solid var(--device-offline);
 }
 
-/* 任务状态标签 */
+/* ===== 任务状态标签 ===== */
 .task-status {
 	display: inline-block;
 	padding: 4rpx 12rpx;
@@ -254,28 +282,13 @@ button {
 	font-size: 20rpx;
 	font-weight: 600;
 }
+.task-status.pending { background: rgba(140, 163, 184, 0.2); color: var(--task-pending); }
+.task-status.in-progress,
+.task-status.progress { background: rgba(0, 212, 255, 0.2); color: var(--task-progress); }
+.task-status.completed { background: rgba(115, 209, 61, 0.2); color: var(--task-completed); }
+.task-status.cancelled { background: rgba(140, 163, 184, 0.2); color: var(--task-cancelled); }
 
-.task-status.pending {
-	background: rgba(140, 163, 184, 0.2);
-	color: var(--task-pending);
-}
-
-.task-status.in-progress, .task-status.progress {
-	background: rgba(0, 212, 255, 0.2);
-	color: var(--task-progress);
-}
-
-.task-status.completed {
-	background: rgba(115, 209, 61, 0.2);
-	color: var(--task-completed);
-}
-
-.task-status.cancelled {
-	background: rgba(140, 163, 184, 0.2);
-	color: var(--task-cancelled);
-}
-
-/* 按钮样式 */
+/* ===== 按钮样式 ===== */
 .btn-primary {
 	background: linear-gradient(135deg, #00D4FF, #0080B3);
 	color: #060A14;
@@ -283,7 +296,6 @@ button {
 	border: none;
 	border-radius: 52rpx;
 }
-
 .btn-danger {
 	background: linear-gradient(135deg, #FF4D4F, #B91C1C);
 	color: #fff;
@@ -291,7 +303,6 @@ button {
 	border: none;
 	border-radius: 52rpx;
 }
-
 .btn-secondary {
 	background: rgba(255, 255, 255, 0.08);
 	color: var(--text-main);
@@ -299,7 +310,7 @@ button {
 	border-radius: 52rpx;
 }
 
-/* 加载动画 */
+/* ===== 加载动画 ===== */
 .spinner {
 	width: 44rpx;
 	height: 44rpx;
@@ -308,14 +319,9 @@ button {
 	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-/* 脉冲动画 */
+/* ===== 脉冲动画 ===== */
 .pulse-dot {
 	width: 12rpx;
 	height: 12rpx;
@@ -323,19 +329,20 @@ button {
 	background: var(--brand-primary);
 	animation: pulse 2s ease-in-out infinite;
 }
-
 @keyframes pulse {
-	0%, 100% {
-		opacity: 1;
-		box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
-	}
-	50% {
-		opacity: 0.8;
-		box-shadow: 0 0 0 8rpx rgba(0, 212, 255, 0);
-	}
+	0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+	50% { opacity: 0.8; box-shadow: 0 0 0 8rpx rgba(0, 212, 255, 0); }
 }
 
-/* 响应式 */
+/* ===== 手套触控模式：全局触控放大 ===== */
+/* 通过 JS 动态设置 page 的 data-glove 属性来控制 */
+page[data-glove="true"] .glove-target {
+	min-height: 88rpx !important;
+	padding: 16rpx 24rpx !important;
+	font-size: 30rpx !important;
+}
+
+/* ===== 响应式 ===== */
 @media (min-width: 1024px) {
 	page {
 		max-width: 1680rpx;

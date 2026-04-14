@@ -13,6 +13,7 @@
 		</view>
 		<view class="model-meta">
 			<view class="meta-item"><text class="meta-label">模型大小</text><text class="meta-value">{{ modelInfo.size }} MB</text></view>
+			<view class="meta-item"><text class="meta-label">上次更新</text><text class="meta-value last-update">{{ lastUpdateTime }}</text></view>
 		</view>
 		<view v-if="updateAvailable" class="update-section">
 			<view class="inset-divider"></view>
@@ -39,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 const props = defineProps({
 	modelInfo: { type: Object, required: true },
 	updateAvailable: { type: Boolean, default: false }
@@ -47,14 +48,32 @@ const props = defineProps({
 const emit = defineEmits(['update'])
 const isUpdating = ref(false)
 const updateProgress = ref(0)
+const lastUpdateTime = ref('--')
+
 function handleUpdate() {
 	if (isUpdating.value) return
 	isUpdating.value = true; updateProgress.value = 0
 	const t = setInterval(() => {
 		updateProgress.value += 5
-		if (updateProgress.value >= 100) { clearInterval(t); setTimeout(() => { isUpdating.value = false; emit('update') }, 500) }
+		if (updateProgress.value >= 100) { clearInterval(t); setTimeout(() => {
+			isUpdating.value = false
+			lastUpdateTime.value = formatNow()
+			emit('update')
+		}, 500) }
 	}, 100)
 }
+
+function formatNow() {
+	const d = new Date()
+	const pad = n => String(n).padStart(2, '0')
+	return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+onMounted(() => {
+	// 从本地存储读取上次更新时间（无则显示空）
+	const stored = uni.getStorageSync('model_last_update')
+	lastUpdateTime.value = stored || '--'
+})
 </script>
 
 <style lang="scss" scoped>
@@ -71,8 +90,9 @@ function handleUpdate() {
 .status-text { font-size: 20rpx; font-weight: 600; }
 .model-meta { display: flex; gap: 32rpx; margin-bottom: 24rpx; }
 .meta-item { flex: 1; display: flex; flex-direction: column; gap: 8rpx; padding: 20rpx; background: rgba(255,255,255,0.05); border-radius: 12rpx; border: 1px solid var(--line-soft); }
-.meta-label { font-size: 20rpx; color: #8c8c8c; }
-.meta-value { font-size: 24rpx; color: #ffffff; font-weight: 600; font-family: Courier New, monospace; }
+ .meta-label { font-size: 20rpx; color: #8c8c8c; }
+ .meta-value { font-size: 24rpx; color: #ffffff; font-weight: 600; font-family: Courier New, monospace; }
+ .meta-value.last-update { font-size: 20rpx; color: #8c8c8c; }
 .update-section { margin-bottom: 24rpx; }
 .update-info { padding: 32rpx; background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2); border-radius: 16rpx; }
 .update-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24rpx; }

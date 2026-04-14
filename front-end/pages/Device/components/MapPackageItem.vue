@@ -11,14 +11,14 @@
 		</view>
 		<view class="package-actions">
 			<view v-if="pkg.status === 'downloaded'" class="action-group">
-				<view class="status-badge downloaded"><text class="badge-text">???</text></view>
-				<view class="action-btn delete" @tap="emit('delete', pkg)"><text class="btn-text">??</text></view>
+				<view class="status-badge downloaded"><text class="badge-text">已下载</text></view>
+				<view class="action-btn delete" @tap="emit('delete', pkg)"><text class="btn-text">删除</text></view>
 			</view>
 			<view v-else-if="pkg.status === 'downloading'" class="downloading-progress">
 				<view class="progress-bar"><view class="progress-fill" :style="{ width: pkg.progress + '%' }"></view></view>
 				<text class="progress-text">{{ pkg.progress }}%</text>
 			</view>
-			<view v-else class="action-btn download" @tap="emit('download', pkg)"><text class="btn-text">??</text></view>
+			<view v-else class="action-btn download" @tap="emit('download', pkg)"><text class="btn-text">下载</text></view>
 		</view>
 	</view>
 </template>
@@ -29,10 +29,10 @@ const emit = defineEmits(['download', 'delete'])
 
 function formatUpdateTime(time) {
 	const diff = Math.floor((Date.now() - new Date(time)) / 1000)
-	if (diff < 86400)          return '????'
-	if (diff < 86400 * 7)     return Math.floor(diff / 86400) + '????'
-	if (diff < 86400 * 30)    return Math.floor(diff / 86400 / 7) + '????'
-	return Math.floor(diff / 86400 / 30) + '????'
+	if (diff < 86400)          return '今天'
+	if (diff < 86400 * 7)     return Math.floor(diff / 86400) + '天前'
+	if (diff < 86400 * 30)    return Math.floor(diff / 86400 / 7) + '周前'
+	return Math.floor(diff / 86400 / 30) + '月前'
 }
 </script>
 

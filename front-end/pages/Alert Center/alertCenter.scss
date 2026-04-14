@@ -133,10 +133,11 @@
 /* ==========================================
    色彩规范 - 预警分级
    ========================================== */
-$color-critical: #FF4D4F;      // 高危红
-$color-warning: #FFA940;       // 预警橙
+$color-critical: #FF4D4F;      // 紧急-红色
+$color-warning: #FFA940;       // 关注-橙色
+$color-caution: #FAAD14;       // 提示-黄色（新增）
+$color-success: #73D13D;       // 一般/安全绿
 $color-handled: #595959;       // 已处理灰
-$color-success: #73D13D;       // 安全绿
 $color-primary: var(--brand-primary);       // 全息蓝
 $color-bg-dark: var(--bg-root);       // 深色背景
 $color-bg-card: var(--bg-card);       // 卡片背景
@@ -265,64 +266,33 @@ $color-text-secondary: #8CA3B8; // 次要文字
 /* ==========================================
    预警级别颜色类
    ========================================== */
-.level-critical {
-	color: $color-critical;
-	border-color: $color-critical;
-	background: rgba(255, 77, 79, 0.1);
-}
-
-.level-warning {
-	color: $color-warning;
-	border-color: $color-warning;
-	background: rgba(255, 169, 64, 0.1);
-}
-
-.level-handled {
-	color: $color-handled;
-	border-color: $color-handled;
-	background: rgba(89, 89, 89, 0.1);
-}
+.level-critical { color: $color-critical; border-color: $color-critical; background: rgba(255, 77, 79, 0.1); }
+.level-warning  { color: $color-warning;  border-color: $color-warning;  background: rgba(255, 169, 64, 0.1); }
+.level-caution  { color: $color-caution;  border-color: $color-caution;  background: rgba(250, 173, 20, 0.1); }
+.level-low      { color: $color-success;  border-color: $color-success;  background: rgba(115, 209, 61, 0.08); }
+.level-handled  { color: $color-handled;  border-color: $color-handled;  background: rgba(89, 89, 89, 0.08); }
 
 /* ==========================================
    发光效果
    ========================================== */
-.glow-critical {
-	text-shadow: 0 0 20rpx $color-critical;
-	box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.6);
-}
-
-.glow-warning {
-	text-shadow: 0 0 20rpx $color-warning;
-	box-shadow: 0 0 20rpx rgba(255, 169, 64, 0.6);
-}
+.glow-critical { text-shadow: 0 0 20rpx $color-critical; box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.6); }
+.glow-warning  { text-shadow: 0 0 20rpx $color-warning;  box-shadow: 0 0 20rpx rgba(255, 169, 64, 0.6); }
 
 /* ==========================================
    脉冲动画
    ========================================== */
 @keyframes pulse-critical {
-	0%, 100% {
-		box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.6);
-	}
-	50% {
-		box-shadow: 0 0 40rpx rgba(255, 77, 79, 1);
-	}
+	0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.7); }
+	50%       { box-shadow: 0 0 0 12rpx rgba(255, 77, 79, 0); }
 }
 
-@keyframes pulse-warning {
-	0%, 100% {
-		box-shadow: 0 0 20rpx rgba(255, 169, 64, 0.6);
-	}
-	50% {
-		box-shadow: 0 0 40rpx rgba(255, 169, 64, 1);
-	}
-}
-
-.pulse-critical {
-	animation: pulse-critical 2s ease-in-out infinite;
-}
-
-.pulse-warning {
-	animation: pulse-warning 2s ease-in-out infinite;
+/* ==========================================
+   30分钟内新增紧急预警红色脉冲（全局引用）
+   ========================================== */
+.ac-urgent-new {
+	animation: pulse-critical 1.8s ease-in-out infinite;
+	border-color: rgba(255, 77, 79, 0.5) !important;
+	background: rgba(255, 77, 79, 0.06) !important;
 }
 
 /* ==========================================

@@ -8,38 +8,11 @@
  * 用户角色配置
  */
 export const userRoles = {
-  ecology: {
-    key: 'ecology-inspector',
-    name: '生态巡查员',
-    department: '广西环食药侦查总队',
-    icon: '🌍',
-    color: '#10b981',
-    description: '负责环境资源检查工作',
-    permissions: [
-      'ecology-task',
-      'ecology-device',
-      'ecology-alert',
-      'ecology-report'
-    ]
-  },
-  fooddrug: {
-    key: 'fooddrug-inspector',
-    name: '食品药品检查员',
-    department: '广西环食药侦查总队',
-    icon: '🏥',
-    color: '#f59e0b',
-    description: '负责食品药品检查工作',
-    permissions: [
-      'fooddrug-task',
-      'fooddrug-device',
-      'fooddrug-alert',
-      'fooddrug-report'
-    ]
-  },
+
   enforcement: {
     key: 'enforcement-officer',
     name: '生态警务执法员',
-    department: '广西环食药侦查总队',
+    department: '热眼擒枭边境防控中心',
     icon: '👮',
     color: '#ef4444',
     description: '负责生态警务执法工作',
@@ -58,66 +31,6 @@ export const userRoles = {
  * 权限配置
  */
 export const permissions = {
-  // 生态巡查权限
-  'ecology-task': {
-    key: 'ecology-task',
-    name: '生态任务管理',
-    category: 'ecology',
-    description: '查看和管理生态/走私案件任务',
-    icon: '📋'
-  },
-  'ecology-device': {
-    key: 'ecology-device',
-    name: '生态设备管理',
-    category: 'ecology',
-    description: '查看和管理生态监测设备',
-    icon: '🔧'
-  },
-  'ecology-alert': {
-    key: 'ecology-alert',
-    name: '生态告警管理',
-    category: 'ecology',
-    description: '查看和处理生态/走私预警',
-    icon: '🚨'
-  },
-  'ecology-report': {
-    key: 'ecology-report',
-    name: '生态报告生成',
-    category: 'ecology',
-    description: '生成生态巡查报告',
-    icon: '📄'
-  },
-
-  // 食品药品权限
-  'fooddrug-task': {
-    key: 'fooddrug-task',
-    name: '食品药品任务管理',
-    category: 'fooddrug',
-    description: '查看和管理食品药品任务',
-    icon: '📋'
-  },
-  'fooddrug-device': {
-    key: 'fooddrug-device',
-    name: '食品药品设备管理',
-    category: 'fooddrug',
-    description: '查看和管理食品药品设备',
-    icon: '🔧'
-  },
-  'fooddrug-alert': {
-    key: 'fooddrug-alert',
-    name: '食品药品告警管理',
-    category: 'fooddrug',
-    description: '查看和处理食品药品告警',
-    icon: '🚨'
-  },
-  'fooddrug-report': {
-    key: 'fooddrug-report',
-    name: '食品药品报告生成',
-    category: 'fooddrug',
-    description: '生成食品药品检查报告',
-    icon: '📄'
-  },
-  
   // 执法权限
   'enforcement-task': {
     key: 'enforcement-task',

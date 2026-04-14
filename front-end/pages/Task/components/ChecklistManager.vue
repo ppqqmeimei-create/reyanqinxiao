@@ -35,7 +35,7 @@ const items = ref([
 	// ── 选查项（视现场情况执行）──
 	{ text: '询问走私链条上下游信息',                   required: false, checked: false },
 	{ text: '查验运输委托书与货运单据',                 required: false, checked: false },
-	{ text: '联络广西环食药侦查总队指挥部通报情况',     required: false, checked: false },
+	{ text: '联络热眼擒枭项目指挥中心通报情况',         required: false, checked: false },
 	{ text: '填写《广西边境活物走私执法处置记录表》',   required: false, checked: false },
 	{ text: '告知当事人处理意见及申诉权利',             required: false, checked: false },
 ])

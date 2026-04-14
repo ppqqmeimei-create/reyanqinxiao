@@ -1,327 +1,165 @@
-/**
- * 登录页面 - 用户维度和生物识别配置
- * 文件: front-end/pages/login/utils/loginConfig.js
- * 功能: 提供用户维度、生物识别、登录方式等配置
- */
+// ===== 登录页面配置 =====
+// 边境活物走私智能防控平台 - 用户维度与认证配置
 
-/**
- * 用户维度配置
- */
+// ===== 用户身份维度配置 =====
 export const userCategories = [
   {
-    value: 'ecology',
-    label: '生态巡查员',
-    icon: '🌍',
-    color: '#10b981',
-    department: '广西环食药侦查总队',
-    description: '负责生态资源与走私巡查工作'
+    value: 'frontline',
+    label: '一线执勤',
+    icon: '🛂',
+    department: '边境反走私支队',
+    description: '负责边境巡逻、走私预警响应、现场处置',
+    role: 'frontline',
+    permissions: ['view_alerts', 'respond_alert', 'update_status', 'view_map']
   },
   {
-    value: 'fooddrug',
-    label: '食品药品检查员',
-    icon: '🏥',
-    color: '#f59e0b',
-    department: '广西环食药侦查总队',
-    description: '负责食品药品检查工作'
+    value: 'investigator',
+    label: '侦查研判',
+    icon: '🕵️',
+    department: '边境反走私侦查中心',
+    description: '负责预警核查、情报分析、案件调查',
+    role: 'investigator',
+    permissions: ['view_alerts', 'investigate', 'create_case', 'view_stats', 'manage_evidence']
   },
   {
-    value: 'enforcement',
-    label: '生态警务执法员',
-    icon: '👮',
-    color: '#ef4444',
-    department: '广西环食药侦查总队',
-    description: '负责生态警务执法工作'
-  }
-];
-
-/**
- * 生物识别方式配置
- */
-export const biometricMethods = [
-  {
-    key: 'fingerprint',
-    name: '指纹识别',
-    icon: '👆',
-    description: '使用指纹进行身份验证',
-    supported: true
-  },
-  {
-    key: 'face',
-    name: '人脸识别',
-    icon: '😊',
-    description: '使用人脸进行身份验证',
-    supported: true
-  },
-  {
-    key: 'iris',
-    name: '虹膜识别',
-    icon: '👁️',
-    description: '使用虹膜进行身份验证',
-    supported: false
-  }
-];
-
-/**
- * 登录方式配置
- */
-export const loginMethods = [
-  {
-    key: 'password',
-    name: '密码登录',
-    icon: '🔐',
-    description: '使用警号和密码登录'
-  },
-  {
-    key: 'biometric',
-    name: '生物识别',
-    icon: '🔒',
-    description: '使用生物识别登录'
-  },
-  {
-    key: 'offline',
-    name: '离线登录',
+    value: 'commander',
+    label: '指挥调度',
     icon: '📡',
-    description: '使用本地凭证登录'
+    department: '边境反走私指挥中心',
+    description: '负责预警分配、任务派发、资源调度',
+    role: 'commander',
+    permissions: ['view_all', 'dispatch_task', 'view_stats', 'manage_users', 'manage_devices', 'export_data']
   }
-];
+]
 
-/**
- * 登录失败原因配置
- */
-export const loginFailureReasons = {
-  'invalid-credentials': '警号或密码错误',
-  'account-locked': '账户已被锁定',
-  'account-disabled': '账户已被禁用',
-  'biometric-mismatch': '生物识别不匹配',
-  'network-error': '网络连接失败',
-  'server-error': '服务器错误',
-  'invalid-category': '无效的用户分类',
-  'unknown': '未知错误'
-};
-
-/**
- * 获取用户分类信息
- */
-export function getUserCategory(categoryValue) {
-  return userCategories.find(c => c.value === categoryValue) || null;
+// ===== 生物识别配置 =====
+export const biometricConfig = {
+  enabled: true,
+  defaultMethod: 'fingerprint',
+  methods: [
+    { key: 'fingerprint', name: '指纹识别', icon: '👆', description: '使用指纹传感器验证身份' },
+    { key: 'face', name: '人脸识别', icon: '😊', description: '使用前置摄像头识别人脸' },
+    { key: 'iris', name: '虹膜识别', icon: '👁️', description: '使用虹膜扫描仪验证身份' }
+  ],
+  timeout: 30000,
+  retryLimit: 3
 }
 
-/**
- * 获取生物识别方式信息
- */
-export function getBiometricMethod(methodKey) {
-  return biometricMethods.find(m => m.key === methodKey) || null;
+// ===== 登录安全配置 =====
+export const securityConfig = {
+  maxAttempts: 5,
+  lockoutDuration: 60,
+  sessionTimeout: 7200000,
+  requireStrongPassword: true,
+  minPasswordLength: 6,
+  enableCaptcha: false,
+  captchaThreshold: 3
 }
 
-/**
- * 获取登录方式信息
- */
-export function getLoginMethod(methodKey) {
-  return loginMethods.find(m => m.key === methodKey) || null;
-}
-
-/**
- * 获取失败原因描述
- */
-export function getFailureReason(reasonKey) {
-  return loginFailureReasons[reasonKey] || loginFailureReasons['unknown'];
-}
-
-/**
- * 验证警号格式
- */
-export function validateBadgeNumber(badge) {
-  // 警号格式: 3-10位字母数字组合
-  const badgeRegex = /^[A-Z0-9]{3,10}$/i;
-  return badgeRegex.test(badge);
-}
-
-/**
- * 验证密码强度
- */
-export function validatePasswordStrength(password) {
-  if (password.length < 6) return { valid: false, level: 'weak', message: '密码至少6位' };
-  if (password.length < 8) return { valid: true, level: 'medium', message: '密码强度中等' };
-  if (/[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password)) {
-    return { valid: true, level: 'strong', message: '密码强度强' };
+// ===== 演示账号配置 =====
+export const demoAccounts = [
+  {
+    name: '演示-边防执勤员',
+    badgeNumber: 'BP-DEMO-001',
+    role: 'frontline',
+    category: 'frontline',
+    rank: '边防执勤员',
+    department: '广西边境执勤工作站'
+  },
+  {
+    name: '演示-侦查分析员',
+    badgeNumber: 'BP-DEMO-002',
+    role: 'investigator',
+    category: 'investigator',
+    rank: '侦查分析员',
+    department: '边境反走私侦查中心'
+  },
+  {
+    name: '演示-指挥调度员',
+    badgeNumber: 'BP-DEMO-003',
+    role: 'commander',
+    category: 'commander',
+    rank: '指挥调度员',
+    department: '广西边境反走私指挥中心'
   }
-  return { valid: true, level: 'medium', message: '密码强度中等' };
+]
+
+// ===== 角色权限映射 =====
+export const rolePermissions = {
+  frontline: [
+    'view_dashboard',
+    'view_alerts',
+    'respond_alert',
+    'view_map',
+    'view_tasks',
+    'update_task_status',
+    'view_devices',
+    'report_incident'
+  ],
+  investigator: [
+    'view_dashboard',
+    'view_alerts',
+    'investigate_alert',
+    'create_case',
+    'manage_case',
+    'view_tasks',
+    'manage_tasks',
+    'view_map',
+    'view_stats',
+    'manage_evidence',
+    'view_devices',
+    'view_reports'
+  ],
+  commander: [
+    'view_dashboard',
+    'view_alerts',
+    'dispatch_alert',
+    'manage_tasks',
+    'view_map',
+    'view_all_devices',
+    'manage_devices',
+    'view_stats',
+    'export_data',
+    'manage_users',
+    'view_reports',
+    'system_config',
+    'manage_evidence',
+    'manage_cases'
+  ]
 }
 
-/**
- * 格式化登录日志
- */
-export function formatLoginLog(log) {
-  return {
-    id: log.id,
-    username: log.username,
-    category: log.category,
-    categoryName: getUserCategory(log.category)?.label || '未知',
-    loginTime: new Date(log.login_time),
-    ipAddress: log.ip_address,
-    deviceInfo: log.device_info,
-    loginMethod: log.login_method,
-    methodName: getLoginMethod(log.login_method)?.name || '未知',
-    success: log.success,
-    failureReason: log.failure_reason ? getFailureReason(log.failure_reason) : null
-  };
+// ===== API 端点配置 =====
+export const apiEndpoints = {
+  login: '/api/v1/auth/login',
+  logout: '/api/v1/auth/logout',
+  biometric: '/api/v1/auth/biometric',
+  refreshToken: '/api/v1/auth/refresh',
+  currentUser: '/api/v1/auth/me',
+  register: '/api/v1/auth/register'
 }
 
-/**
- * 获取登录状态描述
- */
-export function getLoginStatusDescription(success, failureReason) {
-  if (success) return '登录成功';
-  return getFailureReason(failureReason);
+// ===== 登录页「广西边境县（市、区）」覆盖示意标签 =====
+// 凭祥、东兴为当前业务试点，在态势 / 预警 / 任务 / 设备模块中侧重展示，登录页仅展示全区覆盖范围
+export const loginZoneTags = [
+  { name: '龙州水口', color: '#00d4ff' },
+  { name: '靖西岳圩', color: '#00d4ff' },
+  { name: '那坡平孟', color: '#ffa940' },
+  { name: '防城港片区', color: '#73d13d' },
+  { name: '崇左边境线', color: '#ffa940' }
+]
+
+// 与 biometricConfig.methods 对齐，供登录页 Tab 使用
+export const biometricMethods = biometricConfig.methods.map(({ key, name, icon }) => ({ key, name, icon }))
+
+// ===== 登录页面主题配置 =====
+export const loginTheme = {
+  version: '3.0.0',
+  /** 顶栏品牌区使用的 PNG，对应项目 front-end/static/logo.png（uni-app 根路径 /static/） */
+  logoSrc: '/static/logo.png',
+  platform: '边境活物走私智能防控平台',
+  tagline: '热眼擒枭 —— 边境活物走私智能防控引领者',
+  zones: loginZoneTags.map((z) => z.name),
+  accentColor: '#00d4ff',
+  bgColor: '#060a14',
+  nodeCount: loginZoneTags.length
 }
-
-/**
- * 检查是否支持生物识别
- */
-export function isBiometricSupported(methodKey) {
-  const method = getBiometricMethod(methodKey);
-  return method ? method.supported : false;
-}
-
-/**
- * 获取所有支持的生物识别方式
- */
-export function getSupportedBiometricMethods() {
-  return biometricMethods.filter(m => m.supported);
-}
-
-/**
- * 生成设备ID
- */
-export function generateDeviceId() {
-  return 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
-
-/**
- * 获取设备信息
- */
-export function getDeviceInfo() {
-  // 这里需要根据实际环境获取设备信息
-  return {
-    userAgent: navigator.userAgent || 'Unknown',
-    platform: navigator.platform || 'Unknown',
-    language: navigator.language || 'Unknown',
-    screenResolution: `${window.screen.width}x${window.screen.height}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-  };
-}
-
-/**
- * 格式化设备信息为字符串
- */
-export function formatDeviceInfo(deviceInfo) {
-  return `${deviceInfo.platform} | ${deviceInfo.language} | ${deviceInfo.screenResolution}`;
-}
-
-/**
- * 计算登录失败锁定时间
- */
-export function calculateLockDuration(failureCount, maxAttempts = 5) {
-  if (failureCount < maxAttempts) return 0;
-  // 锁定时间: 60秒 * (失败次数 - 最大尝试次数)
-  return 60 * (failureCount - maxAttempts + 1);
-}
-
-/**
- * 验证登录表单
- */
-export function validateLoginForm(badgeNumber, password, category) {
-  const errors = {};
-
-  if (!badgeNumber || badgeNumber.trim() === '') {
-    errors.badge = '请输入警号或用户名';
-  } else if (!validateBadgeNumber(badgeNumber)) {
-    errors.badge = '警号格式不正确';
-  }
-
-  if (!password || password === '') {
-    errors.password = '请输入密码';
-  } else if (password.length < 6) {
-    errors.password = '密码至少6位';
-  }
-
-  if (!category) {
-    errors.category = '请选择用户分类';
-  }
-
-  return {
-    valid: Object.keys(errors).length === 0,
-    errors
-  };
-}
-
-/**
- * 保存登录状态
- */
-export function saveLoginState(token, userInfo, deviceId) {
-  uni.setStorageSync('token', token);
-  uni.setStorageSync('user_token', token);
-  uni.setStorageSync('user_info', userInfo);
-  uni.setStorageSync('device_id', deviceId);
-  uni.setStorageSync('token_expiry', Date.now() + 7 * 24 * 3600 * 1000);
-}
-
-/**
- * 清除登录状态
- */
-export function clearLoginState() {
-  uni.removeStorageSync('token');
-  uni.removeStorageSync('user_token');
-  uni.removeStorageSync('user_info');
-  uni.removeStorageSync('device_id');
-  uni.removeStorageSync('token_expiry');
-  uni.removeStorageSync('login_fail_count');
-  uni.removeStorageSync('login_lock_until');
-}
-
-/**
- * 获取保存的登录状态
- */
-export function getLoginState() {
-  return {
-    token: uni.getStorageSync('token'),
-    userInfo: uni.getStorageSync('user_info'),
-    deviceId: uni.getStorageSync('device_id'),
-    tokenExpiry: uni.getStorageSync('token_expiry')
-  };
-}
-
-/**
- * 检查Token是否过期
- */
-export function isTokenExpired() {
-  const expiry = uni.getStorageSync('token_expiry');
-  if (!expiry) return true;
-  return Date.now() > expiry;
-}
-
-export default {
-  userCategories,
-  biometricMethods,
-  loginMethods,
-  loginFailureReasons,
-  getUserCategory,
-  getBiometricMethod,
-  getLoginMethod,
-  getFailureReason,
-  validateBadgeNumber,
-  validatePasswordStrength,
-  formatLoginLog,
-  getLoginStatusDescription,
-  isBiometricSupported,
-  getSupportedBiometricMethods,
-  generateDeviceId,
-  getDeviceInfo,
-  formatDeviceInfo,
-  calculateLockDuration,
-  validateLoginForm,
-  saveLoginState,
-  clearLoginState,
-  getLoginState,
-  isTokenExpired
-};

@@ -67,10 +67,31 @@
 				</view>
 			</view>
 
+			<!-- 环境背景提示（AI辅助数据：夜间/高湿/恶劣天气等触发条件） -->
+			<view v-if="envContextHint" class="env-context-hint">
+				<text class="env-context-icon">{{ envContextIcon }}</text>
+				<text class="env-context-text">{{ envContextHint }}</text>
+				<view v-if="envConfidenceBoost > 0" class="env-boost-badge">
+					<text>AI修正 +{{ envConfidenceBoost }}%</text>
+				</view>
+			</view>
+
 			<!-- 位置/来源 + 时间 -->
 			<view class="location-time-row">
 				<text class="location-text">📍 {{ locationText }}</text>
 				<text class="time-text">🕐 {{ formatTime(alert.timestamp || alert.time || alert.created_at || alert.create_time) }}</text>
+			</view>
+
+			<view v-if="displayFeatureTags.length" class="feature-tag-row">
+				<text v-for="tag in displayFeatureTags" :key="tag" class="feature-tag-chip">{{ tag }}</text>
+			</view>
+
+			<view class="ai-brief-card">
+				<view class="ai-brief-head">
+					<text class="ai-brief-kicker">热眼擒枭 · AI判定</text>
+					<text class="ai-brief-score">{{ alertView.riskScore }}分</text>
+				</view>
+				<text class="ai-brief-text">{{ aiBriefText }}</text>
 			</view>
 
 			<!-- 法律依据（有实质内容才显示，否则轻提示引导点卡片） -->
@@ -88,19 +109,40 @@
 				<text class="legal-hint-text">点卡片查看详情与法律依据</text>
 			</view>
 
-			<!-- 操作按钮 -->
+			<!-- 响应等级与行动指引（新增） -->
+			<view v-if="!alert.handled && alert.status !== 'resolved'" class="response-guidance">
+				<view class="guidance-badge" :class="'guide-' + responseLevel.key">
+					<text class="guide-icon">{{ responseLevel.icon }}</text>
+					<text class="guide-label">{{ responseLevel.label }}</text>
+				</view>
+				<text class="guidance-text">{{ recommendedActionText }}</text>
+				<view class="time-window">
+					<text class="window-label">响应时限</text>
+					<text class="window-value">{{ responseLevel.timeoutLabel }}</text>
+				</view>
+			</view>
+
+			<!-- 操作按钮（四按钮：转派警 / 转核查 / 忽略 / 归档） -->
 			<view v-if="!alert.handled && alert.status !== 'resolved'" class="card-actions">
+				<view class="action-btn act-btn-red" :class="{ 'pulse-danger': alert.level === 'critical' }" @tap="emit('createTask')">
+					<text class="act-icon">🚨</text>
+					<text class="act-text">转派警</text>
+				</view>
+				<view class="action-btn act-btn-orange" @tap="emit('investigate')">
+					<text class="act-icon">🔍</text>
+					<text class="act-text">转核查</text>
+				</view>
 				<view class="action-btn act-btn-ghost" @tap="emit('ignore')">
 					<text class="act-icon">🛑</text>
 					<text class="act-text">忽略</text>
 				</view>
-				<view class="action-btn act-btn-danger" :class="{ 'pulse-danger': alert.level === 'critical' }" @tap="emit('createTask')">
-					<text class="act-icon">⚡</text>
-					<text class="act-text">{{ alert.level === 'critical' ? '立即处置' : '处置' }}</text>
+				<view class="action-btn act-btn-gray" @tap="emit('archive')">
+					<text class="act-icon">📁</text>
+					<text class="act-text">归档</text>
 				</view>
 			</view>
 			<view v-else class="handled-row">
-				<text class="handled-text">✓ 已处理</text>
+				<text class="handled-text">✓ 已归档处理</text>
 			</view>
 		</view>
 	</view>
@@ -142,16 +184,36 @@ const CATEGORY_META = {
 		m4: { label: '影响范围',   get: (a) => a.affectedPopulation ? formatPopulation(a.affectedPopulation) : null },
 		locationField: (a) => a.location || ''
 	},
-	fooddrug: {
-		icon: '🏥',
-		subtitleFn: (a) => getFoodDrugTypeName(a.alert_type || a.alert_type),
-		badgeFn: (a) => getRecallStatusText(a.recall_status),
-		badgeClass: (a) => 'badge-recall badge-recall-' + (a.recall_status || 'unknown'),
-		m1: { label: '涉及产品',   get: (a) => a.product_name || '--' },
-		m2: { label: '涉事企业',   get: (a) => a.manufacturer || null },
-		m3: { label: '产品批次',   get: (a) => a.product_batch ? '批:' + a.product_batch : null },
-		m4: { label: '波及人数',   get: (a) => a.affected_consumers ? formatPopulation(a.affected_consumers) : null },
-		locationField: () => ''
+	wildlife: {
+		icon: '🦎',
+		subtitleFn: (a) => a.title || a.alert_type || '活物走私智能预警',
+		badgeFn: (a) => a.protectionLevel || a.protection_level || a.risk_level || null,
+		badgeClass: (a) => 'badge-risk badge-risk-' + (a.risk_level || 'unknown'),
+		m1: { label: '涉案物种',   get: (a) => a.speciesType || a.species_name || a.species || '--' },
+		m2: { label: '疑似数量',   get: (a) => a.animal_count ? String(a.animal_count) + '只' : a.species_count ? String(a.species_count) + '只' : null },
+		m3: { label: '触发依据',   get: (a) => a.source || a.sourceChannel || null },
+		m4: { label: '边境分段',   get: (a) => a.borderSection || a.border_section || null },
+		locationField: (a) => a.border_section || a.location || ''
+	},
+	border: {
+		icon: '🚧',
+		subtitleFn: (a) => a.title || '边境潜行异常预警',
+		badgeFn: (a) => (a.featureTags && a.featureTags[0]) || '潜行风险',
+		m1: { label: '智能判定',   get: (a) => a.targetType || '疑似越境目标' },
+		m2: { label: '触发源',     get: (a) => a.source || null },
+		m3: { label: 'AI依据',     get: (a) => a.aiReason || null },
+		m4: { label: '处置建议',   get: (a) => a.recommendAction || null },
+		locationField: (a) => a.border_section || a.location || ''
+	},
+	vehicle: {
+		icon: '🚚',
+		subtitleFn: (a) => a.title || '运载工具异常预警',
+		badgeFn: (a) => (a.featureTags && a.featureTags[0]) || '布控风险',
+		m1: { label: '目标类型',   get: (a) => a.targetType || '可疑运载工具' },
+		m2: { label: '触发源',     get: (a) => a.source || null },
+		m3: { label: 'AI依据',     get: (a) => a.aiReason || null },
+		m4: { label: '处置建议',   get: (a) => a.recommendAction || null },
+		locationField: (a) => a.border_section || a.location || ''
 	}
 }
 
@@ -176,30 +238,13 @@ function getAlertLevelText(level) {
 	}[level] || null
 }
 
-function getFoodDrugTypeName(type) {
-	return {
-		food: '食品安全预警',
-		drug: '药品安全预警',
-		cosmetic: '化妆品预警'
-	}[type] || '食品药品预警'
-}
-
-function getRecallStatusText(status) {
-	return {
-		'not-recalled': '未召回',
-		'partial-recall': '部分召回',
-		'full-recall': '全量召回',
-		unknown: null
-	}[status] || null
-}
-
 // ===== Props & Emits =====
 const props = defineProps({
 	alert: { type: Object, required: true },
 	category: { type: String, default: 'enforcement' },
 	batchMode: { type: Boolean, default: false }
 })
-const emit = defineEmits(['click', 'ignore', 'ignoreMany', 'createTask'])
+const emit = defineEmits(['click', 'ignore', 'ignoreMany', 'createTask', 'investigate', 'archive'])
 
 // Expose for parent component control
 defineExpose({ selectedAlerts, toggleSelect, batchIgnore })
@@ -342,6 +387,65 @@ const riskScoreClass = computed(() => {
 	return 'risk-low'
 })
 
+// ===== Computed: 环境背景提示（AI辅助识别数据）=====
+// 根据预警的环境上下文，告知触发原因，增强情报说服力
+const envContextHint = computed(() => {
+	const a = props.alert
+	const hints = []
+
+	// 夜间触发
+	if (a.env_illuminance !== undefined && a.env_illuminance < 10) {
+		hints.push('夜间触发')
+	} else if (a.env_illuminance !== undefined && a.env_illuminance < 100) {
+		hints.push('黄昏触发')
+	}
+
+	// 高湿环境
+	if (a.env_humidity !== undefined && a.env_humidity >= 85) {
+		hints.push('高湿' + a.env_humidity + '%')
+	}
+
+	// 恶劣天气
+	if (a.weather_severity === 'severe') {
+		hints.push('恶劣天气')
+	} else if (a.weather_severity === 'warning') {
+		hints.push('风雨天气')
+	}
+
+	// 红外温漂修正（经补偿后活体判定）
+	if (a.infrared_corrected !== undefined && a.infrared_corrected !== null) {
+		hints.push('红外修正' + a.infrared_corrected + '°C')
+	}
+
+	// 风速过高
+	if (a.env_wind_speed !== undefined && a.env_wind_speed >= 10.7) {
+		hints.push('强风' + a.env_wind_speed + 'm/s')
+	}
+
+	return hints.length > 0 ? hints.join(' · ') : null
+})
+
+const envContextIcon = computed(() => {
+	const a = props.alert
+	if (a.weather_severity === 'severe') return '🌪️'
+	if (a.weather_severity === 'warning') return '🌧️'
+	if (a.env_illuminance !== undefined && a.env_illuminance < 10) return '🌙'
+	if (a.env_illuminance !== undefined && a.env_illuminance < 100) return '🌆'
+	if (a.env_humidity !== undefined && a.env_humidity >= 85) return '💧'
+	return '🤖'
+})
+
+// AI修正置信度提升值（用于展示环境参数修正效果）
+const envConfidenceBoost = computed(() => {
+	const a = props.alert
+	let boost = 0
+	if (a.weather_severity === 'severe') boost += 15
+	else if (a.weather_severity === 'warning') boost += 8
+	if (a.env_illuminance !== undefined && a.env_illuminance < 10) boost += 8
+	if (a.env_humidity !== undefined && a.env_humidity >= 85) boost += 6
+	return boost
+})
+
 // ===== Computed: 预警趋势指示 =====
 const alertTrend = computed(() => {
 	const score = alertView.value.riskScore || 0
@@ -355,11 +459,83 @@ const trendIcon = computed(() => ({
 	decreasing: '⬇'
 }[alertTrend.value] || '➡'))
 
+// ===== Computed: 响应等级与行动指引（新增） =====
+import { BUSINESS_CONSTANTS } from '../../../utils/systemConfig.js'
+
+const RESPONSE_ACTIONS = {
+  WILDLIFE_SMUGGLING: {
+    IMMEDIATE: { icon: '🚨', text: '立即布控卡口并拦截疑似活体转运目标' },
+    URGENT: { icon: '⚡', text: '联动巡防力量开展现场核验与轨迹追踪' },
+    PRIORITY: { icon: '📋', text: '调取近时段卡口与热视频，研判转运链路' },
+    ROUTINE: { icon: '👁', text: '纳入重点线索池，持续关注异常动态' },
+  },
+  ENVIRONMENT_POLLUTION: {
+    IMMEDIATE: { icon: '🛑', text: '立即叫停排放，采样留证' },
+    URGENT: { icon: '📋', text: '通知环保部门联合执法' },
+    PRIORITY: { icon: '🔬', text: '安排现场采样调查' },
+    ROUTINE: { icon: '📊', text: '纳入例行监测' },
+  },
+  FOOD_SAFETY: {
+    IMMEDIATE: { icon: '🚨', text: '立即封存问题食品，通知食药监' },
+    URGENT: { icon: '🔍', text: '扩大抽检范围，控制源头' },
+    PRIORITY: { icon: '📋', text: '启动食品安全调查' },
+    ROUTINE: { icon: '📝', text: '纳入常规抽检计划' },
+  },
+}
+
+const responseLevel = computed(() => {
+  const score = alertView.value.riskScore || 0
+  if (score >= 85) return { ...BUSINESS_CONSTANTS.RESPONSE_LEVELS.IMMEDIATE, key: 'IMMEDIATE' }
+  if (score >= 70) return { ...BUSINESS_CONSTANTS.RESPONSE_LEVELS.URGENT, key: 'URGENT' }
+  if (score >= 50) return { ...BUSINESS_CONSTANTS.RESPONSE_LEVELS.PRIORITY, key: 'PRIORITY' }
+  return { ...BUSINESS_CONSTANTS.RESPONSE_LEVELS.ROUTINE, key: 'ROUTINE' }
+})
+
+const recommendedActionText = computed(() => {
+  if (props.category === 'border' || props.category === 'vehicle') {
+    return props.alert?.recommendAction || RESPONSE_ACTIONS.WILDLIFE_SMUGGLING[responseLevel.value.key]?.text || '按常规流程处理'
+  }
+  return RESPONSE_ACTIONS.WILDLIFE_SMUGGLING[responseLevel.value.key]?.text || '按常规流程处理'
+})
+
+const displayFeatureTags = computed(() => {
+	const tags = props.alert?.featureTags
+	if (Array.isArray(tags) && tags.length) return tags.slice(0, 4)
+	if (props.category === 'wildlife') {
+		return [
+			alertView.value.speciesType !== '未知物种' ? alertView.value.speciesType : null,
+			props.alert?.protectionLevel || props.alert?.protection_level || null,
+			props.alert?.source || null,
+			alertView.value.borderSection !== '未标注' ? alertView.value.borderSection : null
+		].filter(Boolean).slice(0, 4)
+	}
+	return []
+})
+
+const aiBriefText = computed(() => {
+	if (props.alert?.aiReason) return props.alert.aiReason
+	if (props.category === 'wildlife') {
+		return `系统结合${props.alert?.source || '多源感知'}识别到「${alertView.value.speciesType}」相关异常活动，建议按${responseLevel.value.label}流程开展处置。`
+	}
+	return recommendedActionText.value
+})
+
+// ===== 30分钟内新增紧急预警 =====
+const isUrgentNew = computed(() => {
+	const a = props.alert
+	if (!a || a.handled || a.status === 'resolved') return false
+	if (a.level !== 'critical') return false
+	const ts = new Date(a.timestamp || a.time || a.created_at || 0).getTime()
+	const diff = Date.now() - ts
+	return diff <= 30 * 60 * 1000  // 30 分钟内
+})
+
 // ===== Computed: 卡片样式 =====
 const cardClass = computed(() => ([
 	'cat-' + props.category,
 	'level-' + props.alert.level,
-	{ 'is-critical-pulse': !props.alert.handled && props.alert.level === 'critical', pressed: pressed.value }
+	{ 'is-critical-pulse': !props.alert.handled && props.alert.level === 'critical', pressed: pressed.value },
+	{ 'is-urgent-new': isUrgentNew.value }
 ]))
 
 // ===== 时间格式化 =====
@@ -378,12 +554,14 @@ function onTouchEnd() { pressed.value = false }
 function onLongPress() {
 	uni.vibrateShort()
 	uni.showActionSheet({
-		itemList: ['忽略预警', '创建任务', '查看详情', '复制编号'],
+		itemList: ['🚨 转派警', '🔍 转核查', '🛑 忽略', '📁 归档', '📋 查看详情', '📄 复制编号'],
 		success: (res) => {
-			if (res.tapIndex === 0) emit('ignore')
-			else if (res.tapIndex === 1) emit('createTask')
-			else if (res.tapIndex === 2) emit('click')
-			else if (res.tapIndex === 3) {
+			if (res.tapIndex === 0) emit('createTask')
+			else if (res.tapIndex === 1) emit('investigate')
+			else if (res.tapIndex === 2) emit('ignore')
+			else if (res.tapIndex === 3) emit('archive')
+			else if (res.tapIndex === 4) emit('click')
+			else if (res.tapIndex === 5) {
 				uni.setClipboardData({ data: headerId.value, success: () => uni.showToast({ title: '已复制', icon: 'success' }) })
 			}
 		}
@@ -392,37 +570,112 @@ function onLongPress() {
 </script>
 
 <style lang="scss" scoped>
+/* ====== 卡片脉冲呼吸动画（借鉴参考项目）====== */
+.feature-tag-row { display:flex; flex-wrap:wrap; gap:10rpx; margin-top:16rpx; }
+.feature-tag-chip { padding:8rpx 14rpx; border-radius:999rpx; background:rgba(64,196,255,0.1); border:1px solid rgba(64,196,255,0.16); color:#7fe7ff; font-size:20rpx; font-weight:700; }
+.ai-brief-card { margin-top:16rpx; padding:18rpx; border-radius:18rpx; background:linear-gradient(180deg, rgba(10,24,38,0.94), rgba(8,16,28,0.94)); border:1px solid rgba(255,255,255,0.06); }
+.ai-brief-head { display:flex; align-items:center; justify-content:space-between; gap:12rpx; margin-bottom:10rpx; }
+.ai-brief-kicker { font-size:20rpx; font-weight:700; color:rgba(195,230,255,0.72); }
+.ai-brief-score { font-size:20rpx; font-weight:800; color:#ffb454; }
+.ai-brief-text { font-size:22rpx; line-height:1.6; color:#eef7ff; }
 .alert-card {
 	margin: 8rpx 16rpx;
-	border-radius: 14rpx;
-	background: rgba(26, 31, 46, 0.8);
-	border: 1px solid var(--line-soft);
+	border-radius: 20rpx;
+	background: rgba(20, 25, 40, 0.95);
+	border: 1px solid rgba(255,255,255,0.06);
 	overflow: hidden;
 	transition: all 0.3s ease;
-	
+	/* 按等级差异化边框 + 阴影 */
+	&.level-critical {
+		border-color: rgba(255, 77, 79, 0.45);
+		box-shadow: 0 4rpx 24rpx rgba(255, 77, 79, 0.28), inset 0 0 0 1px rgba(255, 77, 79, 0.12);
+	}
+	&.level-high {
+		border-color: rgba(255, 77, 79, 0.35);
+		box-shadow: 0 4rpx 20rpx rgba(255, 77, 79, 0.2);
+	}
+	&.level-warning {
+		border-color: rgba(255, 169, 64, 0.35);
+		box-shadow: 0 4rpx 20rpx rgba(255, 169, 64, 0.18);
+	}
+	&.level-medium {
+		border-color: rgba(250, 173, 20, 0.28);
+		box-shadow: 0 4rpx 16rpx rgba(250, 173, 20, 0.12);
+	}
+	&.level-low {
+		border-color: rgba(115, 209, 61, 0.22);
+		box-shadow: 0 4rpx 16rpx rgba(115, 209, 61, 0.08);
+	}
+	&.level-handled {
+		opacity: 0.5;
+		border-color: rgba(255, 255, 255, 0.04);
+	}
 	&:active {
 		transform: scale(0.98);
 		background: rgba(12, 27, 42, 0.90);
 	}
-	
 	&.is-critical-pulse {
 		animation: criticalPulse 2s ease-in-out infinite;
 	}
+	&.is-urgent-new {
+		animation: urgentNewPulse 1.8s ease-in-out infinite;
+		border-color: rgba(255, 77, 79, 0.5) !important;
+		box-shadow: 0 4rpx 30rpx rgba(255, 77, 79, 0.35);
+	}
 }
 
+/* 参考项目同款脉冲动画 */
 @keyframes criticalPulse {
 	0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.7); }
-	50% { box-shadow: 0 0 0 8rpx rgba(255, 77, 79, 0); }
+	50%       { box-shadow: 0 0 0 10rpx rgba(255, 77, 79, 0); }
 }
 
+@keyframes urgentNewPulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.8); background: rgba(255, 77, 79, 0.1); }
+	50%       { box-shadow: 0 0 0 16rpx rgba(255, 77, 79, 0); background: rgba(255, 77, 79, 0.04); }
+}
+
+/* ====== 顶部动态渐变光条（借鉴参考项目滚动渐变）====== */
 .card-top-bar {
 	height: 4rpx;
-	background: #666;
-	
-	&.bar-critical { background: linear-gradient(90deg, #FF4D4F 0%, #FF7875 100%); }
-	&.bar-high { background: linear-gradient(90deg, #FFA940 0%, #FFB85C 100%); }
-	&.bar-medium { background: linear-gradient(90deg, #FAAD14 0%, #FFC53D 100%); }
-	&.bar-low { background: linear-gradient(90deg, #52C41A 0%, #85CE61 100%); }
+	background: #2a2f3e;
+	transition: background 0.3s ease;
+
+	&.bar-critical {
+		background: linear-gradient(90deg, #FF4D4F, #ff7875, #FF4D4F, #ff1238, #FF4D4F);
+		background-size: 300% 100%;
+		animation: barFlowCritical 2s linear infinite;
+	}
+	&.bar-high {
+		background: linear-gradient(90deg, #FF4D4F, #ffa8a8, #FF4D4F, #FF7875, #FF4D4F);
+		background-size: 300% 100%;
+		animation: barFlowCritical 3s linear infinite;
+	}
+	&.bar-medium {
+		background: linear-gradient(90deg, #FAAD14, #ffc53d, #FAAD14);
+		background-size: 200% 100%;
+		animation: barFlow 4s linear infinite;
+	}
+	&.bar-warning {
+		background: linear-gradient(90deg, #FAAD14, #ffc53d, #FAAD14);
+		background-size: 200% 100%;
+		animation: barFlow 4s linear infinite;
+	}
+	&.bar-low {
+		background: linear-gradient(90deg, #52C41A, #85ce61, #52C41A);
+		background-size: 200% 100%;
+		animation: barFlow 5s linear infinite;
+	}
+	&.bar-unknown { background: rgba(255, 255, 255, 0.1); }
+}
+
+@keyframes barFlow {
+	0%   { background-position: 0% 0%; }
+	100% { background-position: 200% 0%; }
+}
+@keyframes barFlowCritical {
+	0%   { background-position: 0% 0%; }
+	100% { background-position: 300% 0%; }
 }
 
 .countdown-bar-wrap {
@@ -513,39 +766,45 @@ function onLongPress() {
 }
 
 .risk-score-ring {
-	width: 72rpx;
-	height: 72rpx;
+	width: 76rpx;
+	height: 76rpx;
 	border-radius: 50%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	font-weight: 700;
-	box-shadow: 0 0 16rpx rgba(0, 0, 0, 0.3);
-	
+	transition: all 0.3s ease;
+
 	&.risk-critical {
+		background: linear-gradient(135deg, rgba(255, 77, 79, 0.35) 0%, rgba(255, 77, 79, 0.1) 100%);
+		border: 2px solid #FF4D4F;
+		box-shadow: 0 0 24rpx rgba(255, 77, 79, 0.55), 0 0 48rpx rgba(255, 77, 79, 0.2);
+		animation: ringPulseCritical 2s ease-in-out infinite;
+	}
+
+	&.risk-high {
 		background: linear-gradient(135deg, rgba(255, 77, 79, 0.3) 0%, rgba(255, 77, 79, 0.1) 100%);
-		border: 2px solid rgba(255, 77, 79, 0.6);
+		border: 2px solid rgba(255, 77, 79, 0.7);
 		box-shadow: 0 0 20rpx rgba(255, 77, 79, 0.4);
 	}
-	
-	&.risk-high {
-		background: linear-gradient(135deg, rgba(255, 165, 0, 0.3) 0%, rgba(255, 165, 0, 0.1) 100%);
-		border: 2px solid rgba(255, 165, 0, 0.6);
-		box-shadow: 0 0 20rpx rgba(255, 165, 0, 0.3);
-	}
-	
+
 	&.risk-medium {
 		background: linear-gradient(135deg, rgba(250, 173, 20, 0.3) 0%, rgba(250, 173, 20, 0.1) 100%);
-		border: 2px solid rgba(250, 173, 20, 0.6);
-		box-shadow: 0 0 20rpx rgba(250, 173, 20, 0.3);
+		border: 2px solid rgba(250, 173, 20, 0.65);
+		box-shadow: 0 0 18rpx rgba(250, 173, 20, 0.35);
 	}
-	
+
 	&.risk-low {
-		background: linear-gradient(135deg, rgba(82, 196, 26, 0.3) 0%, rgba(82, 196, 26, 0.1) 100%);
-		border: 2px solid rgba(82, 196, 26, 0.6);
-		box-shadow: 0 0 20rpx rgba(82, 196, 26, 0.3);
+		background: linear-gradient(135deg, rgba(82, 196, 26, 0.28) 0%, rgba(82, 196, 26, 0.08) 100%);
+		border: 2px solid rgba(82, 196, 26, 0.55);
+		box-shadow: 0 0 16rpx rgba(82, 196, 26, 0.28);
 	}
+}
+
+@keyframes ringPulseCritical {
+	0%, 100% { box-shadow: 0 0 24rpx rgba(255, 77, 79, 0.55), 0 0 48rpx rgba(255, 77, 79, 0.2); }
+	50%       { box-shadow: 0 0 36rpx rgba(255, 77, 79, 0.75), 0 0 64rpx rgba(255, 77, 79, 0.35); }
 }
 
 .risk-score-num {
@@ -675,9 +934,76 @@ function onLongPress() {
 
 .card-actions {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 8rpx;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 6rpx;
 	margin-top: 4rpx;
+}
+
+// 响应等级与行动指引
+.response-guidance {
+	display: flex;
+	align-items: center;
+	gap: 12rpx;
+	background: rgba(255, 77, 79, 0.08);
+	border: 1px solid rgba(255, 77, 79, 0.2);
+	border-radius: 10rpx;
+	padding: 12rpx 16rpx;
+	margin-top: 8rpx;
+	flex-wrap: wrap;
+
+	.guidance-badge {
+		display: flex;
+		align-items: center;
+		gap: 6rpx;
+		padding: 4rpx 12rpx;
+		border-radius: 6rpx;
+		font-size: 20rpx;
+		font-weight: 600;
+		white-space: nowrap;
+		min-width: 100rpx;
+		justify-content: center;
+
+		&.guide-IMMEDIATE {
+			background: rgba(255, 77, 79, 0.2);
+			color: #FF4D4F;
+			border: 1px solid rgba(255, 77, 79, 0.4);
+		}
+		&.guide-URGENT {
+			background: rgba(255, 122, 69, 0.2);
+			color: #FF7A45;
+			border: 1px solid rgba(255, 122, 69, 0.4);
+		}
+		&.guide-PRIORITY {
+			background: rgba(255, 169, 64, 0.2);
+			color: #FFA940;
+			border: 1px solid rgba(255, 169, 64, 0.4);
+		}
+		&.guide-ROUTINE {
+			background: rgba(82, 196, 26, 0.2);
+			color: #52C41A;
+			border: 1px solid rgba(82, 196, 26, 0.4);
+		}
+
+		.guide-icon { font-size: 22rpx; }
+		.guide-label { font-size: 22rpx; }
+	}
+
+	.guidance-text {
+		flex: 1;
+		font-size: 22rpx;
+		color: #FF9999;
+		line-height: 1.4;
+		min-width: 0;
+	}
+
+	.time-window {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		white-space: nowrap;
+		.time-label { font-size: 18rpx; color: #4A6A8A; }
+		.time-value { font-size: 20rpx; color: #7AA8CC; font-weight: 600; }
+	}
 }
 
 .action-btn {
@@ -685,18 +1011,30 @@ function onLongPress() {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 6rpx;
-	min-height: 72rpx;
-	border-radius: 12rpx;
-	font-size: 24rpx;
+	gap: 3rpx;
+	min-height: 68rpx;
+	border-radius: 10rpx;
+	font-size: 20rpx;
 	font-weight: 700;
-	letter-spacing: 1rpx;
+	letter-spacing: 0.5rpx;
 	transition: all 0.2s ease;
 
-	&:active {
-		transform: scale(0.95);
-		opacity: 0.82;
-	}
+	&:active { transform: scale(0.95); opacity: 0.82; }
+}
+
+.act-btn-red {
+	background: linear-gradient(135deg, rgba(255, 77, 79, 0.22) 0%, rgba(255, 77, 79, 0.14) 100%);
+	border: 1px solid rgba(255, 77, 79, 0.55);
+	color: #ffd7d7;
+}
+.act-btn-red.pulse-danger {
+	animation: dangerPulse 1.8s ease-in-out infinite;
+}
+
+.act-btn-orange {
+	background: rgba(255, 122, 69, 0.14);
+	border: 1px solid rgba(255, 122, 69, 0.4);
+	color: #ffd7c0;
 }
 
 .act-btn-ghost {
@@ -705,14 +1043,10 @@ function onLongPress() {
 	color: #DDEAFF;
 }
 
-.act-btn-danger {
-	background: linear-gradient(135deg, rgba(255, 77, 79, 0.18) 0%, rgba(255, 77, 79, 0.12) 100%);
-	border: 1px solid rgba(255, 77, 79, 0.6);
-	color: #ffd7d8;
-}
-
-.act-btn-danger.pulse-danger {
-	animation: dangerPulse 2s ease-in-out infinite;
+.act-btn-gray {
+	background: rgba(140, 140, 140, 0.1);
+	border: 1px solid rgba(140, 140, 140, 0.25);
+	color: #c0c0c0;
 }
 
 @keyframes dangerPulse {
@@ -720,7 +1054,7 @@ function onLongPress() {
 	50%       { box-shadow: 0 0 0 10rpx rgba(255, 77, 79, 0); }
 }
 
-.act-icon { font-size: 26rpx; flex-shrink: 0; }
+.act-icon { font-size: 22rpx; flex-shrink: 0; }
 .act-text { font-size: inherit; font-weight: inherit; white-space: nowrap; }
 
 .act-btn-wrap {
@@ -808,5 +1142,34 @@ function onLongPress() {
 		align-items: flex-start;
 		gap: 6rpx;
 	}
+}
+
+/* 环境背景提示 */
+.env-context-hint {
+	display: flex;
+	align-items: center;
+	gap: 8rpx;
+	padding: 8rpx 14rpx;
+	background: rgba(0, 212, 255, 0.06);
+	border: 1px solid rgba(0, 212, 255, 0.18);
+	border-radius: 10rpx;
+	flex-wrap: wrap;
+}
+.env-context-icon { font-size: 20rpx; flex-shrink: 0; }
+.env-context-text {
+	font-size: 20rpx;
+	color: rgba(0, 212, 255, 0.8);
+	line-height: 1.4;
+}
+.env-boost-badge {
+	margin-left: auto;
+	padding: 2rpx 10rpx;
+	background: rgba(0, 212, 255, 0.12);
+	border: 1px solid rgba(0, 212, 255, 0.3);
+	border-radius: 8rpx;
+	font-size: 18rpx;
+	color: #00D4FF;
+	font-weight: 700;
+	white-space: nowrap;
 }
 </style>

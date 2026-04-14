@@ -1,14 +1,13 @@
-/* ==========================================
-   认证逻辑 Hook
-   封装登出清除缓存、生物识别调用、离线凭证校验
-   ========================================== */
+const BASE_URL = (() => {
+	const configured = uni.getStorageSync('baseURL')
+	if (configured) return configured.replace(/\/$/, '')
+	return 'http://127.0.0.1:3000'
+})()
 
-/**
- * 认证逻辑 Hook
- * @returns {Object} 认证相关方法
- */
-export function useAuthLogic() {
-	
+export const buildBaseUrl = () => BASE_URL + '/api/v1'
+export const getBaseUrl = () => BASE_URL
+
+const useAuthLogic = () => {
 	/**
 	 * 停止所有后台服务
 	 */
@@ -20,9 +19,11 @@ export function useAuthLogic() {
 			// 停止WebSocket心跳
 			const socketTask = uni.getStorageSync('socket_task')
 			if (socketTask) {
-				socketTask.close()
+				try { socketTask.close(1000) } catch (_) {}
+				try { uni.closeSocket({ code: 1000 }) } catch (_) {}
 				uni.removeStorageSync('socket_task')
 			}
+			try { uni.closeSocket({ code: 1000 }) } catch (_) {}
 			
 			// 停止后台定位
 			uni.offLocationChange && uni.offLocationChange()
@@ -40,9 +41,13 @@ export function useAuthLogic() {
 	const clearSensitiveCache = () => {
 		try {
 			// 清除用户凭证
+			uni.removeStorageSync('token')
 			uni.removeStorageSync('user_token')
 			uni.removeStorageSync('refresh_token')
+			uni.removeStorageSync('token_expiry')
 			uni.removeStorageSync('user_info')
+			uni.removeStorageSync('user_role')
+			uni.removeStorageSync('device_id')
 			
 			// 清除临时证据缓存
 			uni.removeStorageSync('temp_evidence_cache')
@@ -120,12 +125,9 @@ export function useAuthLogic() {
 				// 离线情况下忽略服务器通知失败
 				console.warn('[Auth] 服务器通知失败（可能离线）:', error)
 			}
-			
-			// 5. 重定向到登录页
-			uni.reLaunch({
-				url: '/pages/login/index'
-			})
-			
+
+			// 5. 清理完成，返回成功
+			// 注意：页面跳转统一由调用方（Profile.vue）控制，避免多层 reLaunch 冲突
 			console.log('[Auth] 安全退出完成')
 			
 		} catch (error) {
@@ -141,7 +143,7 @@ export function useAuthLogic() {
 		return new Promise((resolve, reject) => {
 			// 修复：从 storage 读取 token（兼容 'token' 和 'user_token' 两种key）
 			const token   = uni.getStorageSync('token') || uni.getStorageSync('user_token')
-			const baseURL = uni.getStorageSync('baseURL') || 'http://localhost:5000'
+			const baseURL = uni.getStorageSync('baseURL') || 'http://127.0.0.1:3000'
 			
 			if (!token) { resolve(); return }
 			
@@ -312,7 +314,7 @@ export function useAuthLogic() {
 			}
 			
 			uni.request({
-				url: (uni.getStorageSync('baseURL') || 'http://localhost:5000') + '/api/auth/refresh',
+				url: BASE_URL + '/api/v1/auth/refresh',
 				method: 'POST',
 				data: {
 					refresh_token: refreshToken
@@ -395,4 +397,4 @@ export function useAuthLogic() {
 	}
 }
 
-export default useAuthLogic
+export { useAuthLogic }

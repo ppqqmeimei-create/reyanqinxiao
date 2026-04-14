@@ -9,25 +9,18 @@
  */
 export const alertCategories = [
   {
-    value: 'ecology',
-    label: '环保预警',
-    icon: '🌍',
+    value: 'wildlife',
+    label: '野生动物走私',
+    icon: '🦎',
     color: '#10b981',
-    department: '广西环食药侦查总队'
-  },
-  {
-    value: 'fooddrug',
-    label: '食品药品',
-    icon: '🏥',
-    color: '#f59e0b',
-    department: '广西环食药侦查总队'
+    department: '边境活物走私防控中心'
   },
   {
     value: 'enforcement',
-    label: '生态警务',
+    label: '执法情报',
     icon: '👮',
     color: '#ef4444',
-    department: '广西环食药侦查总队'
+    department: '边境活物走私防控中心'
   }
 ];
 
@@ -70,27 +63,20 @@ export const alertLevels = [
 ];
 
 /**
- * 预警类型配置 - 走私活物兼环境监测
+ * 预警类型配置 - 边境活物走私防控
  */
 export const alertTypes = {
-  ecology: [
-    { key: 'wildlife-track',   name: '野生动物活动',   icon: '🐾', unit: '' },
-    { key: 'habitat-damage',   name: '栖息地破坏',     icon: '🌿', unit: '' },
-    { key: 'water-quality',    name: '水质异常',       icon: '💧', unit: '' },
-    { key: 'border-anomaly',   name: '边境走私异常',   icon: '🛡️', unit: '' }
-  ],
-  fooddrug: [
-    { key: 'temperature', name: '温度异常', icon: '🌡️', unit: '℃' },
-    { key: 'humidity', name: '湿度异常', icon: '💧', unit: '%' },
-    { key: 'quality', name: '质量问题', icon: '⚠️', unit: '' },
-    { key: 'safety', name: '安全隐患', icon: '🚨', unit: '' }
+  wildlife: [
+    { key: 'live-transport',   name: '活体走私',     icon: '🦎', unit: '' },
+    { key: 'border-intrusion', name: '边境入侵',     icon: '🛡️', unit: '' },
+    { key: 'vehicle-smuggling', name: '可疑车辆',   icon: '🚗', unit: '' },
+    { key: 'report',            name: '群众举报线索', icon: '📢', unit: '' }
   ],
   enforcement: [
-    { key: 'infrared-trigger', name: '红外触发', icon: '🔴', unit: '' },
-    { key: 'checkpoint-anomaly', name: '车辆冲卡告警', icon: '🚗', unit: '' },
-    { key: 'report', name: '群众举报线索', icon: '📢', unit: '' },
-    { key: 'patrol-discovery', name: '野生动物异常移动', icon: '👮', unit: '' },
-    { key: 'intelligence', name: '情报线索', icon: '🧠', unit: '' }
+    { key: 'infrared-trigger',     name: '红外触发',           icon: '🔴', unit: '' },
+    { key: 'checkpoint-anomaly',   name: '车辆冲卡告警',       icon: '🚗', unit: '' },
+    { key: 'patrol-discovery',     name: '野生动物异常移动',   icon: '👮', unit: '' },
+    { key: 'intelligence',         name: '情报线索',           icon: '🧠', unit: '' }
   ]
 };
 
@@ -98,7 +84,7 @@ export const alertTypes = {
  * 法律依据配置
  */
 export const legalBasis = {
-  ecology: [
+  wildlife: [
     {
       law: '《野生动物保护法》',
       articles: ['第十条', '第二十条', '第三十条'],
@@ -124,26 +110,6 @@ export const legalBasis = {
         minor: '1000-5000元',
         moderate: '5000-50000元',
         severe: '50000-500000元'
-      }
-    }
-  ],
-  fooddrug: [
-    {
-      law: '《食品安全法》',
-      articles: ['第三十四条', '第四十八条', '第六十三条'],
-      penalties: {
-        minor: '1000-10000元',
-        moderate: '10000-100000元',
-        severe: '100000-1000000元'
-      }
-    },
-    {
-      law: '《药品管理法》',
-      articles: ['第二十四条', '第四十八条', '第七十三条'],
-      penalties: {
-        minor: '2000-20000元',
-        moderate: '20000-200000元',
-        severe: '200000-2000000元'
       }
     }
   ],

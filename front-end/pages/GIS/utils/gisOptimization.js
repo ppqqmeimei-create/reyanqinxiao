@@ -117,13 +117,7 @@ export const toolbarByCategory = {
     { id: 'location', icon: 'location.png', text: '定位', color: '#00D4FF' },
     { id: 'search', icon: 'compass.png', text: '搜索', color: '#00D4FF' }
   ],
-  fooddrug: [
-    { id: 'report', icon: 'sos.png', text: '上报风险', color: '#FF4D4F' },
-    { id: 'analysis', icon: 'layers.png', text: '数据分析', color: '#00D4FF' },
-    { id: 'enterprise', icon: 'building.png', text: '企业', color: '#00D4FF' },
-    { id: 'location', icon: 'location.png', text: '定位', color: '#00D4FF' },
-    { id: 'search', icon: 'compass.png', text: '搜索', color: '#00D4FF' }
-  ],
+
   enforcement: [
     { id: 'report', icon: 'sos.png', text: '上报案件', color: '#FF4D4F' },
     { id: 'analysis', icon: 'layers.png', text: '数据分析', color: '#00D4FF' },

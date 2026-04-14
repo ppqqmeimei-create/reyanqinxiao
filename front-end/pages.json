@@ -9,38 +9,35 @@
 			}
 		},
 		{
-			"path": "pages/Dashboard/Dashboard",
-			"style": {
-				"navigationBarTitleText": "双轨数据看板",
-				"navigationBarBackgroundColor": "#060A14",
-				"navigationBarTextStyle": "white"
-			}
-		},
-		{
 			"path": "pages/GIS/index",
 			"style": {
 				"navigationBarTitleText": "态势一张图",
 				"navigationStyle": "custom",
 				"backgroundColor": "#060A14",
-				"disableScroll": true,
-				"mp-weixin": {
-					"usingComponents": {},
-					"componentFramework": "glass-easel"
-				}
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/GIS/SamplingSheet",
+			"style": {
+				"navigationBarTitleText": "联动采样单",
+				"navigationStyle": "custom",
+				"backgroundColor": "#07111d"
+			}
+		},
+		{
+			"path": "pages/GIS/new-smuggling-case",
+			"style": {
+				"navigationBarTitleText": "现场案事件登记",
+				"navigationBarBackgroundColor": "#0a0f1d",
+				"navigationBarTextStyle": "white",
+				"backgroundColor": "#0a0f1d"
 			}
 		},
 		{
 			"path": "pages/Alert Center/Alert Center",
 			"style": {
 				"navigationBarTitleText": "预警工作台",
-				"navigationBarBackgroundColor": "#060A14",
-				"navigationBarTextStyle": "white"
-			}
-		},
-		{
-			"path": "pages/FoodDrug/FoodDrug",
-			"style": {
-				"navigationBarTitleText": "食品药品安全",
 				"navigationBarBackgroundColor": "#060A14",
 				"navigationBarTextStyle": "white"
 			}
@@ -68,6 +65,121 @@
 				"navigationBarBackgroundColor": "#060A14",
 				"navigationBarTextStyle": "white"
 			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "pages/Dashboard",
+			"pages": [
+				{
+					"path": "Dashboard",
+					"style": {
+						"navigationBarTitleText": "双轨数据看板",
+						"navigationBarBackgroundColor": "#060A14",
+						"navigationBarTextStyle": "white"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/Intelligence",
+			"pages": [
+				{
+					"path": "Intelligence",
+					"style": {
+						"navigationBarTitleText": "情报研判中心",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				},
+				{
+					"path": "knowledge-graph",
+					"style": {
+						"navigationBarTitleText": "关系图谱详情",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/Command",
+			"pages": [
+				{
+					"path": "Command",
+					"style": {
+						"navigationBarTitleText": "联合指挥中心",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14",
+						"disableScroll": true
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/SpeciesRecognition",
+			"pages": [
+				{
+					"path": "SpeciesRecognition",
+					"style": {
+						"navigationBarTitleText": "AR物种识别",
+						"navigationStyle": "custom",
+						"backgroundColor": "#000000"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/RapidTest",
+			"pages": [
+				{
+					"path": "RapidTest",
+					"style": {
+						"navigationBarTitleText": "现场快速检测",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/Performance",
+			"pages": [
+				{
+					"path": "Performance",
+					"style": {
+						"navigationBarTitleText": "战果统计详情",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/SyncCenter",
+			"pages": [
+				{
+					"path": "SyncCenter",
+					"style": {
+						"navigationBarTitleText": "数据同步中心",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/Settings",
+			"pages": [
+				{
+					"path": "OperationMode",
+					"style": {
+						"navigationBarTitleText": "单手操作模式",
+						"navigationStyle": "custom",
+						"backgroundColor": "#060A14"
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {

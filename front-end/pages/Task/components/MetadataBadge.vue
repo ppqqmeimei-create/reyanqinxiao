@@ -2,15 +2,15 @@
 	<view class="metadata-badge">
 		<view class="metadata-card">
 			<view class="metadata-item">
-				<image class="meta-icon" src="/static/icons-3/clock-white.png" mode="aspectFit"></image>
+				<image class="meta-icon" src="/static/icons/gps.png" mode="aspectFit"></image>
 				<text class="meta-value">{{ formatTimestamp(timestamp) }}</text>
 			</view>
 			<view class="metadata-item">
-				<image class="meta-icon" src="/static/icons-3/location-white.png" mode="aspectFit"></image>
+				<image class="meta-icon" src="/static/icons/location.png" mode="aspectFit"></image>
 				<text class="meta-value">{{ location.latitude.toFixed(6) }}, {{ location.longitude.toFixed(6) }}</text>
 			</view>
 			<view class="metadata-item" v-if="sensorData.altitude">
-				<image class="meta-icon" src="/static/icons-3/altitude.png" mode="aspectFit"></image>
+				<image class="meta-icon" src="/static/icons/task-meta-altitude.png" mode="aspectFit"></image>
 				<text class="meta-value">{{ sensorData.altitude }}m</text>
 			</view>
 			<view class="sensor-summary">
