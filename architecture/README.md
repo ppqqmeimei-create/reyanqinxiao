@@ -28,7 +28,7 @@ python -m http.server 8000
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '35', 'rankSpacing': '70'}}}%%
 flowchart TB
     %% ============ 感知层（纵向排列） ============
-    subgraph S1["🛰️ 感知层"]
+    subgraph S1["<div style='text-align: center;'>🛰️ 感知层</div>"]
         direction TB
         S1_1["📷 红外热成像"]
         S1_2["📡 活体探测雷达"]
@@ -40,7 +40,7 @@ flowchart TB
     end
 
     %% ============ 边缘计算层（核心处理） ============
-    subgraph S2["⚡ 边缘计算层"]
+    subgraph S2["<div style='text-align: center;'>⚡ 边缘计算层</div>"]
         direction TB
         E1["<b>① 东兴节点</b><br/>防城港战区"]
         E2["<b>② 凭祥节点</b><br/>崇左战区"]
@@ -50,7 +50,7 @@ flowchart TB
     end
 
     %% ============ 数据融合层（核心能力） ============
-    subgraph S3["🧠 数据融合层"]
+    subgraph S3["<div style='text-align: center;'>🧠 数据融合层</div>"]
         direction TB
         FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
         AI["<b>AI物种识别</b><br/>CITES等级 · 置信度评分"]
@@ -60,14 +60,14 @@ flowchart TB
     end
 
     %% ============ 存储层 ============
-    subgraph S4["🗄️ 存储层"]
+    subgraph S4["<div style='text-align: center;'>🗄️ 存储层</div>"]
         direction LR
         DB["<b>MySQL</b><br/>alerts/locations<br/>devices/tasks"]
         CACHE["<b>离线缓存</b><br/>SQLite兜底"]
     end
 
     %% ============ 应用层（核心功能） ============
-    subgraph S5["📱 应用层"]
+    subgraph S5["<div style='text-align: center;'>📱 应用层</div>"]
         direction LR
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
@@ -78,7 +78,7 @@ flowchart TB
     end
 
     %% ============ 业务闭环（右侧） ============
-    subgraph LOOP["📡 执法闭环"]
+    subgraph LOOP["<div style='text-align: center;'>📡 执法闭环</div>"]
         direction TB
         DISPATCH["📡 派警调度<br/>智能推荐执法员"]
         EVIDENCE["📋 证据固定<br/>水印 · 哈希存证"]
