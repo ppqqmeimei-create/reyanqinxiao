@@ -1,0 +1,486 @@
+# 热眼擒枭 - 软著鉴定源代码文件清单
+## 软件名称：热眼擒枭边境活物走私智能防控平台软件 V1.0
+
+## 一、前端APP源码文件（100个，共41,007行）
+
+### 1.1 主入口与配置
+| 序号 | 文件路径 | 代码行数 | 说明 |
+|-----|---------|---------|------|
+| 1 | main.js | 293行 | 应用入口，初始化Pinia与同步引擎 |
+| 2 | App.vue | 198行 | 根组件，全局生命周期管理 |
+| 3 | pages.json | 242行 | 页面路由配置，7个主包+8个分包 |
+| 4 | manifest.json | 56行 | 小程序配置 |
+| 5 | project.config.json | 34行 | HBuilderX项目配置 |
+
+### 1.2 登录模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 6 | pages/login/index.vue | 登录页面，支持账号密码登录 |
+| 7 | pages/login/utils/loginConfig.js | 登录配置（接口/验证规则） |
+
+### 1.3 GIS态势图模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 8 | pages/GIS/index.vue | 核心页面，态势一张图主界面 |
+| 9 | pages/GIS/gis.scss | 样式文件 |
+| 10 | pages/GIS/hooks/useMapLogic.js | 地图逻辑Hook |
+| 11 | pages/GIS/components/MapContainer.vue | 地图容器组件 |
+| 12 | pages/GIS/components/MapControls.vue | 地图控制组件 |
+| 13 | pages/GIS/components/MapPackageItem.vue | 地图包管理组件 |
+| 14 | pages/GIS/components/StatusHeader.vue | 状态头部组件 |
+| 15 | pages/GIS/components/SensorPopup.vue | 传感器弹窗 |
+| 16 | pages/GIS/components/SOSPanel.vue | 紧急求助面板 |
+| 17 | pages/GIS/components/ClueVerifyPanel.vue | 线索核实面板 |
+| 18 | pages/GIS/components/RiskProfilePanel.vue | 风险画像面板 |
+| 19 | pages/GIS/components/SampleSelectPanel.vue | 采样点选择面板 |
+| 20 | pages/GIS/components/EcologyReportPanel.vue | 生态报告面板 |
+| 21 | pages/GIS/components/AlertMiniPanel.vue | 迷你预警面板 |
+| 22 | pages/GIS/utils/gisOptimization.js | GIS优化算法 |
+| 23 | pages/GIS/utils/iconSvgUri.js | 图标URI生成 |
+| 24 | pages/GIS/SamplingSheet.vue | 联动采样单页面 |
+| 25 | pages/GIS/new-smuggling-case.vue | 现场案事件登记 |
+
+### 1.4 预警工作台模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 26 | pages/Alert Center/Alert Center.vue | 预警工作台主页面 |
+| 27 | pages/Alert Center/alert.scss | 样式文件 |
+| 28 | pages/Alert Center/alertCenter.scss | 中心样式 |
+| 29 | pages/Alert Center/README.md | 说明文档 |
+| 30 | pages/Alert Center/components/AlertCard.vue | 预警卡片组件 |
+| 31 | pages/Alert Center/components/AlertDetail.vue | 预警详情组件 |
+| 32 | pages/Alert Center/components/AlertList.vue | 预警列表组件 |
+| 33 | pages/Alert Center/components/AlertFilter.vue | 预警过滤器组件 |
+| 34 | pages/Alert Center/components/FilterBar.vue | 过滤条组件 |
+| 35 | pages/Alert Center/components/TimeLogicBar.vue | 时间逻辑条 |
+| 36 | pages/Alert Center/components/EvidenceUpload.vue | 证据上传组件 |
+| 37 | pages/Alert Center/components/EvidencePreview.vue | 证据预览组件 |
+| 38 | pages/Alert Center/components/EvidenceTimeline.vue | 证据时间线 |
+| 39 | pages/Alert Center/utils/alertConfig.js | 预警配置 |
+| 40 | pages/Alert Center/utils/alertLogic.js | 预警逻辑 |
+| 41 | pages/Alert Center/utils/riskEvaluator.js | 风险评分器 |
+
+### 1.5 任务执行模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 42 | pages/Task/Task.vue | 任务执行主页面 |
+| 43 | pages/Task/task.scss | 样式文件 |
+| 44 | pages/Task/README.md | 说明文档 |
+| 45 | pages/Task/components/ChecklistManager.vue | 检查清单管理 |
+| 46 | pages/Task/components/EvidenceCapture.vue | 证据采集组件 |
+| 47 | pages/Task/components/QuickSampling.vue | 快速采样组件 |
+| 48 | pages/Task/components/CompleteSampling.vue | 完整采样组件 |
+| 49 | pages/Task/components/EnforcementRecord.vue | 执法记录组件 |
+| 50 | pages/Task/components/LegalBasis.vue | 法律依据组件 |
+| 51 | pages/Task/components/MultiEvidence.vue | 多证据组件 |
+| 52 | pages/Task/components/InterceptRadar.vue | 拦截雷达组件 |
+| 53 | pages/Task/components/ActionSlider.vue | 操作滑块 |
+| 54 | pages/Task/components/MetadataBadge.vue | 元数据徽章 |
+| 55 | pages/Task/components/SamplingManager.vue | 采样管理器 |
+| 56 | pages/Task/hooks/useEvidence.js | 证据相关Hook |
+| 57 | pages/Task/hooks/useNavigation.js | 导航Hook |
+| 58 | pages/Task/utils/taskValidator.js | 任务校验 |
+
+### 1.6 设备管理模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 59 | pages/Device/Device.vue | 设备管理主页面 |
+| 60 | pages/Device/device.scss | 样式文件 |
+| 61 | pages/Device/README.md | 说明文档 |
+| 62 | pages/Device/components/DeviceStatCard.vue | 设备统计卡片 |
+| 63 | pages/Device/components/TopologyView.vue | 设备拓扑视图 |
+| 64 | pages/Device/components/SyncManager.vue | 同步管理器 |
+| 65 | pages/Device/components/MapPackageItem.vue | 地图包项目 |
+| 66 | pages/Device/components/EnterpriseRiskProfile.vue | 企业风险画像 |
+| 67 | pages/Device/utils/deviceConfig.js | 设备配置 |
+| 68 | pages/Device/utils/diagnosticLogic.js | 设备诊断逻辑 |
+
+### 1.7 个人中心模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 69 | pages/Profile/Profile.vue | 个人中心页面 |
+| 70 | pages/Profile/profile.scss | 样式文件 |
+| 71 | pages/Profile/README.md | 说明文档 |
+| 72 | pages/Profile/components/UserCard.vue | 用户卡片 |
+| 73 | pages/Profile/components/DutyStats.vue | 值班统计 |
+| 74 | pages/Profile/components/SecurityPanel.vue | 安全面板 |
+| 75 | pages/Profile/components/AiModelManager.vue | AI模型管理 |
+| 76 | pages/Profile/components/SimilarityWeightPanel.vue | 相似度权重配置 |
+| 77 | pages/Profile/hooks/useAuthLogic.js | 认证逻辑Hook |
+| 78 | pages/Profile/utils/userConfig.js | 用户配置 |
+
+### 1.8 分包页面
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 79 | pages/Dashboard/Dashboard.vue | 双轨数据看板 |
+| 80 | pages/Dashboard/dashboard.scss | 样式 |
+| 81 | pages/Intelligence/Intelligence.vue | 情报研判中心 |
+| 82 | pages/Intelligence/knowledge-graph.vue | 关系图谱详情 |
+| 83 | pages/Intelligence/utils/intelligenceConfig.js | 情报配置 |
+| 84 | pages/Command/Command.vue | 指挥调度中心 |
+| 85 | pages/Performance/Performance.vue | 性能监控 |
+| 86 | pages/SyncCenter/SyncCenter.vue | 数据同步中心 |
+| 87 | pages/Settings/OperationMode.vue | 操作模式设置 |
+| 88 | pages/SpeciesRecognition/SpeciesRecognition.vue | 物种识别 |
+
+### 1.9 公共组件与工具
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 89 | components/common/TacticalButton.vue | 战术按钮组件 |
+| 90 | shared/mapData.js | 地图数据共享 |
+| 91 | utils/request.js | HTTP请求封装 |
+| 92 | utils/auth.js | 认证工具 |
+| 93 | utils/errorHandler.js | 全局错误处理 |
+| 94 | utils/evidenceQueue.js | 取证队列管理 |
+| 95 | utils/evidenceStorage.js | 取证存储管理 |
+| 96 | utils/offlineQueue.js | 离线队列管理 |
+| 97 | utils/syncEngine.js | 同步引擎 |
+| 98 | utils/systemConfig.js | 系统配置 |
+| 99 | utils/permission.js | 权限管理 |
+| 100 | utils/shadowTrackingV2.js | 影子追踪V2.0算法 |
+
+### 1.10 状态管理（Pinia Stores）
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 101 | stores/app.js | 全局应用状态 |
+| 102 | stores/user.js | 用户状态 |
+| 103 | stores/evidence.js | 取证状态 |
+| 104 | stores/intelligence.js | 情报状态 |
+| 105 | stores/offline.js | 离线状态 |
+| 106 | stores/realtime.js | 实时数据状态 |
+| 107 | stores/security.js | 安全状态 |
+| 108 | stores/sensor.js | 传感器状态 |
+
+---
+
+## 二、后端Node.js API源码文件（48个，共12,784行）
+
+### 2.1 主入口与配置
+| 序号 | 文件路径 | 代码行数 | 说明 |
+|-----|---------|---------|------|
+| 1 | src/server.js | 241行 | 服务入口，中间件配置 |
+| 2 | src/config/database.js | 75行 | 数据库连接配置 |
+| 3 | src/middleware/auth.js | 52行 | JWT认证中间件 |
+| 4 | src/middleware/validation.js | 68行 | 输入验证中间件 |
+| 5 | src/middleware/taskMiddleware.js | 89行 | 任务业务中间件 |
+| 6 | src/middleware/taskSecurity.js | 76行 | 任务安全中间件 |
+
+### 2.2 数据模型
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 7 | src/models/User.js | 用户模型 |
+| 8 | src/models/Alert.js | 预警模型 |
+| 9 | src/models/Device.js | 设备模型 |
+| 10 | src/models/Task.js | 任务模型 |
+| 11 | src/models/index.js | 模型索引 |
+
+### 2.3 路由模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 12 | src/routes/auth.js | 认证路由（登录/注册） |
+| 13 | src/routes/auth_optimization.js | 认证优化路由 |
+| 14 | src/routes/alerts.js | 预警路由 |
+| 15 | src/routes/alerts_optimization.js | 预警优化路由 |
+| 16 | src/routes/tasks.js | 任务路由 |
+| 17 | src/routes/tasks_optimization.js | 任务优化路由 |
+| 18 | src/routes/tasks_extended.js | 任务扩展路由 |
+| 19 | src/routes/tasks_ext_part1.js | 任务扩展路由-1 |
+| 20 | src/routes/tasks_ext_part2.js | 任务扩展路由-2 |
+| 21 | src/routes/tasks_interface_optimization.js | 任务接口优化 |
+| 22 | src/routes/devices.js | 设备路由 |
+| 23 | src/routes/devices_optimization.js | 设备优化路由 |
+| 24 | src/routes/devices_interface_optimization.js | 设备接口优化 |
+| 25 | src/routes/gis.js | GIS地图路由 |
+| 26 | src/routes/gis_extended.js | GIS扩展路由 |
+| 27 | src/routes/gis_enhanced.js | GIS增强路由 |
+| 28 | src/routes/gis_optimization.js | GIS优化路由 |
+| 29 | src/routes/users.js | 用户管理路由 |
+| 30 | src/routes/users_optimization.js | 用户优化路由 |
+| 31 | src/routes/users_interface_optimization.js | 用户接口优化 |
+| 32 | src/routes/wildlife.js | 野生动物路由 |
+| 33 | src/routes/enforcement.js | 执法路由 |
+| 34 | src/routes/enforcement_alerts.js | 执法预警路由 |
+| 35 | src/routes/fusion.js | 融合分析路由 |
+| 36 | src/routes/sensing.js | 感知数据路由 |
+| 37 | src/routes/closedloop.js | 闭环管理路由 |
+| 38 | src/routes/realtime.js | 实时数据路由 |
+| 39 | src/routes/evidence.js | 取证路由 |
+| 40 | src/routes/stats.js | 统计路由 |
+| 41 | src/routes/logs.js | 日志路由 |
+
+### 2.4 服务层
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 42 | src/services/websocketHub.js | WebSocket服务 |
+| 43 | src/services/aiService.js | AI服务 |
+| 44 | src/services/auditLog.js | 审计日志服务 |
+| 45 | src/services/closedLoopService.js | 闭环服务 |
+| 46 | src/services/realtimeEventBus.js | 实时事件总线 |
+| 47 | src/services/riskScoringService.js | 风险评分服务 |
+| 48 | src/services/sensorIngestionService.js | 传感器接入服务 |
+
+### 2.5 工具类
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 49 | src/utils/logger.js | 日志工具 |
+
+---
+
+## 三、后端Python（Flask）源码文件（20个，共2,396行）
+
+### 3.1 应用核心
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 1 | run.py | Flask应用入口 |
+| 2 | app/__init__.py | 应用初始化 |
+| 3 | app/models/__init__.py | 模型初始化 |
+| 4 | app/models/alert.py | 预警模型 |
+| 5 | app/models/device.py | 设备模型 |
+| 6 | app/models/pollution_source.py | 污染源模型 |
+| 7 | app/models/task.py | 任务模型 |
+| 8 | app/models/user.py | 用户模型 |
+| 9 | app/models/alert_fixed.py | 固定预警模型 |
+| 10 | app/models/task_location.py | 任务位置模型 |
+
+### 3.2 路由模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 11 | app/routes/__init__.py | 路由初始化 |
+| 12 | app/routes/alerts.py | 预警路由 |
+| 13 | app/routes/alerts_fixed.py | 固定预警路由 |
+| 14 | app/routes/auth.py | 认证路由 |
+| 15 | app/routes/devices.py | 设备路由 |
+| 16 | app/routes/gis.py | GIS路由 |
+| 17 | app/routes/tasks.py | 任务路由 |
+| 18 | app/routes/tasks_ext_part1.py | 任务扩展-1 |
+| 19 | app/routes/tasks_ext_part2.py | 任务扩展-2 |
+
+### 3.3 工具模块
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 20 | app/utils/auth.py | 认证工具 |
+
+### 3.4 配置文件
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 21 | config/__init__.py | 配置初始化 |
+| 22 | config/settings.py | 环境配置 |
+
+---
+
+## 四、管理后台源码文件（12个，共1,874行）
+
+### 4.1 应用核心
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 1 | src/App.jsx | 应用根组件，路由守卫 |
+| 2 | src/main.js | 入口文件 |
+| 3 | src/index.html | HTML模板 |
+| 4 | vite.config.js | Vite配置 |
+| 5 | package.json | 依赖配置 |
+
+### 4.2 页面组件
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 6 | src/components/MainLayout.jsx | 主布局组件 |
+| 7 | src/pages/Login.jsx | 登录页面 |
+| 8 | src/pages/Dashboard.jsx | 仪表盘页面 |
+| 9 | src/pages/Users.jsx | 用户管理页面 |
+| 10 | src/pages/system/Users.jsx | 系统用户管理 |
+| 11 | src/pages/Alerts.jsx | 预警管理页面 |
+| 12 | src/pages/Tasks.jsx | 任务管理页面 |
+| 13 | src/pages/Devices.jsx | 设备管理页面 |
+| 14 | src/pages/Evidence.jsx | 证据管理页面 |
+| 15 | src/pages/Stats.jsx | 统计分析页面 |
+| 16 | src/pages/Settings.jsx | 系统设置页面 |
+| 17 | src/pages/GIS.jsx | GIS地图页面 |
+
+### 4.3 工具与样式
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 18 | src/utils/api.js | API接口封装 |
+| 19 | src/utils/permissions.js | 权限工具 |
+| 20 | src/utils/errorHandler.js | 错误处理 |
+
+---
+
+## 五、数据库脚本文件（37个，共5,706行）
+
+### 5.1 基础建表与种子数据
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 1 | SQL/01_create_database.sql | 266行 | 创建���据库与基础表 |
+| 2 | SQL/02_insert_test_data.sql | 117行 | 测试数据种子 |
+| 3 | SQL/03_common_queries.sql | 382行 | 通用查询视图 |
+| 4 | SQL/04_maintenance.sql | 281行 | 维护脚本 |
+
+### 5.2 任务模块升级
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 5 | SQL/05_task_upgrade_part1.sql | 146行 | 任务升级-1 |
+| 6 | SQL/05_task_upgrade_part2.sql | 156行 | 任务升级-2 |
+| 7 | SQL/05_upgrade_tasks_module.sql | 180行 | 任务模块整体升级 |
+
+### 5.3 预警模块
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 8 | SQL/06_alert_fix.sql | 109行 | 预警修复脚本 |
+| 9 | SQL/12_alert_enhancement.sql | 190行 | 预警增强 |
+| 10 | SQL/19_alert_interface_optimization.sql | 236行 | 预警接口优化 |
+
+### 5.4 GIS模块
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 11 | SQL/07_gis_upgrade.sql | 117行 | GIS升级 |
+| 12 | SQL/11_gis_optimization.sql | 109行 | GIS优化 |
+| 13 | SQL/19_gis_optimization.sql | 302行 | GIS优化增强 |
+
+### 5.5 设备模块
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 14 | SQL/08_device_upgrade.sql | 35行 | 设备升级 |
+| 15 | SQL/16_device_optimization.sql | 273行 | 设备优化 |
+| 16 | SQL/21_device_interface_optimization.sql | 314行 | 设备接口优化 |
+| 17 | SQL/22_device_interface_optimization_part2.sql | 186行 | 设备接口优化-2 |
+
+### 5.6 用户与权限模块
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 18 | SQL/09_profile_upgrade.sql | 25行 | 个人中心升级 |
+| 19 | SQL/17_user_optimization.sql | 303行 | 用户优化 |
+| 22 | SQL/18_login_optimization.sql | 300行 | 登录优化 |
+| 23 | SQL/22_profile_interface_optimization.sql | 283行 | 个人中心接口优化 |
+
+### 5.7 任务模块（补充）
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 20 | SQL/14_task_module_optimization.sql | 205行 | 任务模块优化 |
+| 21 | SQL/15_task_optimization_v2.sql | 250行 | 任务优化V2 |
+| 24 | SQL/20_task_interface_optimization.sql | 321行 | 任务接口优化 |
+
+### 5.8 执法与野生动物
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 25 | SQL/12_fooddrug_module.sql | 156行 | 食品药品模块 |
+| 26 | SQL/13_enforcement_module.sql | 161行 | 执法模块 |
+| 27 | SQL/23_wildlife_smuggling_upgrade.sql | 287行 | 野生动物走私升级 |
+
+### 5.9 闭环与协同
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 28 | SQL/26_closed_loop_upgrade.sql | 60行 | 闭环升级 |
+| 29 | SQL/27_closed_loop_migration.sql | 200行 | 闭环迁移 |
+| 30 | SQL/27_closed_loop_rebuild.sql | 258行 | 闭环重建 |
+| 31 | SQL/27_verify.sql | 118行 | 闭环验证 |
+| 32 | SQL/27_run_order.md | 执行顺序说明 |
+
+### 5.10 字典与种子数据
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 33 | SQL/24_ecology_policing_dict_migration.sql | 146行 | 生态警务字典迁移 |
+| 34 | SQL/25_guangxi_border_seed.sql | 289行 | 广西边境种子数据 |
+
+### 5.11 验证脚本
+| 序号 | 文件路径 | 行数 | 说明 |
+|-----|---------|------|------|
+| 35 | SQL/28_batch2_capabilities.sql | 84行 | 批次2能力验证 |
+| 36 | SQL/28_verify.sql | 40行 | 验证脚本 |
+| 37 | SQL/29_domain_alignment.sql | 39行 | 领域对齐 |
+| 38 | SQL/30_collaboration_and_analysis.sql | 56行 | 协同与分析 |
+
+### 5.12 辅助脚本
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 39 | SQL/backup.sh | 数据库备份脚本 |
+| 40 | SQL/DATABASE_DESIGN.md | 数据库设计文档 |
+| 41 | SQL/DATABASE_SUMMARY.md | 数据库总结 |
+| 42 | SQL/MIGRATION_GUIDE.md | 迁移指南 |
+| 43 | SQL/README.md | 数据库说明 |
+
+---
+
+## 六、配置文件
+
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 1 | back-end/.env.example | 环境变量示例 |
+| 2 | back-end/.env | 环境变量（实际部署使用） |
+| 3 | back-end/requirements.txt | Python依赖 |
+| 4 | back-end/package-lock.json | Node依赖锁 |
+| 5 | back-end/start.bat | Windows启动脚本 |
+| 6 | back-end/start.sh | Linux启动脚本 |
+
+---
+
+## 七、文档文件
+
+| 序号 | 文件路径 | 说明 |
+|-----|---------|------|
+| 1 | README.md | 项目主文档 |
+| 2 | PRD.md | 产品需求说明书 |
+| 3 | API.md | API接口文档 |
+| 4 | ALGORITHMS.md | 算法设计文档 |
+| 5 | DEPLOY.md | 部署说明 |
+| 6 | BACKEND_TECH_VERIFICATION.md | 后端技术验证 |
+| 7 | BACKEND_VERIFICATION.md | 后端验证报告 |
+| 8 | CHECKLIST.md | 功能清单 |
+| 9 | MIGRATION_SUMMARY.md | 迁移总结 |
+| 10 | IMPROVEMENT_SUMMARY.md | 改进总结 |
+| 11 | QUICKSTART.md | 快速开始 |
+| 12 | SETUP.md | 环境搭建指南 |
+| 13 | front-end/ALERT_OPTIMIZATION_COMPLETE.md | 预警优化完成报告 |
+| 14 | front-end/ALERT_REVIEW_REPORT.md | 预警评审报告 |
+| 15 | front-front/TASK_REVIEW_REPORT.md | 任务评审报告 |
+| 16 | front-end/TASK_OPTIMIZATION_COMPLETE.md | 任务优化完成报告 |
+| 17 | front-end/GIS_OPTIMIZATION_COMPLETE.md | GIS优化完成报告 |
+| 18 | front-end/GIS_REVIEW_REPORT.md | GIS评审报告 |
+| 19 | front-end/TECH_STACK_VERIFICATION.md | 技术栈验证 |
+| 20 | front-end/DEVICE_REVIEW_REPORT.md | 设备评审报告 |
+| 21 | front-end/LOGIN_REVIEW_REPORT.md | 登录评审报告 |
+| 22 | front-end/PROFILE_REVIEW_REPORT.md | 个人中心评审报告 |
+| 23 | shuomingwendang.md | 产品说明文档 |
+
+---
+
+## 八、总代码统计汇总
+
+| 模块 | 文件数 | 代码行数 | 说明 |
+|-----|--------|---------|------|
+| 前端APP | 100 | 41,007 | uni-app + Vue 3 |
+| 后端Node.js | 48 | 12,784 | Express + Sequelize |
+| 后端Python | 20 | 2,396 | Flask备选方案 |
+| 管理后台 | 12 | 1,874 | React + Ant Design |
+| SQL脚本 | 37 | 5,706 | MySQL数据库 |
+| 配置文件 | 6 | 约300行 | 环境/依赖配置 |
+| 文档文件 | 23 | 约15,000行 | Markdown说明文档 |
+| **合计** | **246** | **79,067** | - |
+
+---
+
+## 九、鉴定材料清单（提交版权中心）
+
+### 9.1 软件著作权登记申请表
+- 软件全称：热眼擒枭边境活物走私智能防控与生态协同预警平台软件
+- 版本号：V1.0
+- 开发完成日期：2026年4月
+- 首次发表日期：（如有）
+- 著作权人：（填写实际单位或个人）
+
+### 9.2 鉴别材料（源代码）
+
+**要求**：提交前后各30页源程序（每页≥50行），共60页
+
+**建议提交顺序**：
+1. 前端APP（前30页）
+2. 后端API（后30页）
+
+### 9.3 文档材料
+- 软件说明书（≥10页）
+- 设计文档
+- API文档
+
+---
+
+**清单编制日期**：2026年4月14日
+**项目名称**：热眼擒枭
+**版本号**：V1.0

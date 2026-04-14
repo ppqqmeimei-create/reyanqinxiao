@@ -1,0 +1,579 @@
+# 计算机软件著作权鉴定材料
+## 项目名称：热眼擒枭 - 边境活物走私智能防控平台
+
+---
+
+## 一、软件基本信息
+
+| 项目 | 内容 |
+|-----|------|
+| **软件全称** | 热眼擒枭边境活物走私智能防控平台软件 |
+| **软件简称** | 热眼擒枭平台 |
+| **版本号** | V1.0 |
+| **开发完成日期** | 2026年3月 |
+| **开发单位** | 热眼擒枭项目组 |
+| **行业领域** | 边境防控、生态安全监管 |
+| **技术架构** | 云-边-端协同架构 |
+| **部署环境** | 服务器端 + 移动端（微信小程序/H5）+ Web管理后台 |
+
+---
+
+## 二、技术架构概述
+
+### 2.1 系统架构图
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        应用层                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │  前端APP      │  │  管理后台    │  │  实时大屏    │      │
+│  │  (uni-app)   │  │  (React)    │  │             │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                        接口层                                 │
+│  ┌──────────────────────────────────────────────────┐        │
+│  │              后端API服务 (Node.js)               │        │
+│  │         /api/v1  RESTful + WebSocket            │        │
+│  └──────────────────────────────────────────────────┘        │
+│                        数据层                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │   MySQL 8.0  │  │    Redis     │  │    文件存储   │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                        感知层                                 │
+│  ┌──────────────────────────────────────────────────┐        │
+│  │  红外热成像 | 震动光纤 | 可见光摄像 | GPS定位    │        │
+│  │  无人机遥感 | 气味传感器 | 水质监测 | 生物雷达   │        │
+│  └──────────────────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 2.2 技术栈清单
+
+| 层级 | 技术选型 | 版本 |
+|-----|---------|------|
+| **前端APP** | uni-app + Vue 3 + Pinia + SCSS | Vue 3.x / uni-app 2.x |
+| **管理后台** | React 18 + Vite + Ant Design 5 + ECharts | React 18.x / Vite 5.x |
+| **后端服务** | Node.js + Express + Sequelize ORM | Node.js 18+ / Express 4.x |
+| **备选后端** | Python Flask + SQLAlchemy | Python 3.x / Flask 3.x |
+| **数据库** | MySQL 8.0 | MySQL 8.0 |
+| **缓存** | Redis | Redis |
+| **实时通信** | WebSocket | ws 8.x |
+| **安全中间件** | Helmet + JWT + bcryptjs | Helmet 7.x / jsonwebtoken 9.x |
+
+---
+
+## 三、源代码规模统计
+
+| 模块 | 语言 | 文件数 | 代码行数 |
+|-----|------|--------|---------|
+| 前端APP | JavaScript/Vue | 100 | 41,007 |
+| 后端API | JavaScript | 48 | 12,784 |
+| 后端API（备选） | Python | 20 | 2,396 |
+| 管理后台 | JavaScript/JSX | 12 | 1,874 |
+| 数据库脚本 | SQL | 37 | 5,706 |
+| **合计** | - | **217** | **63,767** |
+
+---
+
+## 四、软件功能模块详细说明
+
+### 4.1 前端APP功能模块（主包 7 个页面）
+
+#### 4.1.1 登录模块（pages/login/index.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 身份认证 | 支持用户名/密码登录，支持JWT Token认证 |
+| 记住登录状态 | Token持久化存储 |
+| 夜间模式适配 | 深色主题登录界面 |
+| 权限标识 | 显示用户角色（inspector/manager/admin） |
+
+#### 4.1.2 GIS态势一张图（pages/GIS/index.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 地图底图 | 微信小程序原生地图，支持缩放/平移 |
+| 态势条 | 显示当前区域、在线联勤数量、今日异常数量 |
+| 环境感知数据 | 实时显示温度、湿度、风速、气压、日夜模式 |
+| 设备状态标注 | 红外热成像/震动光纤/可见光摄像/GPS/无人机等8类设备图标标注 |
+| 设备状态联动 | 在线=绿色、预警=黄色、离线=灰色三层状态指示 |
+| 巡逻轨迹绘制 | Polyline绘制巡逻路径 |
+| 拦截范围圆 | Circle标注设备感知半径 |
+| 影子追踪V2.0 | 动态目标轨迹预测，盲区追踪提示 |
+| 案件标注 | 支持走私案件、生物多样性案件标注 |
+| 拦截雷达 | 动态显示拦截最优路径与预测拦截点 |
+| 实时推送 | WebSocket接收预警数据实时刷新 |
+| 类型筛选 | 按设备类型（红外/无人机/光纤等）筛选标注 |
+| 区域切换 | 支持五大边境节点快速切换 |
+| 采样点选择 | 联动采样单功能（SamplingSheet.vue） |
+
+#### 4.1.3 预警工作台（pages/Alert Center/Alert Center.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 预警分类 | 按走私预警/生态预警/综合预警三类展示 |
+| 三级预警 | Critical（≥85分）/ Warning（70-84分）/ Info（<70分） |
+| 统计看板 | 实时显示各级别预警数量、平均响应时间、已处理数量 |
+| 预警列表 | AlertList组件，支持滚动加载、分页 |
+| 预警卡片 | AlertCard组件，显示预警类型、来源设备、风险评分 |
+| 预警详情 | AlertDetail组件，展示完整预警信息与处置历史 |
+| 证据上传 | EvidenceUpload组件，支持多格式证据附件 |
+| 时间逻辑过滤 | TimeLogicBar，支持按时间段筛选 |
+| 相似预警匹配 | 自动关联相似历史预警 |
+| 一键建任务 | 从预警直接创建处置任务 |
+| 忽略/归档 | 支持忽略低优先级预警 |
+
+#### 4.1.4 任务执行（pages/Task/Task.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 任务类型 | 快速勘查/完整取证/定点检查/持续巡逻 |
+| 任务状态 | pending/in_progress/completed/cancelled |
+| 任务详情 | 显示案件编号、涉案物种、保护等级、风险评分 |
+| 协同状态 | 任务协同部门、联合案件编号、协同进展 |
+| 检查清单 | ChecklistManager，智能生成检查项 |
+| 取证记录 | EvidenceCapture，支持多格式取证、拍照、录音、备注 |
+| 快速取证 | QuickSampling，快速录入采样信息 |
+| 完整采样 | CompleteSampling，完整采样信息录入 |
+| 执法记录 | EnforcementRecord，执法过程全记录 |
+| 拦截雷达 | InterceptRadar，智能推荐拦截路径 |
+| 紧急求助 | SOS按钮，一键触发紧急响应 |
+| 任务时效 | 截止时间倒计时，到期提醒 |
+| 优先级标识 | urgent/high/normal/low 四级颜色标识 |
+
+#### 4.1.5 设备管理（pages/Device/Device.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 系统健康评分 | 综合评分百分比（基于在线率/预警率） |
+| 设备分类Tab | 全部/红外热成像/边境无人机/震动光纤/卡口摄像/GPS定位/气味传感/生物雷达 |
+| 设备拓扑图 | TopologyView，设备网络拓扑可视化 |
+| 设备状态监控 | 在线/预警/离线实时状态 |
+| 同步管理 | SyncManager，离线数据同步状态 |
+| 设备地图 | 设备分布地图展示 |
+| 企业风险画像 | EnterpriseRiskProfile |
+| 设备诊断 | diagnosticLogic.js，设备异常自动诊断 |
+| 地图包管理 | MapPackageItem，地图包下载/管理 |
+| 设备详情 | 显示设备类型、型号、位置、负责人、最后在线时间 |
+
+#### 4.1.6 个人中心（pages/Profile/Profile.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 用户信息 | UserCard，用户基本信息与权限显示 |
+| 值班统计 | DutyStats，当日/本周值班数据 |
+| 物种识别 | SpeciesRecognition，濒危物种图像识别 |
+| AI模型管理 | AiModelManager，模型参数配置 |
+| 相似度权重 | SimilarityWeightPanel，预警相似度权重配置 |
+| 安全设置 | SecurityPanel，安全相关配置 |
+| 操作模式 | OperationMode，普通模式/戴手套模式切换 |
+| 性能监控 | Performance，系统运行状态监控 |
+| 数据同步中心 | SyncCenter，离线数据同步管理 |
+
+#### 4.1.7 联动采样（pages/GIS/SamplingSheet.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 采样单创建 | 从GIS地图选择采样点 |
+| 采样信息录入 | 物种、位置、时间、环境参数 |
+| 采样状态跟踪 | 采样进度跟踪 |
+
+---
+
+### 4.2 前端分包功能模块（8 个页面）
+
+#### 4.2.1 Dashboard（pages/Dashboard/Dashboard.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 双轨数据看板 | 走私+生态双线数据展示 |
+| 预警趋势图 | ECharts折线图展示7日预警趋势 |
+| 设备在线率 | 饼图展示设备在线/预警/离线比例 |
+
+#### 4.2.2 Intelligence（pages/Intelligence/Intelligence.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 情报研判中心 | 关系图谱展示 |
+| 知识图谱 | knowledge-graph，节点关系可视化 |
+| 情报配置 | intelligenceConfig.js，情报分析参数配置 |
+
+#### 4.2.3 Command（pages/Command/Command.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 指挥调度中心 | 任务统一调度指挥 |
+| 协同指令下发 | 多部门协同指令管理 |
+
+#### 4.2.4 SpeciesRecognition（pages/SpeciesRecognition/SpeciesRecognition.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 物种识别 | 濒危物种图像识别 |
+| 保护等级标注 | CITES附录等级显示 |
+
+#### 4.2.5 RapidTest（pages/RapidTest/RapidTest.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 快检模块 | 快速检测结果录入 |
+| 检测结果上报 | 快速检测数据实时上报 |
+
+#### 4.2.6 Performance（pages/Performance/Performance.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 性能监控 | 系统响应速度、数据同步效率监控 |
+
+#### 4.2.7 SyncCenter（pages/SyncCenter/SyncCenter.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 数据同步中心 | 离线队列管理、断点续传状态 |
+
+#### 4.2.8 OperationMode（pages/Settings/OperationMode.vue）
+| 功能点 | 说明 |
+|-------|------|
+| 操作模式设置 | 普通模式/戴手套模式切换 |
+
+---
+
+### 4.3 状态管理模块（8 个 Pinia Store）
+
+| Store | 功能说明 |
+|-------|---------|
+| app.js | 全局配置（暗色模式、戴手套模式、系统配置） |
+| user.js | 用户认证、权限信息 |
+| evidence.js | 取证数据管理、证据队列 |
+| intelligence.js | 情报分析数据 |
+| offline.js | 离线队列、离线状态管理 |
+| realtime.js | WebSocket实时数据、Badge通知 |
+| security.js | 安全相关状态 |
+| sensor.js | 传感器数据管理 |
+
+---
+
+### 4.4 工具模块（9 个核心工具）
+
+| 工具 | 功能说明 |
+|-----|---------|
+| request.js | Axios封装，统一请求拦截、Token注入、错误处理 |
+| auth.js | 认证工具，Token解析、权限判断 |
+| alertAPI.js | 预警接口封装 |
+| syncEngine.js | 同步引擎，断点续传、冲突解决 |
+| evidenceQueue.js | 取证队列管理 |
+| evidenceStorage.js | 取证数据本地存储 |
+| offlineQueue.js | 离线队列管理 |
+| shadowTrackingV2.js | 影子追踪V2.0算法实现 |
+| errorHandler.js | 全局错误处理 |
+
+---
+
+## 五、后端API功能模块
+
+### 5.1 认证模块（routes/auth.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /auth/login | POST | 用户登录，返回JWT Token |
+| /auth/register | POST | 用户注册 |
+| /auth/logout | POST | 退出登录 |
+| /auth/me | GET | 获取当前用户信息 |
+| /auth/update-status | PUT | 更新用户状态（在线/忙碌/离线） |
+
+### 5.2 预警模块（routes/alerts.js + alerts_optimization.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /alerts | GET | 查询预警列表（支持分页/过滤） |
+| /alerts | POST | 创建预警 |
+| /alerts/:id | GET | 获取预警详情 |
+| /alerts/:id | PUT | 更新预警 |
+| /alerts/:id | DELETE | 删除预警 |
+| /alerts/:id/assign | PUT | 分派预警处置人 |
+| /alerts/:id/resolve | PUT | 标记预警为已解决 |
+| /alerts/:id/ignore | PUT | 忽略预警 |
+| /alerts/:id/similar | GET | 获取相似预警 |
+| /alerts/stats | GET | 预警统计数据 |
+| /alerts/similarity/weights | GET/PUT | 相似度权重配置 |
+
+### 5.3 任务模块（routes/tasks.js + tasks_optimization.js + tasks_extended.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /tasks | GET | 查询任务列表 |
+| /tasks | POST | 创建任务 |
+| /tasks/:id | GET | 获取任务详情（含协同状态） |
+| /tasks/:id | PUT | 更新任务 |
+| /tasks/:id | DELETE | 删除任务 |
+| /tasks/:id/collaboration | PUT | 更新任务协同信息 |
+| /tasks/:id/collaboration/timeline | GET | 获取协同时间线 |
+| /tasks/:id/progress | PUT | 更新任务进度 |
+| /tasks/:id/complete | POST | 完成任务 |
+
+### 5.4 设备模块（routes/devices.js + devices_optimization.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /devices | GET | 查询设备列表 |
+| /devices | POST | 创建设备 |
+| /devices/:id | GET | 获取设备详情 |
+| /devices/:id | PUT | 更新设备 |
+| /devices/:id | DELETE | 删除设备 |
+| /devices/heartbeat | POST | 设备心跳上报 |
+| /devices/:id/sensitivity | PUT | 调整设备灵敏度 |
+
+### 5.5 GIS地图模块（routes/gis.js + gis_extended.js + gis_enhanced.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /gis/devices | GET | 获取地图设备标注 |
+| /gis/alerts | GET | 获取地图预警标注 |
+| /gis/tasks | GET | 获取地图任务标注 |
+| /gis/routes | GET | 获取巡逻轨迹 |
+| /gis/zones | GET | 获取防控区域边界 |
+| /gis/sensors | GET | 获取传感器实时数据 |
+| /gis/shadow-track | GET | 影子追踪轨迹数据 |
+| /gis/intercept | GET | 拦截点推荐 |
+
+### 5.6 野生动物模块（routes/wildlife.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /wildlife/species | GET | 物种列表 |
+| /wildlife/recognize | POST | 物种图像识别 |
+| /wildlife/protection-level | GET | 保护等级查询 |
+
+### 5.7 执法模块（routes/enforcement.js + enforcement_alerts.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /enforcement/records | GET/POST | 执法记录查询/创建 |
+| /enforcement/:id | GET/PUT | 执法记录详情/更新 |
+
+### 5.8 融合分析模块（routes/fusion.js + realtime.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /fusion/multisource | POST | 多源传感器融合分析 |
+| /fusion/hotspot | GET | 热点网格聚合 |
+| /fusion/track | GET | 融合轨迹追踪 |
+| /realtime/stream | WebSocket | 实时数据流推送 |
+
+### 5.9 感知数据模块（routes/sensing.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /sensing/ingest | POST | 传感器数据接入 |
+| /sensing/realtime | GET | 实时感知数据查询 |
+
+### 5.10 闭环管理模块（routes/closedloop.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /closedloop/create | POST | 创建闭环任务 |
+| /closedloop/track | GET | 跟踪闭环进度 |
+| /closedloop/close | POST | 完成任务闭环 |
+
+### 5.11 取证模块（routes/evidence.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /evidence/upload | POST | 证据上传 |
+| /evidence/verify | POST | 证据校验（哈希验证） |
+| /evidence/:id | GET | 获取证据详情 |
+| /evidence/list | GET | 证据列表 |
+
+### 5.12 统计模块（routes/stats.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /stats/dashboard | GET | 仪表盘统计数据 |
+| /stats/trend | GET | 趋势分析数据 |
+| /stats/species | GET | 物种统计 |
+| /stats/performance | GET | 系统性能数据 |
+
+### 5.13 日志模块（routes/logs.js）
+| 接口 | 方法 | 说明 |
+|-----|------|------|
+| /logs/query | GET | 日志查询 |
+| /logs/audit | GET | 审计日志 |
+
+---
+
+## 六、数据库设计
+
+### 6.1 核心数据表
+
+| 表名 | 说明 | 主要字段 |
+|-----|------|---------|
+| users | 用户表 | id, username, password_hash, role, name, phone, zone |
+| alerts | 预警表 | id, title, type, level, status, risk_score, lat, lng, species |
+| tasks | 任务表 | id, title, type, status, priority, assignee_id, alert_id |
+| devices | 设备表 | id, name, type, status, lat, lng, sensitivity, last_seen |
+| task_evidence | 取证表 | id, task_id, type, file_path, hash, timestamp |
+| task_checklist | 检查清单表 | id, task_id, item, completed |
+| device_metadata | 设备元数据表 | id, device_id, key, value |
+| alerts_similarity | 预警相似度表 | id, alert_id, similar_id, similarity_score |
+| task_collaboration | 任务协同表 | id, task_id, department, status |
+| wildlife_species | 物种数据库 | id, name, latin_name, protection_level |
+| notifications | 通知表 | id, user_id, title, content, read |
+| system_logs | 系统日志表 | id, level, message, details |
+
+---
+
+## 七、核心算法模块
+
+### 7.1 数学计算类算法（8个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| Haversine距离计算 | gisOptimization.js | 两点间地球表面距离 |
+| AI置信度评分 | riskEvaluator.js | 预警置信度量化 |
+| 综合风险评分 | riskEvaluator.js | 多因子风险加权 |
+| 加权相似度 | intelligenceConfig.js | 多维相似度计算 |
+| 设备健康评分 | diagnosticLogic.js | 设备健康状态量化 |
+| 预警优先级 | alertLogic.js | 预警优先级排序 |
+| 影子追踪V2.0 | shadowTrackingV2.js | 动态轨迹预测 |
+| 拦截点计算 | gisOptimization.js | 最优拦截路径推荐 |
+
+### 7.2 数据处理类算法（5个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| 多条件过滤 | alertConfig.js | 预警多维度筛选 |
+| 时空去重 | diagnosticLogic.js | 重复预警去重 |
+| 优先级排序 | taskValidator.js | 任务优先级排序 |
+| 分页处理 | request.js | 数据分页封装 |
+| 离线队列管理 | offlineQueue.js | 离线数据队列 |
+
+### 7.3 GIS/地图类算法（6个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| 坐标系转换 | iconSvgUri.js | 多坐标系转换 |
+| 地图标注生成 | gisOptimization.js | 设备标注生成 |
+| 巡逻轨迹平滑 | shadowTrackingV2.js | GPS轨迹平滑 |
+| 拦截路径规划 | gisOptimization.js | 动态路径规划 |
+| 热点网格聚合 | fusion.js | 预警热点聚合 |
+| 区域边界渲染 | MapContainer.vue | GeoJSON渲染 |
+
+### 7.4 融合分析类算法（2个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| 多传感器时空融合 | fusion.js | 红外+振动+可见光融合 |
+| 影子追踪融合 | shadowTrackingV2.js | 盲区目标追踪 |
+
+### 7.5 相似度匹配类算法（1个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| 加权多维相似度 | intelligenceConfig.js | 预警相似度匹配 |
+
+### 7.6 状态评估类算法（3个）
+
+| 算法 | 文件 | 功能 |
+|-----|------|------|
+| 设备健康评估 | diagnosticLogic.js | 设备健康分计算 |
+| 风险等级映射 | riskEvaluator.js | 分数到等级映射 |
+| 预警优先级映射 | alertLogic.js | 预警优先级判定 |
+
+---
+
+## 八、管理后台功能模块
+
+| 页面 | 功能 |
+|-----|------|
+| Dashboard | 系统仪表盘，预警/任务/设备/取证统计，ECharts图表 |
+| Users | 用户管理，角色分配（inspector/manager/admin） |
+| Alerts | 预警管理，全量预警查看/分派/处置 |
+| Tasks | 任务管理，任务创建/分配/进度跟踪 |
+| Devices | 设备管理，设备注册/参数配置/状态监控 |
+| Evidence | 取证管理，证据查看/验证/归档 |
+| Stats | 统计分析，多维度数据统计 |
+| Settings | 系统设置，参数配置 |
+| GIS | 地图管理，设备分布可视化 |
+
+---
+
+## 九、关键技术创新点
+
+### 9.1 影子追踪算法V2.0
+- 基于多传感器历史数据预测目标运动轨迹
+- 支持盲区追踪，弥补单传感器覆盖盲区
+- 动态更新预测路径，适应目标变速变向
+
+### 9.2 多传感器时空融合
+- 整合红外热成像、震动光纤、可见光摄像多源数据
+- 基于时空关联规则判断走私事件
+- 支持跨设备协同预警
+
+### 9.3 戴手套盲操作模式
+- 增大触控热区，最小触控区域48px
+- 简化操作流程，一键触发关键动作
+- 支持振动反馈确认操作
+
+### 9.4 离线韧性设计
+- 断点续传机制，网络恢复自动补传
+- 证据哈希防伪，区块链式存储校验
+- 离线队列智能管理，优先级调度
+
+### 9.5 实时WebSocket推送
+- 预警秒达一线，无需主动轮询
+- 设备状态实时同步
+- 多端协同状态一致
+
+---
+
+## 十、软件运行环境
+
+| 环境 | 要求 |
+|-----|------|
+| 服务器 | Linux/Windows，2核4G内存以上 |
+| Node.js | 18.x 及以上 |
+| MySQL | 8.0 及以上 |
+| Redis | 6.x 及以上 |
+| 移动端 | 微信小程序 / H5浏览器 |
+| 管理后台 | Chrome/Firefox/Edge现代浏览器 |
+
+---
+
+## 十一、部署说明
+
+### 前端部署
+```bash
+# uni-app 项目
+npm install
+npm run dev:mp-weixin    # 开发模式-微信小程序
+npm run build:mp-weixin   # 生产构建-微信小程序
+npm run dev:h5           # 开发模式-H5
+npm run build:h5         # 生产构建-H5
+```
+
+### 后端部署
+```bash
+# Node.js 版本
+cd back-end
+npm install
+node src/server.js
+
+# Python 版本（备选）
+cd back-end
+pip install -r requirements.txt
+python run.py
+```
+
+### 管理后台部署
+```bash
+cd admin
+npm install
+npm run dev
+npm run build
+```
+
+---
+
+## 十二、鉴定材料清单
+
+### 12.1 源代码材料
+- [x] 前端APP源码（100个文件，41,007行）
+- [x] 后端API源码（48个文件，12,784行）
+- [x] 后端备选Python源码（20个文件，2,396行）
+- [x] 管理后台源码（12个文件，1,874行）
+- [x] 数据库脚本（37个文件，5,706行）
+
+### 12.2 设计文档
+- [x] 软件需求说明书（PRD.md）
+- [x] API接口文档（API.md）
+- [x] 算法设计文档（ALGORITHMS.md）
+- [x] 数据库设计文档（D_DATABASE_DESIGN.md）
+- [x] 部署文档（DEPLOY.md）
+
+### 12.3 数据库脚本
+- [x] 用户权限体系（SQL 01-03）
+- [x] 预警模块（SQL 06, 12, 19, 26-27）
+- [x] 任务模块（SQL 05, 13-15, 20）
+- [x] 设备模块（SQL 08, 16, 21-22）
+- [x] GIS优化（SQL 07, 11, 19, 23）
+- [x] 执法闭环（SQL 26-27, 28-30）
+
+---
+
+**鉴定材料生成时间**：2026年4月14日
+**软件版本**：V1.0
+**总代码量**：63,767行（不含依赖库）
+**总文件数**：217个

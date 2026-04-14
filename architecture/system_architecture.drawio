@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+    <diagram name="系统技术架构图">
+        <mxGraphModel dx="1245" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <!-- ============ 感知层 ============ -->
+                <mxCell id="perception_layer" value="感知层" style="whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#03a9f4;fontColor=#01579b;fontSize=14;fontWeight=bold;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="30" width="1140" height="140" as="geometry"/>
+                </mxCell>
+
+                <!-- 无人机巡检系统 -->
+                <mxCell id="drone" value="无人机巡检系统&#xa;广西总部调度模块" style="whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontColor=#e65100;" vertex="1" parent="perception_layer">
+                    <mxGeometry x="60" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- 边界震动光纤 -->
+                <mxCell id="fiber1" value="边界震动光纤&#xa;那坡界碑 / 靖西岳坑" style="whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontColor=#e65100;" vertex="1" parent="perception_layer">
+                    <mxGeometry x="220" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- 活体探测雷达 -->
+                <mxCell id="radar" value="活体探测雷达&#xa;凭祥 / 龙州水口" style="whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontColor=#e65100;" vertex="1" parent="perception_layer">
+                    <mxGeometry x="380" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- 卡口抓拍摄像头 -->
+                <mxCell id="camera1" value="卡口抓拍摄像头&#xa;万尾金滩 / 友谊关" style="whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontColor=#e65100;" vertex="1" parent="perception_layer">
+                    <mxGeometry x="540" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- 红外热成像摄像头 -->
+                <mxCell id="camera2" value="红外热成像摄像头&#xa;友谊关 / 东兴 / 龙州 / 那坡" style="whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontColor=#e65100;" vertex="1" parent="perception_layer">
+                    <mxGeometry x="700" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- 传感器汇聚箭头 -->
+                <mxCell id="arrow_to_edge" value="" style="endArrow=block;endFill=0;strokeColor=#03a9f4;" edge="1" parent="1" source="drone" target="edge_hq">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_to_edge2" value="" style="endArrow=block;endFill=0;strokeColor=#03a9f4;" edge="1" parent="1" source="fiber1" target="edge_napo">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_to_edge3" value="" style="endArrow=block;endFill=0;strokeColor=#03a9f4;" edge="1" parent="1" source="radar" target="edge_longzhou">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_to_edge4" value="" style="endArrow=block;endFill=0;strokeColor=#03a9f4;" edge="1" parent="1" source="camera1" target="edge_pingxiang">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_to_edge5" value="" style="endArrow=block;endFill=0;strokeColor=#03a9f4;" edge="1" parent="1" source="camera2" target="edge_dongxing">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 边缘计算节点 ============ -->
+                <mxCell id="edge_layer" value="边缘计算节点" style="whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9c27b0;fontColor=#4a148c;fontSize=14;fontWeight=bold;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="200" width="1140" height="180" as="geometry"/>
+                </mxCell>
+
+                <!-- EDGE-GX-HQ -->
+                <mxCell id="edge_hq" value="EDGE-GX-HQ&#xa;广西总部指挥节点" style="whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;" vertex="1" parent="edge_layer">
+                    <mxGeometry x="60" y="50" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- EDGE-NAPO-01 -->
+                <mxCell id="edge_napo" value="EDGE-NAPO-01&#xa;那坡节点(百色)" style="whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;" vertex="1" parent="edge_layer">
+                    <mxGeometry x="230" y="50" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- EDGE-LONGZHOU-01 -->
+                <mxCell id="edge_longzhou" value="EDGE-LONGZHOU-01&#xa;龙州节点(崇左)" style="whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;" vertex="1" parent="edge_layer">
+                    <mxGeometry x="400" y="50" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- EDGE-PINGXIANG-01 -->
+                <mxCell id="edge_pingxiang" value="EDGE-PINGXIANG-01&#xa;凭祥节点(崇左)" style="whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;" vertex="1" parent="edge_layer">
+                    <mxGeometry x="570" y="50" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- EDGE-DONGXING-01 -->
+                <mxCell id="edge_dongxing" value="EDGE-DONGXING-01&#xa;东兴节点(防城港)" style="whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;" vertex="1" parent="edge_layer">
+                    <mxGeometry x="740" y="50" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 数据融合层 ============ -->
+                <mxCell id="fusion_layer" value="数据融合层" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=14;fontWeight=bold;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="410" width="1140" height="140" as="geometry"/>
+                </mxCell>
+
+                <!-- 多传感器时空融合引擎 -->
+                <mxCell id="fusion_engine" value="多传感器时空融合引擎&#xa;坐标对齐 / 时间戳同步 / 冲突消除解算" style="whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#7cb342;fontColor=#33691e;" vertex="1" parent="fusion_layer">
+                    <mxGeometry x="60" y="40" width="200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- AI物种识别模块 -->
+                <mxCell id="ai_recognition" value="AI物种识别模块&#xa;CITES等级判定 &amp; 置信度评分" style="whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#7cb342;fontColor=#33691e;" vertex="1" parent="fusion_layer">
+                    <mxGeometry x="280" y="40" width="200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- 风险分引擎 -->
+                <mxCell id="risk_engine" value="风险分引擎&#xa;0-100分 · 历史案件加权" style="whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#7cb342;fontColor=#33691e;" vertex="1" parent="fusion_layer">
+                    <mxGeometry x="500" y="40" width="200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- SSE实时推送预警 -->
+                <mxCell id="sse_push" value="SSE实时推送&#xa;预警消息" style="whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#7cb342;fontColor=#33691e;" vertex="1" parent="fusion_layer">
+                    <mxGeometry x="720" y="40" width="150" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 存储层 ============ -->
+                <mxCell id="storage_layer" value="存储层" style="whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#fb8c00;fontColor=#e65100;fontSize=14;fontWeight=bold;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="580" width="500" height="100" as="geometry"/>
+                </mxCell>
+
+                <!-- MySQL数据库 -->
+                <mxCell id="mysql_db" value="MySQL&#xa;alerts / locations / devices / tasks" style="whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#f57c00;fontColor=#bf360c;" vertex="1" parent="storage_layer">
+                    <mxGeometry x="60" y="30" width="180" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- 离线缓存 -->
+                <mxCell id="offline_cache" value="本地离线缓存&#xa;广西边境离线地图包" style="whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#f57c00;fontColor=#bf360c;" vertex="1" parent="storage_layer">
+                    <mxGeometry x="260" y="30" width="180" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 应用层 ============ -->
+                <mxCell id="app_layer" value="应用层 (Vue.js + uni-app)" style="whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#4caf50;fontColor=#1b5e20;fontSize=14;fontWeight=bold;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="580" width="490" height="250" as="geometry"/>
+                </mxCell>
+
+                <!-- GIS态势一图 -->
+                <mxCell id="gis_map" value="GIS态势一图&#xa;五图层叠加显示" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#66bb6a;fontColor:#2e7d32;" vertex="1" parent="app_layer">
+                    <mxGeometry x="20" y="30" width="150" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- 指挥大屏 -->
+                <mxCell id="command_screen" value="指挥大屏&#xa;ECharts时段分析" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#66bb6a;fontColor:#2e7d32;" vertex="1" parent="app_layer">
+                    <mxGeometry x="20" y="85" width="150" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- 任务执行页 -->
+                <mxCell id="task_execution" value="任务执行页&#xa;执法检查清单 + 取证水印" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#66bb6a;fontColor:#2e7d32;" vertex="1" parent="app_layer">
+                    <mxGeometry x="180" y="30" width="150" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- 传感器网络页 -->
+                <mxCell id="sensor_network" value="传感器网络页&#xa;设备健康度监控" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#66bb6a;fontColor:#2e7d32;" vertex="1" parent="app_layer">
+                    <mxGeometry x="180" y="85" width="150" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- 预警工作台 -->
+                <mxCell id="warning_workbench" value="预警工作台&#xa;实时线索流" style="whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#66bb6a;fontColor:#2e7d32;" vertex="1" parent="app_layer">
+                    <mxGeometry x="340" y="57" width="130" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 连接箭头 ============ -->
+                <!-- 边缘节点到数据融合层 -->
+                <mxCell id="edge_to_fusion1" value="" style="endArrow=block;endFill=0;strokeColor=#9c27b0;" edge="1" parent="1" source="edge_hq" target="fusion_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_to_fusion2" value="" style="endArrow=block;endFill=0;strokeColor=#9c27b0;" edge="1" parent="1" source="edge_napo" target="fusion_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_to_fusion3" value="" style="endArrow=block;endFill=0;strokeColor=#9c27b0;" edge="1" parent="1" source="edge_longzhou" target="fusion_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_to_fusion4" value="" style="endArrow=block;endFill=0;strokeColor=#9c27b0;" edge="1" parent="1" source="edge_pingxiang" target="fusion_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_to_fusion5" value="" style="endArrow=block;endFill=0;strokeColor=#9c27b0;" edge="1" parent="1" source="edge_dongxing" target="fusion_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 数据融合层流向 -->
+                <mxCell id="flow1" value="" style="endArrow=open;endFill=0;strokeColor=#43a047;dashed=1;" edge="1" parent="1" source="fusion_engine" target="ai_recognition">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow2" value="" style="endArrow=open;endFill=0;strokeColor=#43a047;dashed=1;" edge="1" parent="1" source="ai_recognition" target="risk_engine">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow3" value="" style="endArrow=open;endFill=0;strokeColor=#43a047;dashed=1;" edge="1" parent="1" source="risk_engine" target="sse_push">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 存储层连接 -->
+                <mxCell id="to_storage" value="" style="endArrow=block;endFill=0;strokeColor=#fb8c00;" edge="1" parent="1" source="sse_push" target="mysql_db">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 应用到存储 -->
+                <mxCell id="app_to_storage" value="" style="endArrow=block;endFill=0;strokeColor=#4caf50;" edge="1" parent="1" source="app_layer" target="mysql_db">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 存储到应用 -->
+                <mxCell id="storage_to_app" value="" style="endArrow=open;endFill=0;strokeColor=#4caf50;dashed=1;" edge="1" parent="1" source="mysql_db" target="app_layer">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 标题 ============ -->
+                <mxCell id="title" value="热眼擒枭 - 系统技术架构图" style="whiteSpace=wrap;html=1;fillColor=#0a0e17;strokeColor=#3b82f6;fontColor=#f9fafb;fontSize=20;fontWeight=bold;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="0" width="440" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
