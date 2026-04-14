@@ -130,70 +130,52 @@ flowchart TD
 %%{init: {'theme': 'base', 'themeVariables': {
     'fontSize': '11px',
     'nodeSpacing': '20',
-    'rankSpacing': '45',
-    'primaryTextColor': '#333'
+    'rankSpacing': '45'
 }}}%%
 flowchart TD
-    %% ============ 主标题 ============
     TITLE["<b>🔥 热眼擒枭 - 系统技术架构图</b>"]
 
-    %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
         direction LR
-        SP1[""]:::spacer
         DRONE["🚁 无人机巡检"]
         FIBER["〰️ 边界震动光纤"]
         RADAR["📡 活体探测雷达"]
         CAM1["📹 卡口抓拍"]
         CAM2["📷 红外热成像"]
-        SP2[""]:::spacer
     end
 
-    %% ============ 边缘计算节点 ============
     subgraph EDGE["<b>⚡ 边缘计算节点</b>"]
         direction LR
-        EP1[""]:::spacer
         HQ["🏢 EDGE-GX-HQ"]
         NAPO["📍 EDGE-NAPO-01"]
         LONGZHOU["📍 EDGE-LZ-01"]
         PINGXIANG["📍 EDGE-PX-01"]
         DONGXING["📍 EDGE-DX-01"]
-        EP2[""]:::spacer
     end
 
-    %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
         direction LR
-        FP1[""]:::spacer
-        FUSE["🔗 时空融合引擎"]
+        FUSE["🔗 时空融合"]
         AI["🤖 AI物种识别"]
         RISK["📊 风险分引擎"]
         SSE["🚨 SSE实时推送"]
-        FP2[""]:::spacer
     end
 
-    %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
         direction LR
-        ST1[""]:::spacer
         MYSQL["🗃️ MySQL"]
         CACHE["💾 离线缓存"]
-        ST2[""]:::spacer
     end
 
-    %% ============ 应用层 ============
     subgraph APP["<b>📱 应用层</b>"]
         direction LR
-        AP1[""]:::spacer
         GIS["🗺️ GIS态势一图"]
         SCREEN["📊 指挥大屏"]
         TASK["✅ 任务执行"]
         SENSOR["🔧 设备监控"]
         WARN["🔴 预警工作台"]
-        AP2[""]:::spacer
     end
 
-    %% ============ 数据流向 ============
     SENSING -->|"↓ 实时采集"| EDGE
     DRONE --> HQ
     FIBER --> NAPO
@@ -207,14 +189,12 @@ flowchart TD
     STORAGE -->|"↓ 数据查询"| APP
     MYSQL -.->|"双向读写"| APP
 
-    %% ============ 样式定义 ============
     classDef SENSING fill:#e1f5fe,stroke:#03a9f4,stroke-width:3px,color:#01579b
     classDef EDGE fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#4a148c
     classDef FUSION fill:#c8e6c9,stroke:#43a047,stroke-width:3px,color:#1b5e20
     classDef STORAGE fill:#fff3e0,stroke:#fb8c00,stroke-width:3px,color:#e65100
     classDef APP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px,color:#1b5e20
     classDef TITLE fill:#0a0e17,stroke:#3b82f6,stroke-width:2px,color:#f9fafb,font-size:16px
-    classDef spacer fill:none,stroke:none,color:#fff,font-size:1px
 
     class SENSING SENSING
     class EDGE EDGE
