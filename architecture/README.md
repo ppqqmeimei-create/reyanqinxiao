@@ -26,81 +26,91 @@ python -m http.server 8000
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 
-    'fontSize': '12px', 
-    'nodeSpacing': '15',
-    'rankSpacing': '35',
-    'primaryColor': '#3b82f6',
-    'primaryTextColor': '#fff',
-    'primaryBorderColor': '#1d4ed8'
+    'fontSize': '14px', 
+    'nodeSpacing': '25',
+    'rankSpacing': '30',
+    'primaryColor': '#3b82f6'
 }}}%%
-flowchart TB
+flowchart LR
     %% ============ 主标题 ============
     TITLE["<b>🔥 热眼擒枭 - 多传感器融合架构</b>"]
     
     %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
-        S1["📷<br/>卡口抓拍<br/><sub>万尾·金滩·友谊关</sub>"]
-        S2["📡<br/>活体探测雷达<br/><sub>凭祥·龙州·水口</sub>"]
-        S3["〰️<br/>边界震动光纤<br/><sub>那坡·界碑·靖西</sub>"]
-        S4["🚁<br/>无人机巡检<br/><sub>广西总部调度</sub>"]
+        direction TB
+        S1["📷 红外"]
+        S2["📡 雷达"]
+        S3["〰️ 震动"]
+        S4["📹 卡口"]
+        S5["💧 水质"]
+        S6["📝 人工"]
+        S7["🚁 无人机"]
     end
     
     %% ============ 数据汇聚 ============
-    COLLECT["📥 多源数据汇聚"]
+    COLLECT["📥<br/>多源数据<br/>汇聚"]
     
     %% ============ 边缘计算层 ============
     subgraph EDGE["<b>⚡ 边缘计算层</b>"]
-        E1["① EDGE-GX-HQ<br/><sub>广西总部指挥节点</sub>"]
-        E2["② EDGE-GX-PX<br/><sub>凭祥边贸节点</sub>"]
-        E3["③ EDGE-GX-LZ<br/><sub>龙州口岸节点</sub>"]
-        E4["④ EDGE-GX-NP<br/><sub>那坡山区节点</sub>"]
-        E5["⑤ EDGE-GX-JX<br/><sub>靖西边境节点</sub>"]
+        direction TB
+        E1["①东兴"]
+        E2["②凭祥"]
+        E3["③龙州"]
+        E4["④那坡"]
+        E5["⑤总部"]
     end
+    
+    %% ============ 边缘处理 ============
+    EDGE_PROC["⚡<br/>边缘<br/>处理"]
     
     %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
-        F1["🔗 时空融合引擎<br/><sub>坐标对齐·时间同步</sub>"]
-        F2["🤖 AI物种识别<br/><sub>CITES等级判定</sub>"]
-        F3["⚖️ 风险评估引擎<br/><sub>0-100分·历史加权</sub>"]
-        F4["🚨 预警生成器<br/><sub>SSE实时推送</sub>"]
+        direction TB
+        F1["🔗 时空融合"]
+        F2["🤖 AI识别"]
+        F3["⚖️ 研判引擎"]
+        F4["📊 风险评分"]
+        F5["🚨 预警生成"]
     end
     
     %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
-        direction LR
-        DB["🗃️ MySQL<br/><sub>alerts·locations<br/>devices·tasks</sub>"]
-        CACHE["💾 本地离线缓存<br/><sub>地图包·离线数据</sub>"]
+        direction TB
+        DB["🗃️ MySQL"]
+        CACHE["💾 离线缓存"]
     end
     
     %% ============ 应用层 ============
-    subgraph APP["<b>📱 应用层 Vue3 / uni-app</b>"]
-        direction LR
-        P1["🗺️ GIS态势<br/><sub>五图层叠加</sub>"]
-        P2["📊 ECharts<br/><sub>时段分析</sub>"]
-        P3["✅ 任务执行<br/><sub>检查清单·取证</sub>"]
-        P4["🔧 设备监控<br/><sub>健康度监控</sub>"]
-        P5["🔴 预警工作台<br/><sub>线索流</sub>"]
+    subgraph APP["<b>📱 应用层</b>"]
+        direction TB
+        P1["🗺️ GIS"]
+        P2["📊 大屏"]
+        P3["⚖️ 执法"]
+        P4["🔴 预警"]
+        P5["✅ 任务"]
+        P6["🔧 设备"]
     end
     
     %% ============ 执法闭环 ============
     subgraph ENFORCE["<b>📡 执法闭环</b>"]
-        direction LR
-        L1["🚔 派警调度"]
-        L2["📋 证据固定"]
-        L3["🔍 研判分析"]
-        L4["📁 案件归档"]
+        direction TB
+        L1["🚔 派警"]
+        L2["📋 取证"]
+        L3["🔍 研判"]
+        L4["📁 归档"]
     end
     
     %% ============ 数据流向 ============
     SENSING --> COLLECT
     COLLECT --> EDGE
-    EDGE --> FUSION
-    F1 --> F2 --> F3 --> F4
+    EDGE --> EDGE_PROC
+    EDGE_PROC --> FUSION
+    F1 --> F2 --> F3 --> F4 --> F5
     FUSION --> STORAGE
     STORAGE --> APP
     APP --> ENFORCE
     L1 --> L2 --> L3 --> L4
-    L4 -.->|"触发新预警"| F4
+    L4 -.->|"触发新预警"| F5
     
     %% ============ 样式定义 ============
     classDef SENSING fill:#dbeafe,stroke:#3b82f6,stroke-width:3px,color:#1e40af
@@ -109,8 +119,9 @@ flowchart TB
     classDef STORAGE fill:#ede9fe,stroke:#8b5cf6,stroke-width:3px,color:#5b21b6
     classDef APP fill:#fee2e2,stroke:#ef4444,stroke-width:3px,color:#991b1b
     classDef ENFORCE fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#854d0e
-    classDef TITLE fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b,font-size:18px
+    classDef TITLE fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b,font-size:16px
     classDef COLLECT fill:#bbf7d0,stroke:#22c55e,stroke-width:2px,color:#166534
+    classDef EDGE_PROC fill:#fde68a,stroke:#f59e0b,stroke-width:2px,color:#92400e
 
     class SENSING SENSING
     class EDGE EDGE
@@ -120,6 +131,7 @@ flowchart TB
     class ENFORCE ENFORCE
     class TITLE TITLE
     class COLLECT COLLECT
+    class EDGE_PROC EDGE_PROC
 ```
 
 ---
