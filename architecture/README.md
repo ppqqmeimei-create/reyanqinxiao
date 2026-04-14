@@ -25,10 +25,10 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '32px', 'titleFontSize': '36px', 'nodeSpacing': '30', 'rankSpacing': '60'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '24px', 'titleFontSize': '28px', 'primaryColor': '#1890ff', 'border2': '#fa8c16'}}}%%
 flowchart TB
-    %% ============ 感知层（7个节点纵向，居中） ============
-    subgraph S1["<div style='text-align: center; font-size: 36px;'>🛰️ 感知层</div>"]
+    %% ============ 感知层 ============
+    subgraph S1["<div style='text-align: center; font-size: 28px;'>🛰️ 感知层</div>"]
         direction TB
         S1_1["📷 红外热成像"]
         S1_2["📡 活体探测雷达"]
@@ -39,35 +39,35 @@ flowchart TB
         S1_7["🚁 无人机"]
     end
 
-    %% ============ 边缘计算层（5个节点纵向，居中对齐） ============
-    subgraph S2["<div style='text-align: center; font-size: 36px; width: 200px;'>⚡ 边缘计算层</div>"]
+    %% ============ 边缘计算层 ============
+    subgraph S2["<div style='text-align: center; font-size: 28px;'>⚡ 边缘计算层</div>"]
         direction TB
-        E1["<b>① 东兴节点</b><br/>防城港战区"]
-        E2["<b>② 凭祥节点</b><br/>崇左战区"]
-        E3["<b>③ 龙州节点</b><br/>崇左战区"]
-        E4["<b>④ 那坡节点</b><br/>百色战区"]
-        E5["<b>⑤ 广西总部</b><br/>指挥节点"]
+        E1["① 东兴节点·防城港"]
+        E2["② 凭祥节点·崇左"]
+        E3["③ 龙州节点·崇左"]
+        E4["④ 那坡节点·百色"]
+        E5["⑤ 广西总部·指挥"]
     end
 
-    %% ============ 数据融合层（5个节点纵向，居中对齐） ============
-    subgraph S3["<div style='text-align: center; font-size: 36px; width: 220px;'>🧠 数据融合层</div>"]
+    %% ============ 数据融合层 ============
+    subgraph S3["<div style='text-align: center; font-size: 28px;'>🧠 数据融合层</div>"]
         direction TB
-        FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
-        AI["<b>AI物种识别</b><br/>CITES等级 · 置信度评分"]
-        JUDGE["<b>走私研判引擎</b><br/>保护级别 · 风险分析"]
-        RISK["<b>风险评分引擎</b><br/>综合评分 0-100"]
-        SSE["<b>预警生成器</b><br/>SSE推送 · 实时下发"]
+        FUSE["时空融合引擎"]
+        AI["AI物种识别"]
+        JUDGE["走私研判引擎"]
+        RISK["风险评分引擎"]
+        SSE["预警生成器"]
     end
 
-    %% ============ 存储层（2个节点纵向，居中对齐） ============
-    subgraph S4["<div style='text-align: center; font-size: 36px; width: 160px;'>🗄️ 存储层</div>"]
+    %% ============ 存储层 ============
+    subgraph S4["<div style='text-align: center; font-size: 28px;'>🗄️ 存储层</div>"]
         direction TB
-        DB["<b>MySQL</b><br/>alerts/locations/devices/tasks"]
-        CACHE["<b>离线缓存</b><br/>SQLite兜底"]
+        DB["MySQL"]
+        CACHE["离线缓存"]
     end
 
-    %% ============ 应用层（6个节点纵向，居中对齐） ============
-    subgraph S5["<div style='text-align: center; font-size: 36px; width: 180px;'>📱 应用层</div>"]
+    %% ============ 应用层 ============
+    subgraph S5["<div style='text-align: center; font-size: 28px;'>📱 应用层</div>"]
         direction TB
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
@@ -77,13 +77,13 @@ flowchart TB
         P6["🔧 设备监控"]
     end
 
-    %% ============ 执法闭环（4个节点纵向，居中对齐） ============
-    subgraph LOOP["<div style='text-align: center; font-size: 36px; width: 200px;'>📡 执法闭环</div>"]
+    %% ============ 执法闭环 ============
+    subgraph LOOP["<div style='text-align: center; font-size: 28px;'>📡 执法闭环</div>"]
         direction TB
-        DISPATCH["📡 派警调度<br/>智能推荐执法员"]
-        EVIDENCE["📋 证据固定<br/>水印 · 哈希存证"]
-        RESEARCH["🔬 研判分析<br/>聚类 · 规律 · 还原"]
-        CLOSE["📁 案件归档<br/>历史案件库"]
+        DISPATCH["派警调度"]
+        EVIDENCE["证据固定"]
+        RESEARCH["研判分析"]
+        CLOSE["案件归档"]
     end
 
     %% ============ 数据流向 ============
@@ -94,12 +94,12 @@ flowchart TB
     S5 --> LOOP
 
     %% ============ 样式定义 ============
-    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px,color:#003a8c
-    classDef EDGE fill:#fff7e6,stroke:#fa8c16,stroke-width:2px,color:#873800
-    classDef FUSION fill:#f6ffed,stroke:#52c41a,stroke-width:2px,color:#135200
-    classDef STORE fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,color:#391085
-    classDef APP fill:#fff1f0,stroke:#f5222d,stroke-width:2px,color:#820014
-    classDef LOOP fill:#fffbe6,stroke:#d48806,stroke-width:2px,color:#7a4100
+    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px
+    classDef EDGE fill:#fff7e6,stroke:#fa8c16,stroke-width:2px
+    classDef FUSION fill:#f6ffed,stroke:#52c41a,stroke-width:2px
+    classDef STORE fill:#f9f0ff,stroke:#722ed1,stroke-width:2px
+    classDef APP fill:#fff1f0,stroke:#f5222d,stroke-width:2px
+    classDef LOOP fill:#fffbe6,stroke:#d48806,stroke-width:2px
 
     class S1_1,S1_2,S1_3,S1_4,S1_5,S1_6,S1_7 SENSOR
     class E1,E2,E3,E4,E5 EDGE
