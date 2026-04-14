@@ -29,14 +29,16 @@ python -m http.server 8000
     'fontSize': '14px', 
     'nodeSpacing': '20',
     'rankSpacing': '40',
-    'primaryColor': '#3b82f6'
+    'primaryColor': '#3b82f6',
+    'primaryTextColor': '#fff',
+    'primaryBorderColor': '#1d4ed8'
 }}}%%
 flowchart TB
     %% ============ 主标题 ============
     TITLE["<b>🔥 热眼擒枭 - 多传感器融合架构</b>"]
-
+    
     %% ============ 感知层 ============
-    subgraph SENSING["<b>🛰️ 感知层</b><br/><font size='12' color='#64748b'>多源数据采集</font>"]
+    subgraph SENSING["<b>🛰️ 感知层</b>"]
         direction LR
         S1["📷<br/>红外热成像"]
         S2["📡<br/>活体探测雷达"]
@@ -47,62 +49,68 @@ flowchart TB
         S7["🚁<br/>无人机"]
     end
     
+    %% ============ 数据汇聚标注 ============
+    COLLECT["<b>📥 多源数据汇聚</b>"]
+    
     %% ============ 边缘计算层 ============
-    subgraph EDGE["<b>⚡ 边缘计算层</b><br/><font size='12' color='#64748b'>分布式就近处理</font>"]
+    subgraph EDGE["<b>⚡ 边缘计算层</b>"]
         direction LR
-        E1["①<br/>东兴节点<br/><sub>防城港</sub>"]
-        E2["②<br/>凭祥节点<br/><sub>崇左</sub>"]
-        E3["③<br/>龙州节点<br/><sub>崇左</sub>"]
-        E4["④<br/>那坡节点<br/><sub>百色</sub>"]
-        E5["⑤<br/>广西总部<br/><sub>指挥中心</sub>"]
+        E1["① 东兴<br/><sub>防城港</sub>"]
+        E2["② 凭祥<br/><sub>崇左</sub>"]
+        E3["③ 龙州<br/><sub>崇左</sub>"]
+        E4["④ 那坡<br/><sub>百色</sub>"]
+        E5["⑤ 广西总部<br/><sub>指挥中心</sub>"]
     end
     
+    %% ============ 边缘处理标注 ============
+    EDGE_PROC["<b>⚡ 边缘处理</b>"]
+    
     %% ============ 数据融合层 ============
-    subgraph FUSION["<b>🧠 数据融合层</b><br/><font size='12' color='#64748b'>多模态智能分析</font>"]
+    subgraph FUSION["<b>🧠 数据融合层</b>"]
         direction LR
-        F1["🔗<br/>时空融合引擎"]
-        F2["🤖<br/>AI物种识别"]
-        F3["⚖️<br/>走私研判引擎"]
-        F4["📊<br/>风险评分引擎"]
-        F5["🚨<br/>预警生成器"]
+        F1["🔗<br/>时空融合"]
+        F2["🤖<br/>AI识别"]
+        F3["⚖️<br/>研判引擎"]
+        F4["📊<br/>风险评分"]
+        F5["🚨<br/>预警生成"]
     end
     
     %% ============ 存储层 ============
-    subgraph STORAGE["<b>🗄️ 存储层</b><br/><font size='12' color='#64748b'>结构化存储 · 离线兜底</font>"]
+    subgraph STORAGE["<b>🗄️ 存储层</b>"]
         direction LR
-        DB["🗃️<br/>MySQL<br/><sub>业务数据库</sub>"]
-        CACHE["💾<br/>离线缓存<br/><sub>边缘节点</sub>"]
+        DB["🗃️ MySQL"]
+        CACHE["💾 离线缓存"]
     end
     
     %% ============ 应用层 ============
-    subgraph APP["<b>📱 应用层</b><br/><font size='12' color='#64748b'>6大业务模块支撑</font>"]
+    subgraph APP["<b>📱 应用层</b>"]
         direction LR
-        P1["🗺️<br/>GIS态势"]
-        P2["📊<br/>指挥大屏"]
-        P3["⚖️<br/>执法闭环"]
-        P4["🔴<br/>预警工作台"]
-        P5["✅<br/>任务执行"]
-        P6["🔧<br/>设备监控"]
+        P1["🗺️ GIS态势"]
+        P2["📊 指挥大屏"]
+        P3["⚖️ 执法闭环"]
+        P4["🔴 预警工作台"]
+        P5["✅ 任务执行"]
+        P6["🔧 设备监控"]
     end
     
     %% ============ 执法闭环 ============
-    subgraph ENFORCE["<b>📡 执法闭环</b><br/><font size='12' color='#64748b'>全流程闭环管理</font>"]
+    subgraph ENFORCE["<b>📡 执法闭环</b>"]
         direction LR
-        L1["🚔<br/>派警调度"]
-        L2["📋<br/>证据固定"]
-        L3["🔍<br/>研判分析"]
-        L4["📁<br/>案件归档"]
+        L1["🚔 派警调度"]
+        L2["📋 证据固定"]
+        L3["🔍 研判分析"]
+        L4["📁 案件归档"]
     end
     
     %% ============ 数据流向 ============
-    TITLE --> SENSING
-    SENSING -->|"数据汇聚"| EDGE
-    EDGE -->|"边缘处理"| FUSION
+    SENSING -->|"多源数据汇聚"| COLLECT
+    COLLECT --> EDGE
+    EDGE -->|"边缘预处理"| EDGE_PROC
+    EDGE_PROC --> FUSION
+    F1 --> F2 --> F3 --> F4 --> F5
     FUSION -->|"分析结果"| STORAGE
     STORAGE -->|"数据支撑"| APP
     APP -->|"预警触发"| ENFORCE
-    
-    F1 --> F2 --> F3 --> F4 --> F5
     L1 --> L2 --> L3 --> L4
     L4 -.->|"触发新预警"| F5
     
@@ -113,7 +121,9 @@ flowchart TB
     classDef STORAGE fill:#ede9fe,stroke:#8b5cf6,stroke-width:3px,color:#5b21b6
     classDef APP fill:#fee2e2,stroke:#ef4444,stroke-width:3px,color:#991b1b
     classDef ENFORCE fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#854d0e
-    classDef TITLE fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b,font-size:18px
+    classDef TITLE fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b,font-size:18px
+    classDef COLLECT fill:#bbf7d0,stroke:#22c55e,stroke-width:2px,color:#166534
+    classDef EDGE_PROC fill:#fde68a,stroke:#f59e0b,stroke-width:2px,color:#92400e
 
     class SENSING SENSING
     class EDGE EDGE
@@ -122,20 +132,18 @@ flowchart TB
     class APP APP
     class ENFORCE ENFORCE
     class TITLE TITLE
+    class COLLECT COLLECT
+    class EDGE_PROC EDGE_PROC
 ```
 
 ---
 
 ### 架构特点
 
-| 层级 | 特点 | 说明 |
-|:----:|:-----|:-----|
-| 🛰️ **感知层** | 多源采集 | 7类传感器协同，覆盖红外、雷达、震动、视觉、水质等多种维度 |
-| ⚡ **边缘计算层** | 分布式处理 | 5大节点就近实时处理，降低网络延迟，提升响应速度 |
-| 🧠 **数据融合层** | 智能分析 | 时空融合 + AI识别 + 风险研判全链路分析 |
-| 🗄️ **存储层** | 高可靠 | MySQL结构化存储 + 边缘节点离线缓存 |
-| 📱 **应用层** | 全场景覆盖 | GIS态势、指挥大屏、执法闭环、预警管理等6大模块 |
-| 📡 **执法闭环** | 持续优化 | 派警→取证→研判→归档，案件归档触发新预警循环迭代 |
+- **🛰️ 多源感知**: 7类传感器协同，覆盖红外、雷达、震动、视觉、水质等多种维度
+- **⚡ 边缘计算**: 5大节点分布式部署，就近实时处理，降低网络延迟
+- **🧠 智能融合**: 时空数据融合 + AI物种识别 + 风险研判全链路分析
+- **🔄 闭环运营**: 从预警到执法全流程闭环管理，数据持续迭代优化
 
 ---
 
