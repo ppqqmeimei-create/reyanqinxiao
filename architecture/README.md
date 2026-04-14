@@ -128,9 +128,10 @@ flowchart TD
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {
-    'fontSize': '12px',
-    'nodeSpacing': '15',
-    'rankSpacing': '40'
+    'fontSize': '11px',
+    'nodeSpacing': '30',
+    'rankSpacing': '50',
+    'primaryTextColor': '#333'
 }}}%%
 flowchart TD
     %% ============ 主标题 ============
@@ -139,59 +140,59 @@ flowchart TD
     %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
         direction LR
-        DRONE["🚁 无人机巡检系统<br/><sub>广西总部调度模块</sub>"]
-        FIBER["〰️ 边界震动光纤<br/><sub>那坡界碑/靖西岳坑</sub>"]
-        RADAR["📡 活体探测雷达<br/><sub>凭祥/龙州水口</sub>"]
-        CAM1["📹 卡口抓拍摄像头<br/><sub>万尾金滩/友谊关</sub>"]
-        CAM2["📷 红外热成像摄像头<br/><sub>友谊关/东兴/龙州/那坡</sub>"]
+        DRONE{{"🚁 无人机巡检<br/>广西总部调度"}}
+        FIBER{{"〰️ 边界震动光纤<br/>那坡/靖西"}}
+        RADAR{{"📡 活体探测雷达<br/>凭祥/龙州"}}
+        CAM1{{"📹 卡口抓拍<br/>万尾/友谊关"}}
+        CAM2{{"📷 红外热成像<br/>友谊关/东兴/龙州/那坡"}}
     end
 
     %% ============ 边缘计算节点 ============
     subgraph EDGE["<b>⚡ 边缘计算节点</b>"]
         direction LR
-        HQ["🏢 EDGE-GX-HQ<br/><sub>广西总部指挥节点</sub>"]
-        NAPO["📍 EDGE-NAPO-01<br/><sub>那坡节点(百色)</sub>"]
-        LONGZHOU["📍 EDGE-LONGZHOU-01<br/><sub>龙州节点(崇左)</sub>"]
-        PINGXIANG["📍 EDGE-PINGXIANG-01<br/><sub>凭祥节点(崇左)</sub>"]
-        DONGXING["📍 EDGE-DONGXING-01<br/><sub>东兴节点(防城港)</sub>"]
+        HQ{{"🏢 EDGE-GX-HQ<br/>广西总部"}}
+        NAPO{{"📍 EDGE-NAPO-01<br/>那坡(百色)"}}
+        LONGZHOU{{"📍 EDGE-LZ-01<br/>龙州(崇左)"}}
+        PINGXIANG{{"📍 EDGE-PX-01<br/>凭祥(崇左)"}}
+        DONGXING{{"📍 EDGE-DX-01<br/>东兴(防城港)"}}
     end
 
     %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
         direction LR
-        FUSE["🔗 多传感器时空融合引擎<br/><sub>坐标对齐/时间戳同步/冲突消除</sub>"]
-        AI["🤖 AI物种识别模块<br/><sub>CITES等级判定&置信度评分</sub>"]
-        RISK["📊 风险分引擎<br/><sub>0-100分·历史案件加权</sub>"]
-        SSE["🚨 SSE实时推送<br/><sub>预警消息</sub>"]
+        FUSE{{"🔗 时空融合引擎<br/>坐标对齐/时间同步"}}
+        AI{{"🤖 AI物种识别<br/>CITES等级/置信度"}}
+        RISK{{"📊 风险分引擎<br/>0-100分"}}
+        SSE{{"🚨 SSE实时推送<br/>预警消息"}}
     end
 
     %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
         direction LR
-        MYSQL["🗃️ MySQL<br/><sub>alerts/locations/devices/tasks</sub>"]
-        CACHE["💾 本地离线缓存<br/><sub>广西边境离线地图包</sub>"]
+        MYSQL{{"🗃️ MySQL<br/>alerts/locations"}}
+        CACHE{{"💾 离线缓存<br/>边境地图包"}}
     end
 
     %% ============ 应用层 ============
-    subgraph APP["<b>📱 应用层 (Vue.js + uni-app)</b>"]
+    subgraph APP["<b>📱 应用层</b>"]
         direction LR
-        GIS["🗺️ GIS态势一图<br/><sub>五图层叠加显示</sub>"]
-        SCREEN["📊 指挥大屏<br/><sub>ECharts时段分析</sub>"]
-        TASK["✅ 任务执行页<br/><sub>执法检查清单+取证水印</sub>"]
-        SENSOR["🔧 传感器网络页<br/><sub>设备健康度监控</sub>"]
-        WARN["🔴 预警工作台<br/><sub>实时线索流</sub>"]
+        GIS{{"🗺️ GIS态势一图<br/>五图层叠加"}}
+        SCREEN{{"📊 指挥大屏<br/>ECharts分析"}}
+        TASK{{"✅ 任务执行<br/>执法清单/取证"}}
+        SENSOR{{"🔧 设备监控<br/>健康度"}}
+        WARN{{"🔴 预警工作台<br/>实时线索"}}
     end
 
     %% ============ 数据流向 ============
     SENSING -->|"↓ 实时采集"| EDGE
-    DRONE -->|"→"| HQ
-    FIBER -->|"→"| NAPO
-    RADAR -->|"→"| LONGZHOU
-    CAM1 -->|"→"| PINGXIANG
-    CAM2 -->|"→"| DONGXING
+    DRONE --> HQ
+    FIBER --> NAPO
+    RADAR --> LONGZHOU
+    CAM1 --> PINGXIANG
+    CAM2 --> DONGXING
 
     HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"↓ 边缘预处理"| FUSION
-    FUSE -->|"→ 时空融合"| AI -->|"→ 物种识别"| RISK -->|"→ 风险评分"| SSE
+    FUSE --> AI --> RISK --> SSE
     SSE -->|"↓ 预警入库"| STORAGE
     STORAGE -->|"↓ 数据查询"| APP
     MYSQL -.->|"双向读写"| APP
@@ -202,7 +203,7 @@ flowchart TD
     classDef FUSION fill:#c8e6c9,stroke:#43a047,stroke-width:3px,color:#1b5e20
     classDef STORAGE fill:#fff3e0,stroke:#fb8c00,stroke-width:3px,color:#e65100
     classDef APP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px,color:#1b5e20
-    classDef TITLE fill:#0a0e17,stroke:#3b82f6,stroke-width:2px,color:#f9fafb,font-size:18px
+    classDef TITLE fill:#0a0e17,stroke:#3b82f6,stroke-width:2px,color:#f9fafb,font-size:16px
 
     class SENSING SENSING
     class EDGE EDGE
