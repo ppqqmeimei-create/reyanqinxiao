@@ -26,9 +26,9 @@ python -m http.server 8000
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 
-    'fontSize': '14px', 
-    'nodeSpacing': '20',
-    'rankSpacing': '40',
+    'fontSize': '12px', 
+    'nodeSpacing': '15',
+    'rankSpacing': '35',
     'primaryColor': '#3b82f6',
     'primaryTextColor': '#fff',
     'primaryBorderColor': '#1d4ed8'
@@ -39,58 +39,47 @@ flowchart TB
     
     %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
-        direction LR
-        S1["📷<br/>红外热成像"]
-        S2["📡<br/>活体探测雷达"]
-        S3["〰️<br/>震动光纤"]
-        S4["📹<br/>卡口抓拍"]
-        S5["💧<br/>水质监测"]
-        S6["📝<br/>人工上报"]
-        S7["🚁<br/>无人机"]
+        S1["📷<br/>卡口抓拍<br/><sub>万尾·金滩·友谊关</sub>"]
+        S2["📡<br/>活体探测雷达<br/><sub>凭祥·龙州·水口</sub>"]
+        S3["〰️<br/>边界震动光纤<br/><sub>那坡·界碑·靖西</sub>"]
+        S4["🚁<br/>无人机巡检<br/><sub>广西总部调度</sub>"]
     end
     
-    %% ============ 数据汇聚标注 ============
-    COLLECT["<b>📥 多源数据汇聚</b>"]
+    %% ============ 数据汇聚 ============
+    COLLECT["📥 多源数据汇聚"]
     
     %% ============ 边缘计算层 ============
     subgraph EDGE["<b>⚡ 边缘计算层</b>"]
-        direction LR
-        E1["① 东兴<br/><sub>防城港</sub>"]
-        E2["② 凭祥<br/><sub>崇左</sub>"]
-        E3["③ 龙州<br/><sub>崇左</sub>"]
-        E4["④ 那坡<br/><sub>百色</sub>"]
-        E5["⑤ 广西总部<br/><sub>指挥中心</sub>"]
+        E1["① EDGE-GX-HQ<br/><sub>广西总部指挥节点</sub>"]
+        E2["② EDGE-GX-PX<br/><sub>凭祥边贸节点</sub>"]
+        E3["③ EDGE-GX-LZ<br/><sub>龙州口岸节点</sub>"]
+        E4["④ EDGE-GX-NP<br/><sub>那坡山区节点</sub>"]
+        E5["⑤ EDGE-GX-JX<br/><sub>靖西边境节点</sub>"]
     end
-    
-    %% ============ 边缘处理标注 ============
-    EDGE_PROC["<b>⚡ 边缘处理</b>"]
     
     %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
-        direction LR
-        F1["🔗<br/>时空融合"]
-        F2["🤖<br/>AI识别"]
-        F3["⚖️<br/>研判引擎"]
-        F4["📊<br/>风险评分"]
-        F5["🚨<br/>预警生成"]
+        F1["🔗 时空融合引擎<br/><sub>坐标对齐·时间同步</sub>"]
+        F2["🤖 AI物种识别<br/><sub>CITES等级判定</sub>"]
+        F3["⚖️ 风险评估引擎<br/><sub>0-100分·历史加权</sub>"]
+        F4["🚨 预警生成器<br/><sub>SSE实时推送</sub>"]
     end
     
     %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
         direction LR
-        DB["🗃️ MySQL"]
-        CACHE["💾 离线缓存"]
+        DB["🗃️ MySQL<br/><sub>alerts·locations<br/>devices·tasks</sub>"]
+        CACHE["💾 本地离线缓存<br/><sub>地图包·离线数据</sub>"]
     end
     
     %% ============ 应用层 ============
-    subgraph APP["<b>📱 应用层</b>"]
+    subgraph APP["<b>📱 应用层 Vue3 / uni-app</b>"]
         direction LR
-        P1["🗺️ GIS态势"]
-        P2["📊 指挥大屏"]
-        P3["⚖️ 执法闭环"]
-        P4["🔴 预警工作台"]
-        P5["✅ 任务执行"]
-        P6["🔧 设备监控"]
+        P1["🗺️ GIS态势<br/><sub>五图层叠加</sub>"]
+        P2["📊 ECharts<br/><sub>时段分析</sub>"]
+        P3["✅ 任务执行<br/><sub>检查清单·取证</sub>"]
+        P4["🔧 设备监控<br/><sub>健康度监控</sub>"]
+        P5["🔴 预警工作台<br/><sub>线索流</sub>"]
     end
     
     %% ============ 执法闭环 ============
@@ -103,16 +92,15 @@ flowchart TB
     end
     
     %% ============ 数据流向 ============
-    SENSING -->|"多源数据汇聚"| COLLECT
+    SENSING --> COLLECT
     COLLECT --> EDGE
-    EDGE -->|"边缘预处理"| EDGE_PROC
-    EDGE_PROC --> FUSION
-    F1 --> F2 --> F3 --> F4 --> F5
-    FUSION -->|"分析结果"| STORAGE
-    STORAGE -->|"数据支撑"| APP
-    APP -->|"预警触发"| ENFORCE
+    EDGE --> FUSION
+    F1 --> F2 --> F3 --> F4
+    FUSION --> STORAGE
+    STORAGE --> APP
+    APP --> ENFORCE
     L1 --> L2 --> L3 --> L4
-    L4 -.->|"触发新预警"| F5
+    L4 -.->|"触发新预警"| F4
     
     %% ============ 样式定义 ============
     classDef SENSING fill:#dbeafe,stroke:#3b82f6,stroke-width:3px,color:#1e40af
@@ -123,7 +111,6 @@ flowchart TB
     classDef ENFORCE fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#854d0e
     classDef TITLE fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b,font-size:18px
     classDef COLLECT fill:#bbf7d0,stroke:#22c55e,stroke-width:2px,color:#166534
-    classDef EDGE_PROC fill:#fde68a,stroke:#f59e0b,stroke-width:2px,color:#92400e
 
     class SENSING SENSING
     class EDGE EDGE
@@ -133,7 +120,6 @@ flowchart TB
     class ENFORCE ENFORCE
     class TITLE TITLE
     class COLLECT COLLECT
-    class EDGE_PROC EDGE_PROC
 ```
 
 ---
