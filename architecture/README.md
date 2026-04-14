@@ -25,82 +25,85 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '20px', 'titleFontSize': '24px', 'nodeSpacing': '50', 'rankSpacing': '80', 'subGraphTitleMarginTop': '10', 'subGraphTitleMarginBottom': '10'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px', 'nodeSpacing': '25', 'rankSpacing': '120'}}}%%
 flowchart LR
-    %% ============ 感知层 ============
-    subgraph S1["<div style='text-align: center; font-size: 28px; padding: 10px;'>🛰️ 感知层</div>"]
-        direction LR
-        S1_1["📷 红外热成像"]
-        S1_2["📡 活体探测雷达"]
-        S1_3["〰️ 震动光纤"]
-        S1_4["📹 卡口抓拍"]
-        S1_5["💧 水质监测"]
-        S1_6["📝 人工上报"]
-        S1_7["🚁 无人机"]
-    end
+    %% ============ 模块标题 ============
+    T1["<b>🛰️ 感知层</b>"]
+    T2["<b>⚡ 边缘计算层</b>"]
+    T3["<b>🧠 数据融合层</b>"]
+    T4["<b>🗄️ 存储层</b>"]
+    T5["<b>📱 应用层</b>"]
+    T6["<b>📡 执法闭环</b>"]
 
-    %% ============ 边缘计算层 ============
-    subgraph S2["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>⚡ 边缘计算层</div>"]
-        direction LR
-        E1["① 东兴节点·防城港"]
-        E2["② 凭祥节点·崇左"]
-        E3["③ 龙州节点·崇左"]
-        E4["④ 那坡节点·百色"]
-        E5["⑤ 广西总部·指挥"]
-    end
+    %% ============ 感知层（7个） ============
+    S1_1["📷 红外热成像"]
+    S1_2["📡 活体探测雷达"]
+    S1_3["〰️ 震动光纤"]
+    S1_4["📹 卡口抓拍"]
+    S1_5["💧 水质监测"]
+    S1_6["📝 人工上报"]
+    S1_7["🚁 无人机"]
 
-    %% ============ 数据融合层 ============
-    subgraph S3["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>🧠 数据融合层</div>"]
-        direction LR
-        FUSE["时空融合引擎"]
-        AI["AI物种识别"]
-        JUDGE["走私研判引擎"]
-        RISK["风险评分引擎"]
-        SSE["预警生成器"]
-    end
+    %% ============ 边缘计算层（5个） ============
+    E1["① 东兴节点<br/>防城港"]
+    E2["② 凭祥节点<br/>崇左"]
+    E3["③ 龙州节点<br/>崇左"]
+    E4["④ 那坡节点<br/>百色"]
+    E5["⑤ 广西总部<br/>指挥"]
 
-    %% ============ 存储层 ============
-    subgraph S4["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>🗄️ 存储层</div>"]
-        direction LR
-        DB["MySQL"]
-        CACHE["离线缓存"]
-    end
+    %% ============ 数据融合层（5个） ============
+    FUSE["时空融合引擎"]
+    AI["AI物种识别"]
+    JUDGE["走私研判引擎"]
+    RISK["风险评分引擎"]
+    SSE["预警生成器"]
 
-    %% ============ 应用层 ============
-    subgraph S5["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>📱 应用层</div>"]
-        direction LR
-        P1["🗺️ GIS态势"]
-        P2["📊 指挥大屏"]
-        P3["⚖️ 执法闭环"]
-        P4["🔴 预警工作台"]
-        P5["✅ 任务执行"]
-        P6["🔧 设备监控"]
-    end
+    %% ============ 存储层（2个） ============
+    DB["MySQL"]
+    CACHE["离线缓存"]
 
-    %% ============ 执法闭环 ============
-    subgraph LOOP["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>📡 执法闭环</div>"]
-        direction LR
-        DISPATCH["派警调度"]
-        EVIDENCE["证据固定"]
-        RESEARCH["研判分析"]
-        CLOSE["案件归档"]
-    end
+    %% ============ 应用层（6个） ============
+    P1["🗺️ GIS态势"]
+    P2["📊 指挥大屏"]
+    P3["⚖️ 执法闭环"]
+    P4["🔴 预警工作台"]
+    P5["✅ 任务执行"]
+    P6["🔧 设备监控"]
 
-    %% ============ 数据流向 ============
-    S1 --> S2
-    S2 --> S3
-    S3 --> S4
-    S4 --> S5
-    S5 --> LOOP
+    %% ============ 执法闭环（4个） ============
+    DISPATCH["派警调度"]
+    EVIDENCE["证据固定"]
+    RESEARCH["研判分析"]
+    CLOSE["案件归档"]
+
+    %% ============ 标题与模块连接 ============
+    T1 --> S1_1 & S1_2 & S1_3 & S1_4 & S1_5 & S1_6 & S1_7
+    T2 --> E1 & E2 & E3 & E4 & E5
+    T3 --> FUSE & AI & JUDGE & RISK & SSE
+    T4 --> DB & CACHE
+    T5 --> P1 & P2 & P3 & P4 & P5 & P6
+    T6 --> DISPATCH & EVIDENCE & RESEARCH & CLOSE
+
+    %% ============ 数据流向（跨层连接） ============
+    S1_1 & S1_2 & S1_3 & S1_4 & S1_5 & S1_6 & S1_7 --> E1 & E2 & E3 & E4 & E5
+    E1 & E2 & E3 & E4 & E5 --> FUSE
+    FUSE --> AI --> JUDGE --> RISK --> SSE
+    SSE --> DB & CACHE
+    DB & CACHE --> P1 & P2 & P3 & P4 & P5 & P6
+    P4 --> DISPATCH
+    DISPATCH --> EVIDENCE --> RESEARCH --> CLOSE
+    CLOSE -.->|触发新预警| SSE
 
     %% ============ 样式定义 ============
-    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px
-    classDef EDGE fill:#fff7e6,stroke:#fa8c16,stroke-width:2px
-    classDef FUSION fill:#f6ffed,stroke:#52c41a,stroke-width:2px
-    classDef STORE fill:#f9f0ff,stroke:#722ed1,stroke-width:2px
-    classDef APP fill:#fff1f0,stroke:#f5222d,stroke-width:2px
-    classDef LOOP fill:#fffbe6,stroke:#d48806,stroke-width:2px
+    classDef TITLE fill:none,stroke:none,color:#000,font-weight:bold,font-size:16px
+    classDef SENSOR fill:#e8f4fd,stroke:#1890ff,stroke-width:2px,color:#003a8c
+    classDef EDGE fill:#fff7e6,stroke:#fa8c16,stroke-width:2px,color:#873800
+    classDef FUSION fill:#f6ffed,stroke:#52c41a,stroke-width:2px,color:#135200
+    classDef STORE fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,color:#391085
+    classDef APP fill:#fff1f0,stroke:#f5222d,stroke-width:2px,color:#820014
+    classDef LOOP fill:#fffbe6,stroke:#d48806,stroke-width:2px,color:#7a4100
 
+    class T1,T2,T3,T4,T5,T6 TITLE
     class S1_1,S1_2,S1_3,S1_4,S1_5,S1_6,S1_7 SENSOR
     class E1,E2,E3,E4,E5 EDGE
     class FUSE,AI,JUDGE,RISK,SSE FUSION
