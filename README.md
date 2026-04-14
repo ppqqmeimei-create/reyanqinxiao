@@ -25,10 +25,10 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '30', 'rankSpacing': '60'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '32px', 'nodeSpacing': '25', 'rankSpacing': '50'}}}%%
 flowchart TB
     %% ============ 感知层（7个节点纵向，居中） ============
-    subgraph S1["<div style='text-align: center;'>🛰️ 感知层</div>"]
+    subgraph S1["<div style='text-align: center; font-size: 36px;'>🛰️ 感知层</div>"]
         direction TB
         S1_1["📷 红外热成像"]
         S1_2["📡 活体探测雷达"]
@@ -40,7 +40,7 @@ flowchart TB
     end
 
     %% ============ 边缘计算层（5个节点，与感知层左对齐） ============
-    subgraph S2["<div style='text-align: center;'>⚡ 边缘计算层</div>"]
+    subgraph S2["<div style='text-align: center; font-size: 36px;'>⚡ 边缘计算层</div>"]
         direction TB
         E1["<b>① 东兴节点</b><br/>防城港战区"]
         E2["<b>② 凭祥节点</b><br/>崇左战区"]
@@ -50,7 +50,7 @@ flowchart TB
     end
 
     %% ============ 数据融合层（5个节点，与感知层左对齐） ============
-    subgraph S3["<div style='text-align: center;'>🧠 数据融合层</div>"]
+    subgraph S3["<div style='text-align: center; font-size: 36px;'>🧠 数据融合层</div>"]
         direction TB
         FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
         AI["<b>AI物种识别</b><br/>CITES等级 · 置信度评分"]
@@ -60,14 +60,14 @@ flowchart TB
     end
 
     %% ============ 存储层（2个节点，与感知层左对齐） ============
-    subgraph S4["<div style='text-align: center;'>🗄️ 存储层</div>"]
+    subgraph S4["<div style='text-align: center; font-size: 36px;'>🗄️ 存储层</div>"]
         direction TB
         DB["<b>MySQL</b><br/>alerts/locations/devices/tasks"]
         CACHE["<b>离线缓存</b><br/>SQLite兜底"]
     end
 
     %% ============ 应用层（6个节点，与感知层左对齐） ============
-    subgraph S5["<div style='text-align: center;'>📱 应用层</div>"]
+    subgraph S5["<div style='text-align: center; font-size: 36px;'>📱 应用层</div>"]
         direction TB
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
@@ -78,7 +78,7 @@ flowchart TB
     end
 
     %% ============ 业务闭环（4个节点，与感知层左对齐） ============
-    subgraph LOOP["<div style='text-align: center;'>📡 执法闭环</div>"]
+    subgraph LOOP["<div style='text-align: center; font-size: 36px;'>📡 执法闭环</div>"]
         direction TB
         DISPATCH["📡 派警调度<br/>智能推荐执法员"]
         EVIDENCE["📋 证据固定<br/>水印 · 哈希存证"]
