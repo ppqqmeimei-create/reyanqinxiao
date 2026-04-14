@@ -39,7 +39,7 @@ flowchart TB
     end
 
     %% ============ 边缘计算层 ============
-    subgraph S2["<div style='text-align: center; font-size: 28px; padding: 10px;'>⚡ 边缘计算层</div>"]
+    subgraph S2["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>⚡ 边缘计算层</div>"]
         E1["① 东兴节点·防城港"]
         E2["② 凭祥节点·崇左"]
         E3["③ 龙州节点·崇左"]
@@ -48,7 +48,7 @@ flowchart TB
     end
 
     %% ============ 数据融合层 ============
-    subgraph S3["<div style='text-align: center; font-size: 28px; padding: 10px;'>🧠 数据融合层</div>"]
+    subgraph S3["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>🧠 数据融合层</div>"]
         FUSE["时空融合引擎"]
         AI["AI物种识别"]
         JUDGE["走私研判引擎"]
@@ -57,13 +57,13 @@ flowchart TB
     end
 
     %% ============ 存储层 ============
-    subgraph S4["<div style='text-align: center; font-size: 28px; padding: 10px;'>🗄️ 存储层</div>"]
+    subgraph S4["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>🗄️ 存储层</div>"]
         DB["MySQL"]
         CACHE["离线缓存"]
     end
 
     %% ============ 应用层 ============
-    subgraph S5["<div style='text-align: center; font-size: 28px; padding: 10px;'>📱 应用层</div>"]
+    subgraph S5["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>📱 应用层</div>"]
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
         P3["⚖️ 执法闭环"]
@@ -73,7 +73,7 @@ flowchart TB
     end
 
     %% ============ 执法闭环 ============
-    subgraph LOOP["<div style='text-align: center; font-size: 28px; padding: 10px;'>📡 执法闭环</div>"]
+    subgraph LOOP["<div style='text-align: center; font-size: 28px; padding: 10px; min-width: 400px;'>📡 执法闭环</div>"]
         DISPATCH["派警调度"]
         EVIDENCE["证据固定"]
         RESEARCH["研判分析"]
