@@ -27,9 +27,9 @@ python -m http.server 8000
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '18px', 'nodeSpacing': '35', 'rankSpacing': '70'}}}%%
 flowchart TB
-    %% ============ 感知层（顶部横向） ============
+    %% ============ 感知层（纵向排列） ============
     subgraph S1["🛰️ 感知层"]
-        direction LR
+        direction TB
         S1_1["📷 红外热成像"]
         S1_2["📡 活体探测雷达"]
         S1_3["〰️ 震动光纤"]
