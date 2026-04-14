@@ -127,12 +127,12 @@ flowchart TD
 ### 系统技术架构图
 
 ```mermaid
-flowchart LR
 %%{init: {'theme': 'base', 'themeVariables': {
     'fontSize': '11px',
     'nodeSpacing': '20',
     'rankSpacing': '45'
 }}}%%
+flowchart TD
     TITLE["<b>🔥 热眼擒枭 - 系统技术架构图</b>"]
 
     subgraph SENSING[<b>🛰️ 感知层</b>]
@@ -172,11 +172,11 @@ flowchart LR
     end
 
     SENSING -->|"↓ 实时采集"| EDGE
-    DRONE --> HQ
-    FIBER --> NAPO
-    RADAR --> LONGZHOU
-    CAM1 --> PINGXIANG
-    CAM2 --> DONGXING
+    DRONE -.-> HQ
+    FIBER -.-> NAPO
+    RADAR -.-> LONGZHOU
+    CAM1 -.-> PINGXIANG
+    CAM2 -.-> DONGXING
 
     HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"↓ 边缘预处理"| FUSION
     FUSE --> AI --> RISK --> SSE
@@ -197,6 +197,17 @@ flowchart LR
     class STORAGE STORAGE
     class APP APP
     class TITLE TITLE
+
+    %% ===== 强制APP层节点横向排列 =====
+    GisSpace[""] -.- GIS
+    GisSpace2[""] -.- SCREEN
+    GisSpace3[""] -.- TASK
+    GisSpace4[""] -.- SENSOR
+    GisSpace5[""] -.- WARN
+    linkStyle 12..16 stroke:none
+
+    %% 强制同层
+    GisSpace -.- GisSpace2 -.- GisSpace3 -.- GisSpace4 -.- GisSpace5
 ```
 ```
 
