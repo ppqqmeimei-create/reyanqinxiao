@@ -25,7 +25,7 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '32px', 'nodeSpacing': '25', 'rankSpacing': '50'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '32px', 'titleFontSize': '36px', 'nodeSpacing': '30', 'rankSpacing': '60'}}}%%
 flowchart TB
     %% ============ 感知层（7个节点纵向，居中） ============
     subgraph S1["<div style='text-align: center; font-size: 36px;'>🛰️ 感知层</div>"]
@@ -39,8 +39,8 @@ flowchart TB
         S1_7["🚁 无人机"]
     end
 
-    %% ============ 边缘计算层（5个节点，与感知层左对齐） ============
-    subgraph S2["<div style='text-align: center; font-size: 36px;'>⚡ 边缘计算层</div>"]
+    %% ============ 边缘计算层（5个节点纵向，居中对齐） ============
+    subgraph S2["<div style='text-align: center; font-size: 36px; width: 200px;'>⚡ 边缘计算层</div>"]
         direction TB
         E1["<b>① 东兴节点</b><br/>防城港战区"]
         E2["<b>② 凭祥节点</b><br/>崇左战区"]
@@ -49,8 +49,8 @@ flowchart TB
         E5["<b>⑤ 广西总部</b><br/>指挥节点"]
     end
 
-    %% ============ 数据融合层（5个节点，与感知层左对齐） ============
-    subgraph S3["<div style='text-align: center; font-size: 36px;'>🧠 数据融合层</div>"]
+    %% ============ 数据融合层（5个节点纵向，居中对齐） ============
+    subgraph S3["<div style='text-align: center; font-size: 36px; width: 220px;'>🧠 数据融合层</div>"]
         direction TB
         FUSE["<b>时空融合引擎</b><br/>坐标对齐 · 时间同步 · 冲突消解"]
         AI["<b>AI物种识别</b><br/>CITES等级 · 置信度评分"]
@@ -59,15 +59,15 @@ flowchart TB
         SSE["<b>预警生成器</b><br/>SSE推送 · 实时下发"]
     end
 
-    %% ============ 存储层（2个节点，与感知层左对齐） ============
-    subgraph S4["<div style='text-align: center; font-size: 36px;'>🗄️ 存储层</div>"]
+    %% ============ 存储层（2个节点纵向，居中对齐） ============
+    subgraph S4["<div style='text-align: center; font-size: 36px; width: 160px;'>🗄️ 存储层</div>"]
         direction TB
         DB["<b>MySQL</b><br/>alerts/locations/devices/tasks"]
         CACHE["<b>离线缓存</b><br/>SQLite兜底"]
     end
 
-    %% ============ 应用层（6个节点，与感知层左对齐） ============
-    subgraph S5["<div style='text-align: center; font-size: 36px;'>📱 应用层</div>"]
+    %% ============ 应用层（6个节点纵向，居中对齐） ============
+    subgraph S5["<div style='text-align: center; font-size: 36px; width: 180px;'>📱 应用层</div>"]
         direction TB
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
@@ -77,8 +77,8 @@ flowchart TB
         P6["🔧 设备监控"]
     end
 
-    %% ============ 业务闭环（4个节点，与感知层左对齐） ============
-    subgraph LOOP["<div style='text-align: center; font-size: 36px;'>📡 执法闭环</div>"]
+    %% ============ 执法闭环（4个节点纵向，居中对齐） ============
+    subgraph LOOP["<div style='text-align: center; font-size: 36px; width: 200px;'>📡 执法闭环</div>"]
         direction TB
         DISPATCH["📡 派警调度<br/>智能推荐执法员"]
         EVIDENCE["📋 证据固定<br/>水印 · 哈希存证"]
