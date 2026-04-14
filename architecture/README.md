@@ -198,16 +198,15 @@ flowchart TD
     class APP APP
     class TITLE TITLE
 
-    %% ===== 强制APP层节点横向排列 =====
-    GisSpace[""] -.- GIS
-    GisSpace2[""] -.- SCREEN
-    GisSpace3[""] -.- TASK
-    GisSpace4[""] -.- SENSOR
-    GisSpace5[""] -.- WARN
-    linkStyle 12..16 stroke:none
-
-    %% 强制同层
-    GisSpace -.- GisSpace2 -.- GisSpace3 -.- GisSpace4 -.- GisSpace5
+    subgraph __spacer[ ]
+        SPACE1[ ] --> SPACE2[ ] --> SPACE3[ ] --> SPACE4[ ] --> SPACE5[ ]
+        GIS -.-> SPACE1
+        SCREEN -.-> SPACE2
+        TASK -.-> SPACE3
+        SENSOR -.-> SPACE4
+        WARN -.-> SPACE5
+        style __spacer fill:none,stroke:none
+    end
 ```
 ```
 
