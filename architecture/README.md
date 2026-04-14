@@ -27,17 +27,17 @@ python -m http.server 8000
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 
     'fontSize': '14px', 
-    'nodeSpacing': '25',
-    'rankSpacing': '30',
+    'nodeSpacing': '20',
+    'rankSpacing': '35',
     'primaryColor': '#3b82f6'
 }}}%%
-flowchart LR
+flowchart TD
     %% ============ 主标题 ============
     TITLE["<b>🔥 热眼擒枭 - 多传感器融合架构</b>"]
     
     %% ============ 感知层 ============
     subgraph SENSING["<b>🛰️ 感知层</b>"]
-        direction TB
+        direction LR
         S1["📷 红外"]
         S2["📡 雷达"]
         S3["〰️ 震动"]
@@ -47,12 +47,9 @@ flowchart LR
         S7["🚁 无人机"]
     end
     
-    %% ============ 数据汇聚 ============
-    COLLECT["📥<br/>多源数据<br/>汇聚"]
-    
     %% ============ 边缘计算层 ============
     subgraph EDGE["<b>⚡ 边缘计算层</b>"]
-        direction TB
+        direction LR
         E1["①东兴"]
         E2["②凭祥"]
         E3["③龙州"]
@@ -60,12 +57,9 @@ flowchart LR
         E5["⑤总部"]
     end
     
-    %% ============ 边缘处理 ============
-    EDGE_PROC["⚡<br/>边缘<br/>处理"]
-    
     %% ============ 数据融合层 ============
     subgraph FUSION["<b>🧠 数据融合层</b>"]
-        direction TB
+        direction LR
         F1["🔗 时空融合"]
         F2["🤖 AI识别"]
         F3["⚖️ 研判引擎"]
@@ -75,14 +69,14 @@ flowchart LR
     
     %% ============ 存储层 ============
     subgraph STORAGE["<b>🗄️ 存储层</b>"]
-        direction TB
+        direction LR
         DB["🗃️ MySQL"]
         CACHE["💾 离线缓存"]
     end
     
     %% ============ 应用层 ============
     subgraph APP["<b>📱 应用层</b>"]
-        direction TB
+        direction LR
         P1["🗺️ GIS"]
         P2["📊 大屏"]
         P3["⚖️ 执法"]
@@ -93,24 +87,22 @@ flowchart LR
     
     %% ============ 执法闭环 ============
     subgraph ENFORCE["<b>📡 执法闭环</b>"]
-        direction TB
+        direction LR
         L1["🚔 派警"]
         L2["📋 取证"]
         L3["🔍 研判"]
         L4["📁 归档"]
     end
     
-    %% ============ 数据流向 ============
-    SENSING --> COLLECT
-    COLLECT --> EDGE
-    EDGE --> EDGE_PROC
-    EDGE_PROC --> FUSION
+    %% ============ 数据流向（全部向下） ============
+    SENSING -->|"↓ 多源数据汇聚"| EDGE
+    EDGE -->|"↓ 边缘处理"| FUSION
     F1 --> F2 --> F3 --> F4 --> F5
-    FUSION --> STORAGE
-    STORAGE --> APP
-    APP --> ENFORCE
+    FUSION -->|"↓ 分析结果"| STORAGE
+    STORAGE -->|"↓ 数据支撑"| APP
+    APP -->|"↓ 预警触发"| ENFORCE
     L1 --> L2 --> L3 --> L4
-    L4 -.->|"触发新预警"| F5
+    L4 -.->|"↑ 触发新预警"| F5
     
     %% ============ 样式定义 ============
     classDef SENSING fill:#dbeafe,stroke:#3b82f6,stroke-width:3px,color:#1e40af
@@ -120,8 +112,6 @@ flowchart LR
     classDef APP fill:#fee2e2,stroke:#ef4444,stroke-width:3px,color:#991b1b
     classDef ENFORCE fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#854d0e
     classDef TITLE fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b,font-size:16px
-    classDef COLLECT fill:#bbf7d0,stroke:#22c55e,stroke-width:2px,color:#166534
-    classDef EDGE_PROC fill:#fde68a,stroke:#f59e0b,stroke-width:2px,color:#92400e
 
     class SENSING SENSING
     class EDGE EDGE
@@ -130,8 +120,6 @@ flowchart LR
     class APP APP
     class ENFORCE ENFORCE
     class TITLE TITLE
-    class COLLECT COLLECT
-    class EDGE_PROC EDGE_PROC
 ```
 
 ---
