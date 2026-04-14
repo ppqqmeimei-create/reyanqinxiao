@@ -208,6 +208,10 @@ flowchart TD
         style __spacer fill:none,stroke:none
     end
 ```
+
+---
+
+### 架构特点
 ```
 
 ---
