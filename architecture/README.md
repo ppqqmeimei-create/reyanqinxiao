@@ -127,71 +127,61 @@ flowchart TD
 ### 系统技术架构图
 
 ```mermaid
+flowchart LR
 %%{init: {'theme': 'base', 'themeVariables': {
     'fontSize': '11px',
     'nodeSpacing': '20',
     'rankSpacing': '45'
 }}}%%
-flowchart LR
-    TITLE["<b>🔥 热眼擒枭<br/>系统技术架构图</b>"]
+    TITLE["<b>🔥 热眼擒枭 - 系统技术架构图</b>"]
 
-    subgraph SENSING["<b>🛰️ 感知层</b>"]
-        direction LR
+    subgraph SENSING[<b>🛰️ 感知层</b>]
         DRONE["🚁 无人机巡检"]
         FIBER["〰️ 边界震动光纤"]
         RADAR["📡 活体探测雷达"]
         CAM1["📹 卡口抓拍"]
         CAM2["📷 红外热成像"]
-        DRONE --> FIBER --> RADAR --> CAM1 --> CAM2
     end
 
-    subgraph EDGE["<b>⚡ 边缘计算节点</b>"]
-        direction LR
+    subgraph EDGE[<b>⚡ 边缘计算节点</b>]
         HQ["🏢 EDGE-GX-HQ"]
         NAPO["📍 EDGE-NAPO-01"]
         LONGZHOU["📍 EDGE-LZ-01"]
         PINGXIANG["📍 EDGE-PX-01"]
         DONGXING["📍 EDGE-DX-01"]
-        HQ --> NAPO --> LONGZHOU --> PINGXIANG --> DONGXING
     end
 
-    subgraph FUSION["<b>🧠 数据融合层</b>"]
-        direction LR
+    subgraph FUSION[<b>🧠 数据融合层</b>]
         FUSE["🔗 时空融合"]
         AI["🤖 AI物种识别"]
         RISK["📊 风险分引擎"]
         SSE["🚨 SSE实时推送"]
-        FUSE --> AI --> RISK --> SSE
     end
 
-    subgraph STORAGE["<b>🗄️ 存储层</b>"]
-        direction LR
+    subgraph STORAGE[<b>🗄️ 存储层</b>]
         MYSQL["🗃️ MySQL"]
         CACHE["💾 离线缓存"]
-        MYSQL --> CACHE
     end
 
-    subgraph APP["<b>📱 应用层</b>"]
-        direction LR
+    subgraph APP[<b>📱 应用层</b>]
         GIS["🗺️ GIS态势一图"]
         SCREEN["📊 指挥大屏"]
         TASK["✅ 任务执行"]
         SENSOR["🔧 设备监控"]
         WARN["🔴 预警工作台"]
-        GIS --> SCREEN --> TASK --> SENSOR --> WARN
     end
 
-    SENSING -->|"实时采集"| EDGE
+    SENSING -->|"↓ 实时采集"| EDGE
     DRONE --> HQ
     FIBER --> NAPO
     RADAR --> LONGZHOU
     CAM1 --> PINGXIANG
     CAM2 --> DONGXING
 
-    HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"边缘预处理"| FUSION
+    HQ & NAPO & LONGZHOU & PINGXIANG & DONGXING -->|"↓ 边缘预处理"| FUSION
     FUSE --> AI --> RISK --> SSE
-    SSE -->|"预警入库"| STORAGE
-    STORAGE -->|"数据查询"| APP
+    SSE -->|"↓ 预警入库"| STORAGE
+    STORAGE -->|"↓ 数据查询"| APP
     MYSQL -.->|"双向读写"| APP
 
     classDef SENSING fill:#e1f5fe,stroke:#03a9f4,stroke-width:3px,color:#01579b
@@ -207,13 +197,7 @@ flowchart LR
     class STORAGE STORAGE
     class APP APP
     class TITLE TITLE
-
-    %% force same rank
-    GIS:::APP
-    SCREEN:::APP
-    TASK:::APP
-    SENSOR:::APP
-    WARN:::APP
+```
 ```
 
 ---
