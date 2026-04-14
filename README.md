@@ -25,8 +25,8 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '24px', 'titleFontSize': '28px', 'justify': 'center'}}}%%
-flowchart TB
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '20px', 'titleFontSize': '24px', 'nodeSpacing': '50', 'rankSpacing': '80', 'subGraphTitleMarginTop': '10', 'subGraphTitleMarginBottom': '10'}}}%%
+flowchart LR
     %% ============ 感知层 ============
     subgraph S1["<div style='text-align: center; font-size: 28px; padding: 10px;'>🛰️ 感知层</div>"]
         direction LR
