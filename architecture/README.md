@@ -25,11 +25,10 @@ python -m http.server 8000
 ## 多传感器融合架构图
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '24px', 'titleFontSize': '28px', 'primaryColor': '#1890ff', 'border2': '#fa8c16'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '24px', 'titleFontSize': '28px'}}}%%
 flowchart TB
     %% ============ 感知层 ============
-    subgraph S1["<div style='text-align: center; font-size: 28px;'>🛰️ 感知层</div>"]
-        direction TB
+    subgraph S1["<div style='text-align: center; font-size: 28px; padding: 10px;'>🛰️ 感知层</div>"]
         S1_1["📷 红外热成像"]
         S1_2["📡 活体探测雷达"]
         S1_3["〰️ 震动光纤"]
@@ -40,8 +39,7 @@ flowchart TB
     end
 
     %% ============ 边缘计算层 ============
-    subgraph S2["<div style='text-align: center; font-size: 28px;'>⚡ 边缘计算层</div>"]
-        direction TB
+    subgraph S2["<div style='text-align: center; font-size: 28px; padding: 10px;'>⚡ 边缘计算层</div>"]
         E1["① 东兴节点·防城港"]
         E2["② 凭祥节点·崇左"]
         E3["③ 龙州节点·崇左"]
@@ -50,8 +48,7 @@ flowchart TB
     end
 
     %% ============ 数据融合层 ============
-    subgraph S3["<div style='text-align: center; font-size: 28px;'>🧠 数据融合层</div>"]
-        direction TB
+    subgraph S3["<div style='text-align: center; font-size: 28px; padding: 10px;'>🧠 数据融合层</div>"]
         FUSE["时空融合引擎"]
         AI["AI物种识别"]
         JUDGE["走私研判引擎"]
@@ -60,15 +57,13 @@ flowchart TB
     end
 
     %% ============ 存储层 ============
-    subgraph S4["<div style='text-align: center; font-size: 28px;'>🗄️ 存储层</div>"]
-        direction TB
+    subgraph S4["<div style='text-align: center; font-size: 28px; padding: 10px;'>🗄️ 存储层</div>"]
         DB["MySQL"]
         CACHE["离线缓存"]
     end
 
     %% ============ 应用层 ============
-    subgraph S5["<div style='text-align: center; font-size: 28px;'>📱 应用层</div>"]
-        direction TB
+    subgraph S5["<div style='text-align: center; font-size: 28px; padding: 10px;'>📱 应用层</div>"]
         P1["🗺️ GIS态势"]
         P2["📊 指挥大屏"]
         P3["⚖️ 执法闭环"]
@@ -78,8 +73,7 @@ flowchart TB
     end
 
     %% ============ 执法闭环 ============
-    subgraph LOOP["<div style='text-align: center; font-size: 28px;'>📡 执法闭环</div>"]
-        direction TB
+    subgraph LOOP["<div style='text-align: center; font-size: 28px; padding: 10px;'>📡 执法闭环</div>"]
         DISPATCH["派警调度"]
         EVIDENCE["证据固定"]
         RESEARCH["研判分析"]
