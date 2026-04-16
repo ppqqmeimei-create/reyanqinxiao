@@ -124,6 +124,212 @@ flowchart TD
 
 ---
 
+### 系统整体技术链路图
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+    'fontSize': '12px',
+    'nodeSpacing': '25',
+    'rankSpacing': '40',
+    'primaryColor': '#1976d2',
+    'edgeLabelBackground': '#ffffff'
+}}}%%
+flowchart TD
+    %% ============ 主标题 ============
+    TITLE["<b>🔥 热眼擒枭 - 系统整体技术链路图</b>"]
+    SUBTITLE["<i>边境活物走私智能防控全链路闭环系统</i>"]
+
+    %% ============ 感知层 ============
+    subgraph SENSING["<b>🛰️ 感知层</b>"]
+        direction LR
+        S1["📷 红外热成像\n友谊关/东兴/龙州/那坡"]
+        S2["📡 活体探测雷达\n凭祥/龙州水口"]
+        S3["〰️ 边界震动光纤\n那坡界碑/靖西岳圩"]
+        S4["📹 卡口抓拍摄像头\n万尾金滩/友谊关"]
+        S5["🚁 无人机巡检系统\n广西总部调度"]
+        S6["💧 水质监测传感器\n边境河段/水源地"]
+        S7["📝 人工上报\n一线执法人员"]
+    end
+
+    %% ============ 边缘计算层 ============
+    subgraph EDGE["<b>⚡ 边缘计算层</b>"]
+        direction LR
+        E1["🏢 EDGE-GX-HQ\n广西总部指挥节点"]
+        E2["📍 EDGE-DX-01\n东兴节点(防城港)"]
+        E3["📍 EDGE-PX-01\n凭祥节点(崇左)"]
+        E4["📍 EDGE-LZ-01\n龙州节点(崇左)"]
+        E5["📍 EDGE-NAPO-01\n那坡节点(百色)"]
+    end
+
+    %% ============ 数据融合层 ============
+    subgraph FUSION["<b>🧠 数据融合层</b>"]
+        direction LR
+        F1["🔗 时空融合引擎\n坐标对齐/时间戳同步"]
+        F2["🤖 AI物种识别\nCITES等级判定/置信度"]
+        F3["⚖️ 风险研判引擎\n0-100分/历史加权"]
+        F4["📊 风险评分输出\n威胁等级分类"]
+        F5["🚨 预警生成模块\n实时推送"]
+    end
+
+    %% ============ 存储层 ============
+    subgraph STORAGE["<b>🗄️ 存储层</b>"]
+        direction LR
+        DB1["🗃️ MySQL数据库\nalerts/tasks/devices/users"]
+        DB2["💾 Redis缓存\n实时数据/会话管理"]
+        DB3["📦 SQLite离线缓存\n边境地图包/脱网数据"]
+    end
+
+    %% ============ 应用层 ============
+    subgraph APP["<b>📱 应用层</b>"]
+        direction LR
+        A1["🗺️ GIS态势一图\n五图层叠加/热力图"]
+        A2["📊 指挥大屏\nECharts时段分析"]
+        A3["🔴 预警工作台\n实时线索流/SSE推送"]
+        A4["✅ 任务执行页\n执法清单/取证水印"]
+        A5["🔧 设备监控页\n网络拓扑/健康度"]
+        A6["👤 个人中心\nAI模型/安全设置"]
+    end
+
+    %% ============ 执法闭环 ============
+    subgraph ENFORCE["<b>📡 执法闭环</b>"]
+        direction LR
+        L1["🚔 派警调度\n角色权限/就近派警"]
+        L2["📋 证据固定\n水印相机/电子签名"]
+        L3["🔍 研判分析\nAI辅助/案件关联"]
+        L4["📁 案件归档\n证据链存证/哈希校验"]
+    end
+
+    %% ============ 数据流向 ============
+    SENSING -->|"MQTT/HTTP\n实时采集"| EDGE
+    E1 -.->|"调度控制"| S5
+    EDGE -->|"边缘预处理\n本地AI推理"| FUSION
+    F1 --> F2 --> F3 --> F4 --> F5
+    FUSION -->|"分析结果入库"| STORAGE
+    STORAGE -->|"数据支撑"| APP
+    APP -->|"触发预警"| ENFORCE
+    L1 --> L2 --> L3 --> L4
+    L4 -.->|"案件归档\n触发新预警"| F5
+
+    %% ============ 样式定义 ============
+    classDef SENSING fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
+    classDef EDGE fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
+    classDef FUSION fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20
+    classDef STORAGE fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100
+    classDef APP fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#880e4f
+    classDef ENFORCE fill:#fff8e1,stroke:#fbc02d,stroke-width:2px,color:#f57f17
+    classDef TITLE fill:#263238,stroke:#455a64,stroke-width:3px,color:#ffffff,font-size:18px
+
+    class SENSING SENSING
+    class EDGE EDGE
+    class FUSION FUSION
+    class STORAGE STORAGE
+    class APP APP
+    class ENFORCE ENFORCE
+    class TITLE TITLE
+```
+
+### 核心数据模型关系图
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+    'fontSize': '10px'
+}}}%%
+erDiagram
+    USER ||--o{ ALERT : "assigned_to"
+    USER ||--o{ ALERT : "created_by"
+    USER ||--o{ TASK : "assigned_to"
+    ALERT ||--o{ TASK : "triggers"
+    ALERT ||--o| WILDLIFE_CASE : "escalates_to"
+    TASK ||--o{ TASK_EVIDENCE : "contains"
+    DEVICE ||--o{ DEVICE_METADATA : "generates"
+    
+    USER {
+        int id PK
+        string badge_number UK
+        string username
+        enum role
+        bool is_active
+    }
+    
+    ALERT {
+        int id PK
+        enum level
+        enum type
+        enum status
+        float risk_score
+        float latitude
+        float longitude
+    }
+    
+    TASK {
+        int id PK
+        string title
+        enum status
+        int alert_id FK
+        int assigned_to FK
+    }
+    
+    DEVICE {
+        int id PK
+        string device_id UK
+        enum type
+        enum status
+    }
+```
+
+### API接口链路图
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+    'fontSize': '10px'
+}}}%%
+flowchart TB
+    subgraph API["API接口 (/api/v1)"]
+        subgraph AUTH["认证模块"]
+            A1["POST /auth/login"]
+            A2["POST /auth/biometric"]
+            A3["POST /auth/logout"]
+        end
+        
+        subgraph ALERT["预警模块"]
+            B1["GET /alerts"]
+            B2["GET /alerts/:id"]
+            B3["PUT /alerts/:id/assign"]
+        end
+        
+        subgraph TASK["任务模块"]
+            C1["GET /tasks"]
+            C2["POST /tasks"]
+            C3["PUT /tasks/:id"]
+        end
+        
+        subgraph FUSION["融合模块"]
+            E1["GET /fusion/events"]
+            E2["GET /fusion/metrics"]
+            E3["POST /fusion/dispatch"]
+        end
+        
+        subgraph WS["实时通信"]
+            W1["WS /ws/command"]
+            W2["SSE /sse/alerts"]
+        end
+    end
+
+    classDef AUTH fill:#ffcdd2,stroke:#d32f2f
+    classDef ALERT fill:#f8bbd0,stroke:#c2185b
+    classDef TASK fill:#e1bee7,stroke:#7b1fa2
+    classDef FUSION fill:#c5cae9,stroke:#303f9f
+    classDef WS fill:#bbdefb,stroke:#1976d2
+
+    class AUTH AUTH
+    class ALERT ALERT
+    class TASK TASK
+    class FUSION FUSION
+    class WS WS
+```
+
+---
+
 ### 系统技术架构图
 
 ```mermaid

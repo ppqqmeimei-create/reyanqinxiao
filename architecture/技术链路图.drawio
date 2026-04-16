@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+    <diagram name="热眼擒枭系统整体技术链路图">
+        <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- ============ 标题区域 ============ -->
+                <mxCell id="title_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#1a237e;" vertex="1" parent="1">
+                    <mxGeometry x="0" y="0" width="1400" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="title" value="🔥 热眼擒枭 - 系统整体技术链路图" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=bold;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="0" y="10" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="subtitle" value="边境活物走私智能防控全链路闭环系统" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#b3e5fc;fontStyle=italic;" vertex="1" parent="1">
+                    <mxGeometry x="0" y="0" width="1400" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 感知层 ============ -->
+                <mxCell id="sensing_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="80" width="1360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="sensing_layer_label" value="🛰️ 感知层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#0d47a1;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="85" width="120" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- 感知层设备 -->
+                <mxCell id="s1" value="📷 红外热成像&#xa;友谊关/东兴/龙州/那坡" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s2" value="📡 活体探测雷达&#xa;凭祥/龙州水口" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3" value="〰️ 边界震动光纤&#xa;那坡界碑/靖西岳圩" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s4" value="📹 卡口抓拍摄像头&#xa;万尾金滩/友谊关" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s5" value="🚁 无人机巡检系统&#xa;广西总部调度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="650" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s6" value="💧 水质监测传感器&#xa;边境河段/水源地" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="800" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="s7" value="📝 人工上报&#xa;一线执法人员" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="120" width="130" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- 协议标签 -->
+                <mxCell id="proto_label" value="MQTT / HTTP / RTSP" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#1976d2;fontStyle=italic;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="135" width="120" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 箭头: 感知层 → 边缘计算层 ============ -->
+                <mxCell id="arrow_sensing_edge" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#7b1fa2;dashed=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sensing_layer_bg" target="edge_layer_bg">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_label1" value="数据汇聚" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#7b1fa2;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="670" y="205" width="80" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 边缘计算层 ============ -->
+                <mxCell id="edge_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="240" width="1360" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_layer_label" value="⚡ 边缘计算层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#4a148c;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="245" width="150" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- 边缘节点 -->
+                <mxCell id="e1" value="🏢 EDGE-GX-HQ&#xa;广西总部指挥节点" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;fontSize=11;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="280" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="📍 EDGE-DX-01&#xa;东兴节点(防城港)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="280" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="📍 EDGE-PX-01&#xa;凭祥节点(崇左)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="280" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="📍 EDGE-LZ-01&#xa;龙州节点(崇左)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="580" y="280" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="📍 EDGE-NAPO-01&#xa;那坡节点(百色)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#8e24aa;fontColor=#4a148c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="280" width="140" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- 边缘处理能力 -->
+                <mxCell id="edge_cap" value="边缘处理能力&#xa;• 本地AI推理&#xa;• 数据清洗过滤&#xa;• 异常实时检测" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="920" y="280" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 箭头: 边缘计算层 → 数据融合层 ============ -->
+                <mxCell id="arrow_edge_fusion" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#388e3c;dashed=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="edge_layer_bg" target="fusion_layer_bg">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_label2" value="预处理数据流" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#388e3c;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="385" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 数据融合层 ============ -->
+                <mxCell id="fusion_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#388e3c;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="420" width="1360" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="fusion_layer_label" value="🧠 数据融合层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#1b5e20;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="425" width="150" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- 融合组件 -->
+                <mxCell id="f1" value="🔗 时空融合引擎&#xa;坐标对齐/时间戳同步" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="460" width="160" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="f2" value="🤖 AI物种识别&#xa;CITES等级/置信度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="230" y="460" width="160" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="f3" value="⚖️ 风险研判引擎&#xa;0-100分/历史加权" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="460" width="160" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="f4" value="📊 风险评分输出&#xa;威胁等级分类" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="590" y="460" width="140" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="f5" value="🚨 预警生成模块&#xa;实时推送" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontColor=#1b5e20;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="460" width="140" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- 融合流程箭头 -->
+                <mxCell id="flow_arrow1" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#43a047;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="f1" target="f2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_arrow2" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#43a047;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="f2" target="f3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_arrow3" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#43a047;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="f3" target="f4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_arrow4" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#43a047;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="f4" target="f5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- AI能力标签 -->
+                <mxCell id="ai_cap" value="AI能力&#xa;• YOLO目标检测&#xa;• 物种分类识别&#xa;• 行为分析" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#fbc02d;fontColor=#f57f17;fontSize=9;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="920" y="460" width="140" height="55" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 箭头: 融合层 → 存储层 ============ -->
+                <mxCell id="arrow_fusion_storage" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#f57c00;dashed=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fusion_layer_bg" target="storage_layer_bg">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_label3" value="分析结果入库" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#f57c00;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="555" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 存储层 ============ -->
+                <mxCell id="storage_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="590" width="1360" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="storage_layer_label" value="🗄️ 存储层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#e65100;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="595" width="120" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- 存储组件 -->
+                <mxCell id="db1" value="🗃️ MySQL数据库&#xa;alerts/tasks/devices/users" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#f57c00;fontColor=#bf360c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="625" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="db2" value="💾 Redis缓存&#xa;实时数据/会话管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#f57c00;fontColor=#bf360c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="625" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="db3" value="📦 SQLite离线缓存&#xa;边境地图包/脱网数据" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#f57c00;fontColor=#bf360c;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="625" width="200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- 存储特性 -->
+                <mxCell id="storage_cap" value="数据特性&#xa;• SHA-256证据哈希存证&#xa;• 离线CRDT同步机制&#xa;• 多级数据备份" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#d84315;fontColor=#bf360c;fontSize=9;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="625" width="200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 箭头: 存储层 → 应用层 ============ -->
+                <mxCell id="arrow_storage_app" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#c2185b;dashed=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="storage_layer_bg" target="app_layer_bg">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_label4" value="数据支撑" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#c2185b;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="630" width="80" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 应用层 ============ -->
+                <mxCell id="app_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="590" width="370" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="app_layer_label" value="📱 应用层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#880e4f;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="595" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="app_tech" value="uni-app + Vue 3" style="text;html=1;strokeColor=none;fillColor=none;align=right;fontSize=9;fontColor=#880e4f;fontStyle=italic;" vertex="1" parent="1">
+                    <mxGeometry x="1240" y="595" width="130" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- 应用组件 Row 1 -->
+                <mxCell id="a1" value="🗺️ GIS态势一图&#xa;五图层叠加" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="630" width="110" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" value="📊 指挥大屏&#xa;ECharts分析" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1140" y="630" width="110" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="a3" value="🔴 预警工作台&#xa;SSE实时推送" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1260" y="630" width="110" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- 应用组件 Row 2 -->
+                <mxCell id="a4" value="✅ 任务执行页&#xa;执法清单+取证" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="685" width="110" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="a5" value="🔧 设备监控页&#xa;网络拓扑" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1140" y="685" width="110" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="a6" value="👤 个人中心&#xa;AI模型/安全" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontColor=#880e4f;fontSize=9;" vertex="1" parent="1">
+                    <mxGeometry x="1260" y="685" width="110" height="45" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 箭头: 应用层 → 执法闭环 ============ -->
+                <mxCell id="arrow_app_enforce" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#fbc02d;dashed=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="app_layer_bg" target="enforce_layer_bg">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow_label5" value="触发预警" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#fbc02d;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="1160" y="745" width="80" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 执法闭环 ============ -->
+                <mxCell id="enforce_layer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#fbc02d;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="770" width="370" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="enforce_layer_label" value="📡 执法闭环" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=bold;fontColor=#f57f17;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="775" width="120" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- 执法组件 -->
+                <mxCell id="l1" value="🚔 派警调度&#xa;角色权限" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontColor=#e65100;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="810" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="l2" value="📋 证据固定&#xa;水印+签名" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontColor=#e65100;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="1110" y="810" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="l3" value="🔍 研判分析&#xa;AI辅助" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontColor=#e65100;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="1200" y="810" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="l4" value="📁 案件归档&#xa;哈希存证" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontColor=#e65100;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="1290" y="810" width="80" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- 闭环箭头 -->
+                <mxCell id="enforce_arrow1" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#f57f17;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="l1" target="l2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="enforce_arrow2" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#f57f17;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="l2" target="l3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="enforce_arrow3" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#f57f17;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="l3" target="l4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 闭环反馈 -->
+                <mxCell id="feedback_arrow" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#c2185b;dashed=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;strokePattern=3;" edge="1" parent="1" source="l4" target="f5">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="990" y="835"/>
+                            <mxPoint x="990" y="487"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="feedback_label" value="案件归档触发新预警" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontColor=#c2185b;fontStyle=italic;rotation=-90;" vertex="1" parent="1">
+                    <mxGeometry x="1000" y="650" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 技术栈信息栏 ============ -->
+                <mxCell id="tech_stack_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#263238;strokeColor=#455a64;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="770" width="970" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_title" value="技术栈" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=14;fontColor=#ffffff;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="775" width="100" height="25" as="geometry"/>
+                </mxCell>
+
+                <!-- 前端技术 -->
+                <mxCell id="tech_frontend" value="前端" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#64b5f6;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="805" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_frontend_detail" value="uni-app | Vue 3 | Pinia | SCSS | Mapbox GL | ECharts | WebSocket" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="95" y="805" width="280" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- 后端技术 -->
+                <mxCell id="tech_backend" value="后端" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#ba68c8;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="830" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_backend_detail" value="Node.js | Express | Sequelize | WebSocket | JWT | Joi | Winston" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="95" y="830" width="280" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- 数据库技术 -->
+                <mxCell id="tech_database" value="数据库" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#81c784;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="805" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_database_detail" value="MySQL | Redis | SQLite | Helmet | bcryptjs" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="465" y="805" width="200" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- AI能力 -->
+                <mxCell id="tech_ai" value="AI能力" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#ffb74d;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="830" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_ai_detail" value="YOLO | 物种识别 | 行为分析 | 风险评分" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="465" y="830" width="200" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- 通信协议 -->
+                <mxCell id="tech_protocol" value="通信" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#4db6ac;fontStyle=bold;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="805" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_protocol_detail" value="MQTT | HTTP | WebSocket | SSE | RTSP" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="755" y="805" width="200" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 图例 ============ -->
+                <mxCell id="legend_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eceff1;strokeColor=#b0bec5;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="830" width="280" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend1" value="━━ 实线: 主数据流" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#455a64;" vertex="1" parent="1">
+                    <mxGeometry x="710" y="835" width="120" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend2" value="┅┅ 虚线: 处理流程" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#455a64;" vertex="1" parent="1">
+                    <mxGeometry x="710" y="852" width="120" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend3" value="-·- 点划线: 反馈闭环" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontColor=#455a64;" vertex="1" parent="1">
+                    <mxGeometry x="850" y="835" width="120" height="15" as="geometry"/>
+                </mxCell>
+
+                <!-- ============ 底部标注 ============ -->
+                <mxCell id="footer_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#1a237e;" vertex="1" parent="1">
+                    <mxGeometry x="0" y="880" width="1400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="footer" value="热眼擒枭 - 用科技守护绿水青山，用智慧筑牢边境防线" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#b3e5fc;fontStyle=italic;" vertex="1" parent="1">
+                    <mxGeometry x="0" y="885" width="1400" height="25" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
