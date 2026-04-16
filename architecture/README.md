@@ -171,6 +171,13 @@ flowchart TD
         WARN["🔴 预警工作台"]
     end
 
+    subgraph ENFORCE[<b>📡 执法闭环</b>]
+        DISPATCH["🚔 派警调度"]
+        EVIDENCE["📋 证据固定"]
+        ANALYSIS["🔍 研判分析"]
+        ARCHIVE["📁 案件归档"]
+    end
+
     SENSING -->|"↓ 实时采集"| EDGE
     DRONE -.-> HQ
     FIBER -.-> NAPO
@@ -184,6 +191,11 @@ flowchart TD
     STORAGE -->|"↓ 数据查询"| APP
     MYSQL -.->|"双向读写"| APP
 
+    WARN -->|"↓ 预警触发"| ENFORCE
+    DISPATCH --> EVIDENCE --> ANALYSIS --> ARCHIVE
+    ARCHIVE -.->|"↑ 触发新预警"| SSE
+
+    classDef ENFORCE fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#854d0e
     classDef SENSING fill:#e1f5fe,stroke:#03a9f4,stroke-width:3px,color:#01579b
     classDef EDGE fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#4a148c
     classDef FUSION fill:#c8e6c9,stroke:#43a047,stroke-width:3px,color:#1b5e20
@@ -196,6 +208,7 @@ flowchart TD
     class FUSION FUSION
     class STORAGE STORAGE
     class APP APP
+    class ENFORCE ENFORCE
     class TITLE TITLE
 
     subgraph __spacer[ ]
